@@ -1,0 +1,29 @@
+
+project informer/application ;
+
+# Required Windows libraries
+
+lib shlwapi ;
+lib psapi ;
+
+exe informer_application
+    :
+        ## sources ##
+        [ glob-tree *.cpp : .svn ]
+        /informer/utility//informer_utility
+        /informer/config//informer_config
+        /informer/crypto//informer_crypto
+        /informer/core//informer_core
+        /missio/logging//missio_logging
+    :
+        ## requirements ##
+        <include>$(DEPEND)/wtl
+        <define>_WTL_USE_CSTRING
+        <define>_WTL_NO_AUTOMATIC_NAMESPACE
+        <library>/boost/system//boost_system
+        <library>/boost/thread//boost_thread
+        <library>/boost/date_time//boost_date_time
+        <library>/boost/filesystem//boost_filesystem
+        <library>shlwapi
+        <library>psapi
+    ;

@@ -1,0 +1,17 @@
+
+import testing ;
+
+project informer/test/crypto ;
+
+unit-test informer_crypto_test
+    :
+        ## sources ##
+        [ glob-tree *.cpp : .svn ]
+        /informer/crypto//informer_crypto
+    :
+        ## build requirements ##
+        <toolset>msvc:<exception-handling>on
+        <toolset>msvc:<asynch-exceptions>on 
+    ;
+
+always informer_crypto_test ;

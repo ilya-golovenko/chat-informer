@@ -1,0 +1,17 @@
+
+import testing ;
+
+project informer/test/utility ;
+
+unit-test informer_utility_test
+    :
+        ## sources ##
+        [ glob-tree *.cpp : .svn ]
+        /informer/utility//informer_utility
+    :
+        ## build requirements ##
+        <toolset>msvc:<exception-handling>on
+        <toolset>msvc:<asynch-exceptions>on 
+    ;
+
+always informer_utility_test ;

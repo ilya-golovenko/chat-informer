@@ -1,0 +1,534 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "atlres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN DIALOGEX 0, 0, 111, 319
+STYLE DS_ABSALIGN | DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LISTBOX         IDC_USERLIST,0,0,111,304,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "",IDC_FORUM,1,305,13,12,NOT WS_TABSTOP
+    PUSHBUTTON      "",IDC_MENU,16,305,94,12,NOT WS_TABSTOP
+END
+
+IDD_FORUM DIALOGEX 0, 0, 336, 92
+STYLE DS_ABSALIGN | DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_APPWINDOW
+CAPTION "Сообщения на форуме"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LISTBOX         IDC_FORUMTOPICLIST,0,0,336,92,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_ABOUT DIALOGEX 0, 0, 172, 111
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST | WS_EX_APPWINDOW
+CAPTION "О программе СПБ ЧАТ Информер"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_MAINFRAME,"Static",SS_BLACKFRAME,8,8,156,68,WS_EX_TRANSPARENT
+    LTEXT           "СПБ ЧАТ Информер. Версия ",IDC_INFORMERNAME,20,16,136,8
+    LTEXT           "© 2005, 2006, 2011 Проект СПБ ЧАТа",IDC_STATIC,20,28,136,8
+    LTEXT           "Отправлено данных:",IDC_STATIC,20,48,84,8
+    LTEXT           "",IDC_OUTPUTTRAFFIC,108,48,48,8
+    LTEXT           "Получено данных:",IDC_STATIC,20,60,84,8
+    LTEXT           "",IDC_INPUTTRAFFIC,108,60,48,8
+    DEFPUSHBUTTON   "ОК",IDOK,92,88,63,14
+    DEFPUSHBUTTON   "Обновить",IDC_UPDATE,17,88,63,14,NOT WS_VISIBLE
+END
+
+IDD_UPDATE DIALOGEX 0, 0, 296, 110
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Обновление СПБ ЧАТ Информер"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Выполнить обновление",IDC_STARTUPDATE,60,88,104,14
+    PUSHBUTTON      "Отмена",IDCANCEL,172,88,64,14
+    CONTROL         "",IDC_PROGRESS,"msctls_progress32",NOT WS_VISIBLE,24,64,248,14
+    CONTROL         "",IDC_MESSAGE,"Static",SS_SIMPLE,8,8,280,44
+END
+
+IDD_PHOTOALBUM DIALOGEX 0, 0, 434, 278
+STYLE DS_ABSALIGN | DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Новинки фотоальбома"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LISTBOX         IDC_PHOTOALBUM,0,0,434,278,LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_ALARMS DIALOGEX 0, 0, 197, 188
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Будильник"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_NICKNAME,16,129,80,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Добавить ник",IDC_ADD,100,128,80,14,WS_DISABLED
+    PUSHBUTTON      "Удалить ник",IDC_REMOVE,16,108,80,14
+    PUSHBUTTON      "Очистить список",IDC_CLEAR,100,108,80,14
+    LISTBOX         IDC_USERLIST,16,16,164,88,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Закрыть",IDOK,116,164,63,14
+    CONTROL         "",IDC_FRAME,"Static",SS_BLACKFRAME,8,8,180,144,WS_EX_TRANSPARENT
+END
+
+IDD_BIRTHDAYS DIALOGEX 0, 0, 188, 190
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LISTBOX         IDC_USERLIST,16,16,156,128,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_FRAME,"Static",SS_BLACKFRAME,8,8,172,144,WS_EX_TRANSPARENT
+    DEFPUSHBUTTON   "Закрыть",IDOK,112,164,63,14
+END
+
+IDD_SEARCHUSER DIALOGEX 0, 0, 172, 73
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Информация о пользователе"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Введите ник пользователя",IDC_STATIC,12,12,148,8
+    EDITTEXT        IDC_NICKNAME,12,22,148,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "ОК",IDOK,20,49,64,14,WS_DISABLED
+    PUSHBUTTON      "Отмена",IDCANCEL,88,49,64,14
+END
+
+IDD_MESSAGE DIALOGEX 0, 0, 192, 113
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST | WS_EX_APPWINDOW
+CAPTION "СПБ ЧАТ Информер"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "ОК",IDOK,64,88,63,14
+    CONTROL         "",IDC_MESSAGE,"Static",SS_SIMPLE,8,8,176,64
+END
+
+IDD_USERINFO DIALOGEX 0, 0, 284, 347
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "ОК",IDOK,208,324,63,14
+    CONTROL         "",IDC_FRAME,"Static",SS_BLACKFRAME,8,8,268,304,WS_EX_TRANSPARENT
+    RTEXT           "Ник",IDC_STATIC,20,20,76,8
+    RTEXT           "Имя",IDC_STATIC,20,32,76,8
+    EDITTEXT        IDC_FULLNAME,104,32,88,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Пол",IDC_STATIC,20,44,76,8
+    EDITTEXT        IDC_SEX,104,44,88,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "День рождения",IDC_STATIC,20,56,76,8
+    EDITTEXT        IDC_BIRTH_DAY,104,56,88,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Домашняя страница",IDC_STATIC,20,116,76,8
+    RTEXT           "E-mail",IDC_STATIC,20,128,76,8
+    RTEXT           "Номер ICQ",IDC_STATIC,20,140,76,8
+    RTEXT           "Дата регистрации",IDC_STATIC,20,224,76,8
+    EDITTEXT        IDC_REGTIME,104,224,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Последний вход в чат",IDC_STATIC,20,236,76,8
+    EDITTEXT        IDC_LASTJOIN,104,236,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Пользователь о себе",IDC_STATIC,20,248,76,8
+    EDITTEXT        IDC_USERABOUT,21,258,242,43,ES_MULTILINE | ES_READONLY | WS_VSCROLL | NOT WS_TABSTOP
+    CONTROL         "",IDC_THUMBNAIL,"Static",SS_SIMPLE | SS_NOTIFY,196,20,68,47,WS_EX_TRANSPARENT
+    RTEXT           "Телефон",IDC_STATIC,20,152,76,8
+    EDITTEXT        IDC_PHONE,104,152,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Цвет глаз",IDC_STATIC,20,164,76,8
+    EDITTEXT        IDC_EYES,104,164,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Цвет волос",IDC_STATIC,20,176,76,8
+    EDITTEXT        IDC_HAIR,104,176,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Рост",IDC_STATIC,20,188,76,8
+    EDITTEXT        IDC_HEIGHT,104,188,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Посещение чатовок",IDC_STATIC,20,200,76,8
+    EDITTEXT        IDC_MEETINGS,104,200,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Как попал в чат",IDC_STATIC,20,212,76,8
+    EDITTEXT        IDC_KNOWSFROM,104,212,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Страна / Город",IDC_STATIC,20,92,76,8
+    EDITTEXT        IDC_LOCATION,104,92,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_HOMEPAGE,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | SS_ENDELLIPSIS | WS_GROUP,106,116,158,8,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_EMAIL,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | SS_ENDELLIPSIS | WS_GROUP,106,128,158,8,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_ICQ,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | SS_ENDELLIPSIS | WS_GROUP,106,140,160,8,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_VKONTAKTE,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | SS_ENDELLIPSIS | WS_GROUP,106,104,158,8,WS_EX_TRANSPARENT
+    RTEXT           "ID В Контакте",IDC_STATIC,20,104,76,8
+    RTEXT           "Месяц рождения",IDC_STATIC,20,68,76,8
+    EDITTEXT        IDC_BIRTH_MONTH,104,68,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    RTEXT           "Год рождения",IDC_STATIC,20,80,76,8
+    EDITTEXT        IDC_BIRTH_YEAR,104,80,160,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_NICKNAME,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | SS_ENDELLIPSIS | WS_GROUP,106,20,86,8,WS_EX_TRANSPARENT
+END
+
+IDD_SENDMESSAGE DIALOGEX 0, 0, 172, 126
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Отправить сообщение пользователю"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Ник пользователя",IDC_STATIC,12,12,148,8
+    LTEXT           "Введите текст сообщения",IDC_STATIC,12,42,148,8
+    EDITTEXT        IDC_NICKNAME,12,22,148,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    EDITTEXT        IDC_MESSAGE,12,52,148,36,ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL
+    DEFPUSHBUTTON   "Отправить",IDC_SEND,20,100,64,14,WS_DISABLED
+    PUSHBUTTON      "Отмена",IDCANCEL,88,100,64,14
+END
+
+IDD_NEWS DIALOGEX 0, 0, 301, 49
+STYLE DS_ABSALIGN | DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Новости СПБ ЧАТа"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_HTMLCTRL,"RichEdit20W",WS_VSCROLL | WS_TABSTOP | 0x804,0,0,301,49,WS_EX_STATICEDGE
+END
+
+IDD_CONNECTION DIALOGEX 0, 0, 196, 214
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Параметры подключения"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PRECONFIG,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_GROUP | WS_TABSTOP,16,16,9,8
+    CONTROL         "",IDC_NOPROXY,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,16,28,9,8
+    CONTROL         "",IDC_USEPROXY,"Button",BS_AUTORADIOBUTTON | BS_NOTIFY | WS_TABSTOP,16,40,9,8
+    EDITTEXT        IDC_PROXYNAME,16,70,104,14,ES_AUTOHSCROLL | WS_GROUP
+    EDITTEXT        IDC_PROXYPORT,128,70,52,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP
+    CONTROL         "",IDC_PROXYAUTH,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_GROUP | WS_TABSTOP,16,96,9,9
+    EDITTEXT        IDC_USERNAME,16,123,164,14,ES_AUTOHSCROLL | WS_GROUP
+    EDITTEXT        IDC_PASSWORD,16,154,164,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP
+    DEFPUSHBUTTON   "ОК",IDOK,52,188,63,14
+    PUSHBUTTON      "Отмена",IDCANCEL,120,188,63,14
+    CONTROL         "",IDC_FRAME,"Static",SS_BLACKFRAME,8,8,180,168,WS_EX_TRANSPARENT
+    LTEXT           "Использовать настройки Internet Explorer",IDC_STATIC,28,16,152,8
+    LTEXT           "Не использовать прокси сервер",IDC_STATIC,28,28,152,8
+    LTEXT           "Использовать прокси сервер",IDC_STATIC,28,40,152,8
+    LTEXT           "Прокси сервер",IDC_STATIC,16,60,104,8
+    LTEXT           "Порт",IDC_STATIC,128,60,52,8
+    LTEXT           "Прокси сервер требует авторизацию",IDC_STATIC,28,96,152,8
+    LTEXT           "Имя пользователя",IDC_STATIC,16,112,164,8
+    LTEXT           "Пароль",IDC_STATIC,16,144,164,8
+END
+
+IDD_LOGIN DIALOGEX 0, 0, 172, 106
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Авторизация пользователя"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_NICKNAME,12,22,148,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PASSWORD,12,54,148,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "ОК",IDOK,20,82,64,14
+    PUSHBUTTON      "Отмена",IDCANCEL,88,82,64,14
+    LTEXT           "Ник пользователя в чате",IDC_STATIC,12,12,148,8
+    LTEXT           "Пароль",IDC_STATIC,12,44,148,8
+END
+
+IDD_NOTIFICATION DIALOGEX 0, 0, 135, 65
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP
+EXSTYLE WS_EX_TOPMOST | WS_EX_LAYERED
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_TEXT,0,0,135,65
+END
+
+IDD_LINKS DIALOGEX 0, 0, 340, 108
+STYLE DS_ABSALIGN | DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Полезные ссылки"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LISTBOX         IDC_LINKLIST,0,0,340,108,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 316, 183
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Настройки"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "ОК",IDOK,205,162,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,259,162,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_MAIN, DIALOG
+    BEGIN
+        RIGHTMARGIN, 110
+        BOTTOMMARGIN, 73
+    END
+
+    IDD_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 131
+        TOPMARGIN, 7
+    END
+
+    IDD_ALARMS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 196
+    END
+
+    IDD_NEWS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 300
+    END
+
+    IDD_LOGIN, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 97
+    END
+
+    IDD_NOTIFICATION, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 128
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 58
+    END
+
+    IDD_LINKS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 333
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 101
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 176
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""atlres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "logo.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINMENU MENU
+BEGIN
+    POPUP "Main"
+    BEGIN
+        MENUITEM "Показать информер",           IDC_WINDOW
+        MENUITEM SEPARATOR
+        MENUITEM "Сообщения на форуме",         IDC_FORUM, GRAYED
+        MENUITEM "Фотоальбом",                  IDC_PHOTOALBUM, GRAYED
+        MENUITEM "Новости чата",                IDC_NEWS, GRAYED
+        MENUITEM "Дни рождения",                IDC_BIRTHDAYS, GRAYED
+        MENUITEM "Полезные ссылки",             IDC_LINKS, GRAYED
+        MENUITEM "Информация о нике",           IDC_SEARCHUSER, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Авторизация",                 IDC_AUTH
+        MENUITEM "Войти в чат",                 IDC_LOGIN
+        MENUITEM SEPARATOR
+        MENUITEM "Будильник",                   IDC_ALARMS
+        MENUITEM "Настройки",                   IDC_OPTIONS
+        MENUITEM "О программе",                 IDC_ABOUT
+        MENUITEM SEPARATOR
+        MENUITEM "Выход",                       IDC_EXIT
+    END
+END
+
+IDR_USERMENU MENU
+BEGIN
+    POPUP "User"
+    BEGIN
+        MENUITEM "Информация о нике",           IDC_USERINFO
+        MENUITEM "Отправить сообщение",         IDC_MESSAGE
+        MENUITEM "Установить будильник",        IDC_ALARM
+        MENUITEM SEPARATOR
+        MENUITEM "Сортировать список по",       IDC_SORT
+    END
+END
+
+IDR_USERLISTMENU MENU
+BEGIN
+    POPUP "UserList"
+    BEGIN
+        MENUITEM "Сортировать список по",       IDC_SORT
+    END
+END
+
+IDR_SORTMENU MENU
+BEGIN
+    POPUP "Sort"
+    BEGIN
+        MENUITEM "никам",                       IDC_SORTBYNICK
+        MENUITEM "полу",                        IDC_SORTBYSEX
+    END
+END
+
+IDR_FORUMPOSTMENU MENU
+BEGIN
+    POPUP "Post"
+    BEGIN
+        MENUITEM "Перейти к теме на форуме",    IDC_READTOPIC
+        MENUITEM "Пометить как просмотренное",  IDC_MARKASREAD
+    END
+END
+
+IDR_PHOTOMENU MENU
+BEGIN
+    POPUP "Photo"
+    BEGIN
+        MENUITEM "Открыть фотографию",          IDC_OPENPHOTO
+        MENUITEM "Информация о нике",           IDC_USERINFO
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_EVENT_VERSION       "Доступна новая версия программы"
+    IDS_LOADING             "Запрос анкеты %s..."
+    IDS_APP_RUN_ERROR       "Во время выполнения приложения произошла непредвиденная ошибка."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_EVENT_FORUM         "На форуме есть новые сообщения"
+    IDS_LOAD_FAILURE        "Невозможно загрузить анкету!"
+    IDS_UPDATE_READY        "На сервере обнаружена новая версия информера: %s. Рекомендуется выполнить обновление. После завершения процесса обновления программа будет автоматически перезапущена."
+    IDS_UNKNOWN             "неизвестно"
+    IDS_EVENT_PHOTOALBUM    "Обновились фотографии в фотоальбоме"
+    IDS_SHOW                "Показать информер"
+    IDS_UPDATING            "Идет процесс обновления программы. Пожалуйста, подождите..."
+    IDS_EVENT_NEWS          "Обновились новости чата"
+    IDS_HIDE                "Скрыть информер"
+    IDS_UPDATE_FAILURE      "Автоматическое обновление невозможно. Пожалуйста, повторите попытку обновления позже или загрузите новую версию вручную с сайта программы."
+    IDS_APP_NAME            "SpChat.Ru Chat Informer"
+    IDS_DOWNLOADING         "Загружаются файлы, необходимые для обновления программы. Пожалуйста, подождите..."
+    IDS_MESSAGE_WRONG_CRED  "Отправка сообщений невозможна, так как введены неправильные имя или пароль пользователя"
+    IDS_NOT_REGISTERED      "Пользователь не зарегистрирован!"
+    IDS_MESSAGE_AUTH_REQUIRED 
+                            "Отправка сообщений невозможна, так как не введены имя и пароль пользователя"
+    IDS_USER_PROFILE        "Анкета пользователя %s"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_REG_PATH            "SOFTWARE\\SpChat.Ru Project\\SpChat.Ru Chat Informer"
+    IDS_BIRTHDAYS           "Дни Рождения (%s)"
+    IDS_APP_INIT_ERROR      "Во время инициализации приложения произошла непредвиденная ошибка."
+    IDS_APP_TERM_ERROR      "Во время завершения работы приложения произошла непредвиденная ошибка."
+    IDS_CHAT_USERS          "СПБ ЧАТ. В чате: %d"
+    IDS_APP_PREV_ERROR      "Невозможно активировать запущенную копию приложения."
+    IDS_CONNECTING          "СПБ ЧАТ. Подключение..."
+    IDS_CONNECT_ERROR       "СПБ ЧАТ. Ошибка подключения "
+    IDS_CONNECTED           "СПБ ЧАТ. Подключен"
+    IDS_SHOW_FORUM          "Показать сообщения на форуме"
+    IDS_SHOW_MENU           "Вызвать главное меню"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SEX_HIDDEN          "скрывает"
+    IDS_SEX_MALE            "мужской"
+    IDS_SEX_FEMALE          "женский"
+    IDS_ADD_ALARM           "Установить будильник"
+    IDS_REMOVE_ALARM        "Удалить будильник"
+    IDS_SEND_CREDENTIALS    "Невозможно отправить сообщение. Неправильное имя или пароль пользователя."
+    IDS_SEND_FAILURE        "Невозможно отправить сообщение. Попробуйте отправить сообщение повторно."
+    IDS_SEND_DENIED         "Невозможно отправить сообщение, так как пользователь запретил прием сообщений от информера."
+    IDS_SEND_WAIT           "Невозможно отправить сообщение. Отправлять сообщения можно не чаще одного раза в 10 секунд."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SEND_IGNORED        "Невозможно отправить сообщение, так как пользователь поставил вас в личный игнор."
+    IDS_SEND_OFFLINE        "Невозможно отправить сообщение, так как пользователь уже покинул чат."
+    IDS_SEND_SERVER         "Невозможно отправить сообщение. Произошла внутренняя ошибка сервера. Попробуйте отправить сообщение повторно."
+    IDS_AUTH_SERVER         "Невозможно выполнить авторизацию из-за ошибки сервера. Пожалуйста, попробуйте перезапустить приложение."
+    IDS_AUTH_CLIENT         "Невозможно выполнить авторизацию из-за ошибки клиента. Рекомендуется выполнить обновление приложения."
+    IDS_AUTH_BANNED         "Невозможно выполнить авторизацию. Ваш клиент был заблокирован администратором за нарушение правил."
+    IDS_TRAFFIC_BYTES       "%.0lf байт"
+    IDS_AUTH_FAILURE        "Невозможно выполнить авторизацию. Пожалуйста, попробуйте перезапустить приложение."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_AUTH_CREDENTIALS    "Невозможно выполнить авторизацию. Неправильное имя или пароль пользователя."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_TRAFFIC_KBYTES      "%.1lf кбайт"
+    IDS_TRAFFIC_MBYTES      "%.2lf мбайт"
+    IDS_TRAFFIC_GBYTES      "%.4lf гбайт"
+END
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+

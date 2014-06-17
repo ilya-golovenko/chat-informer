@@ -1,0 +1,17 @@
+
+project informer/core ;
+
+lib informer_core
+    :
+        ## sources ##
+        [ glob-tree *.cpp : .svn ]
+        /informer/utility//informer_utility
+        /informer/crypto//informer_crypto
+        /missio/logging//missio_logging
+        /missio/json//missio_json
+    :
+        ## build requirements ##
+        <library>/boost/system//boost_system
+        <library>/boost/thread//boost_thread
+        <library>/boost/filesystem//boost_filesystem
+    ;

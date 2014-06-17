@@ -1,0 +1,13 @@
+
+project informer/utility ;
+
+lib informer_utility
+    :
+        ## sources ##
+        [ glob-tree *.cpp : .svn ]
+    :
+        ## build requirements ##
+        <library>/boost/thread//boost_thread
+        <library>/boost/date_time//boost_date_time
+        <library>/boost/filesystem//boost_filesystem
+    ;

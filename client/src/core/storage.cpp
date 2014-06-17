@@ -1,0 +1,186 @@
+//---------------------------------------------------------------------------
+//
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013 Ilya Golovenko
+//
+//---------------------------------------------------------------------------
+
+// Application headers
+#include <core/common.hpp>
+#include <core/storage.hpp>
+
+// BOOST headers
+#include <boost/ref.hpp>
+
+
+namespace missio
+{
+
+storage::storage()
+{
+}
+
+storage::~storage()
+{
+}
+
+missio::news const& storage::news() const
+{
+    return news_;
+}
+
+missio::forum const& storage::forum() const
+{
+    return forum_;
+}
+
+missio::link_list const& storage::links() const
+{
+    return links_;
+}
+
+missio::chat_user_cache const& storage::users() const
+{
+    return users_;
+}
+
+missio::photoalbum const& storage::photoalbum() const
+{
+    return photoalbum_;
+}
+
+missio::version const& storage::server_version() const
+{
+    return server_version_;
+}
+
+void storage::update(json::object_cref json_data)
+{
+    update_server_version(json_data);
+    update_photoalbum(json_data);
+    update_users(json_data);
+    update_links(json_data);
+    update_forum(json_data);
+    update_news(json_data);
+}
+
+void storage::update_users()
+{
+    events_updated_(event::userlist);
+    users_updated_(boost::cref(users_));
+}
+
+void storage::clear_users()
+{
+    users_.clear_cache();
+    events_updated_(event::userlist);
+    users_updated_(boost::cref(users_));
+}
+
+void storage::add_alarm(std::wstring const& nickname)
+{
+    users_.add_alarm(nickname);
+    events_updated_(event::userlist);
+    users_updated_(boost::cref(users_));
+}
+
+void storage::remove_alarm(std::wstring const& nickname)
+{
+    users_.remove_alarm(nickname);
+    events_updated_(event::userlist);
+    users_updated_(boost::cref(users_));
+}
+
+void storage::switch_alarm(std::wstring const& nickname)
+{
+    users_.switch_alarm(nickname);
+    events_updated_(event::userlist);
+    users_updated_(boost::cref(users_));
+}
+
+void storage::clear_alarms()
+{
+    users_.clear_alarms();
+    events_updated_(event::userlist);
+    users_updated_(boost::cref(users_));
+}
+
+std::vector<std::wstring> storage::get_alarms() const
+{
+    return users_.get_alarms();
+}
+
+void storage::set_alarms(std::vector<std::wstring> const& nicknames)
+{
+    users_.set_alarms(nicknames);
+    events_updated_(event::userlist);
+    users_updated_(boost::cref(users_));
+}
+
+void storage::fire_links_updated()
+{
+    events_updated_(event::links);
+    links_updated_(boost::cref(links_));
+}
+
+void storage::update_server_version(json::object_cref json_data)
+{
+    if(json_data->contains("server_info"))
+    {
+        int major = json_data["server_info"]["version"]["major"];
+        int minor = json_data["server_info"]["version"]["minor"];
+        int build = json_data["server_info"]["version"]["build"];
+
+        server_version_ = version(major, minor, build);
+
+        if(server_version_ > informer_version)
+            events_updated_(event::version);
+    }
+}
+
+void storage::update_photoalbum(json::object_cref json_data)
+{
+    if(photoalbum_.update(json_data))
+    {
+        events_updated_(event::photoalbum);
+        photoalbum_updated_(boost::cref(photoalbum_));
+    }
+}
+
+void storage::update_users(json::object_cref json_data)
+{
+    if(users_.update(json_data))
+    {
+        events_updated_(event::userlist);
+        users_updated_(boost::cref(users_));
+    }
+}
+
+void storage::update_forum(json::object_cref json_data)
+{
+    if(forum_.update(json_data))
+    {
+        events_updated_(event::forum);
+        forum_updated_(boost::cref(forum_));
+    }
+}
+
+void storage::update_links(json::object_cref json_data)
+{
+    if(links_.update(json_data))
+    {
+        events_updated_(event::links);
+        links_updated_(boost::cref(links_));
+    }
+}
+
+void storage::update_news(json::object_cref json_data)
+{
+    if(news_.update(json_data))
+    {
+        events_updated_(event::news);
+        news_updated_(boost::cref(news_));
+    }
+}
+
+}   // namespace missio
