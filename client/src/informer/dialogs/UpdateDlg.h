@@ -29,7 +29,7 @@ public:
     WTL::CString m_strMessage;
 
     // Members
-    missio::download::pointer m_setup_download;
+    chat::download::pointer m_setup_download;
 
 public:
     DIALOG_RESOURCE_ID(IDD_UPDATE)
@@ -61,8 +61,8 @@ public:
     void OnCancel(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/);
 
     // Downloader events
-    //void OnSetupDownloadProgress(missio::download::progress_event_args const& args);
-    //void OnSetupDownloadCompleted(missio::download::completion_event_args const& args);
+    //void OnSetupDownloadProgress(chat::download::progress_event_args const& args);
+    //void OnSetupDownloadCompleted(chat::download::completion_event_args const& args);
 
     // Implementation
     void StartDownloadingSetupExecutable();

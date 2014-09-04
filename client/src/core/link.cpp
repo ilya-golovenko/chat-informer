@@ -12,7 +12,7 @@
 #include <utility>
 
 
-namespace missio
+namespace chat
 {
 
 link::link(std::wstring const& uri,
@@ -81,4 +81,4 @@ std::wstring const& link::descr() const
     return descr_;
 }
 
-}   // namespace missio
+}   // namespace chat

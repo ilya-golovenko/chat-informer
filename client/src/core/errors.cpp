@@ -9,10 +9,10 @@
 #include <core/errors.hpp>
 
 // MISSIO headers
-#include <missio/utf8/convert.hpp>
+#include <missio/unicode/convert.hpp>
 
 
-namespace missio
+namespace chat
 {
 namespace error
 {
@@ -36,8 +36,8 @@ std::string to_string(type error)
 
 std::wstring to_wstring(type error)
 {
-    return utf8::convert(to_string(error));
+    return missio::unicode::to_wide_string(to_string(error));
 }
 
 }   // namespace error
-}   // namespace missio
+}   // namespace chat

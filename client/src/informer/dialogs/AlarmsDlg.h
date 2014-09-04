@@ -77,5 +77,5 @@ public:
     void OnOK(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/);
 
     // Storage event handlers
-    void OnUsersUpdated(missio::chat_user_cache const& users);
+    void OnUsersUpdated(chat::chat_user_cache const& users);
 };

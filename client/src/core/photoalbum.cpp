@@ -9,7 +9,7 @@
 #include <core/photoalbum.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 photoalbum::photoalbum()
@@ -25,12 +25,14 @@ photo_list const& photoalbum::fresh_photos() const
     return fresh_photos_;
 }
 
-bool photoalbum::update(json::object_cref json_data)
+bool photoalbum::update(missio::json::object const& json_data)
 {
-    if(json_data->contains("photoalbum"))
+    if(json_data.contains("photoalbum"))
+    {
         return fresh_photos_.update(json_data["photoalbum"]);
+    }
 
     return false;
 }
 
-}   // namespace missio
+}   // namespace chat

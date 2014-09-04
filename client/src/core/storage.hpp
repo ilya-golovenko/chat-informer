@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_storage_hpp
-#define _missio_core_storage_hpp
+#ifndef _chat_core_storage_hpp
+#define _chat_core_storage_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -33,7 +33,7 @@
 #include <vector>
 
 
-namespace missio
+namespace chat
 {
 
 class storage :
@@ -50,7 +50,7 @@ public:
     missio::photoalbum const& photoalbum() const;
     missio::version const& server_version() const;
 
-    void update(json::object_cref json_data);
+    void update(missio::json::object const& json_data);
 
     void update_users();
     void clear_users();
@@ -84,12 +84,12 @@ public:
     void on_links_updated(Handler const& handler);
 
 private:
-    void update_server_version(json::object_cref json_data);
-    void update_photoalbum(json::object_cref json_data);
-    void update_users(json::object_cref json_data);
-    void update_links(json::object_cref json_data);
-    void update_forum(json::object_cref json_data);
-    void update_news(json::object_cref json_data);
+    void update_server_version(missio::json::object const& json_data);
+    void update_photoalbum(missio::json::object const& json_data);
+    void update_users(missio::json::object const& json_data);
+    void update_links(missio::json::object const& json_data);
+    void update_forum(missio::json::object const& json_data);
+    void update_news(missio::json::object const& json_data);
 
 private:
     boost::signals2::signal<void (missio::event::type)> events_updated_;
@@ -145,6 +145,6 @@ void storage::on_links_updated(Handler const& handler)
     links_updated_.connect(handler);
 }
 
-}   // namespace core
+}   // namespace chat
 
-#endif  // _missio_core_storage_hpp
+#endif  // _chat_core_storage_hpp

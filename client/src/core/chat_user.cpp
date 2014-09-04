@@ -9,7 +9,7 @@
 #include <core/chat_user.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 chat_user::chat_user(std::wstring const& nickname) :
@@ -27,7 +27,7 @@ chat_user::~chat_user()
 
 bool chat_user::is_removeable() const
 {
-    return (!online_ && !birthday_ && !alarm_);
+    return !online_ && !birthday_ && !alarm_;
 }
 
 std::wstring const& chat_user::nickname() const
@@ -75,4 +75,4 @@ bool chat_user::alarm() const
     return alarm_;
 }
 
-}   // namespace missio
+}   // namespace chat

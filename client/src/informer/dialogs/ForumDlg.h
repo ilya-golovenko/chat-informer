@@ -57,7 +57,7 @@ public:
     void OnSize(UINT /*nType*/, CSize /*size*/);
 
     // Storage event handlers
-    void OnForumUpdated(missio::forum const& forum);
+    void OnForumUpdated(chat::forum const& forum);
 
     // Implementation
     void SetupDialogSizeAndPos();

@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_chat_user_info_hpp
-#define _missio_core_chat_user_info_hpp
+#ifndef _chat_core_chat_user_info_hpp
+#define _chat_core_chat_user_info_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -26,7 +26,7 @@
 #include <ctime>
 
 
-namespace missio
+namespace chat
 {
 
 class chat_user_info :
@@ -35,11 +35,11 @@ class chat_user_info :
 public:
     typedef boost::shared_ptr<chat_user_info> pointer;
 
-    static pointer create(json::object_cref json_data);
-    static bool contains_user_info(json::object_cref json_data);
+    static pointer create(missio::json::object const& json_data);
+    static bool contains_user_info(missio::json::object const& json_data);
 
 public:
-    explicit chat_user_info(json::object_cref json_data);
+    explicit chat_user_info(missio::json::object const& json_data);
     ~chat_user_info();
 
     std::wstring const& nickname() const;
@@ -94,6 +94,6 @@ private:
     photo_list photos_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_chat_user_info_hpp
+#endif  // _chat_core_chat_user_info_hpp

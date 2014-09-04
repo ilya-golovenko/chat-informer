@@ -35,11 +35,11 @@ void CEventManager::Finalize()
     LOG_INFO("finalizing");
 }
 
-void CEventManager::AddEvent(missio::event::type event)
+void CEventManager::AddEvent(chat::event::type event)
 {
     LOG_DEBUG("adding event: ", event);
 
-    if(missio::event::none != event)
+    if(chat::event::none != event)
     {
         CDialogManager& dialogManager = CManagerFactory::Get<CDialogManager>();
 
@@ -51,11 +51,11 @@ void CEventManager::AddEvent(missio::event::type event)
     }
 }
 
-void CEventManager::RemoveEvent(missio::event::type event)
+void CEventManager::RemoveEvent(chat::event::type event)
 {
     LOG_DEBUG("removing event: ", event);
 
-    if(missio::event::none != event)
+    if(chat::event::none != event)
     {
         if(m_events.erase(event) > 0)
             m_event_removed(event);
@@ -76,34 +76,34 @@ bool CEventManager::ContainsEvents() const
     return !m_events.empty();
 }
 
-bool CEventManager::ContainsEvent(missio::event::type event) const
+bool CEventManager::ContainsEvent(chat::event::type event) const
 {
-    return (m_events.find(event) != m_events.end());
+    return m_events.find(event) != m_events.end();
 }
 
-missio::event::type CEventManager::GetEvent()
+chat::event::type CEventManager::GetEvent()
 {
     if(!m_events.empty())
     {
-        missio::event::type event = *m_events.begin();
+        chat::event::type event = *m_events.begin();
         m_events.erase(m_events.begin());
         m_event_removed(event);
         return event;
     }
 
-    return missio::event::none;
+    return chat::event::none;
 }
 
-missio::event::type CEventManager::PeekEvent() const
+chat::event::type CEventManager::PeekEvent() const
 {
-    return (m_events.empty() ? missio::event::none : *m_events.begin());
+    return m_events.empty() ? chat::event::none : *m_events.begin();
 }
 
-void CEventManager::ShowEventNotification(missio::event::type event) const
+void CEventManager::ShowEventNotification(chat::event::type event) const
 {
     LOG_DEBUG("showing notification for event: ", event);
 
-    if(missio::event::none != event)
+    if(chat::event::none != event)
     {
         CDialogManager& dialogManager = CManagerFactory::Get<CDialogManager>();
 
@@ -115,27 +115,27 @@ void CEventManager::ShowEventNotification(missio::event::type event) const
     }
 }
 
-int CEventManager::GetEventStringID(missio::event::type event)
+int CEventManager::GetEventStringID(chat::event::type event)
 {
     switch(event)
     {
-        case missio::event::version:    return IDS_EVENT_VERSION;
-        case missio::event::forum:      return IDS_EVENT_FORUM;
-        case missio::event::photoalbum: return IDS_EVENT_PHOTOALBUM;
-        case missio::event::news:       return IDS_EVENT_NEWS;
+        case chat::event::version:    return IDS_EVENT_VERSION;
+        case chat::event::forum:      return IDS_EVENT_FORUM;
+        case chat::event::photoalbum: return IDS_EVENT_PHOTOALBUM;
+        case chat::event::news:       return IDS_EVENT_NEWS;
     }
 
     throw std::runtime_error("unknown event type");
 }
 
-int CEventManager::GetEventDialogID(missio::event::type event)
+int CEventManager::GetEventDialogID(chat::event::type event)
 {
     switch(event)
     {
-        case missio::event::version:    return IDD_UPDATE;
-        case missio::event::forum:      return IDD_FORUM;
-        case missio::event::photoalbum: return IDD_PHOTOALBUM;
-        case missio::event::news:       return IDD_NEWS;
+        case chat::event::version:    return IDD_UPDATE;
+        case chat::event::forum:      return IDD_FORUM;
+        case chat::event::photoalbum: return IDD_PHOTOALBUM;
+        case chat::event::news:       return IDD_NEWS;
     }
 
     return IDD_INVALID;

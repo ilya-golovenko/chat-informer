@@ -17,7 +17,7 @@
 #include <boost/bind.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 void chat_user_cache::clear_cache()
@@ -31,22 +31,20 @@ void chat_user_cache::cleanup_cache()
     boost::remove_erase_if(users_, boost::bind(&chat_user::is_removeable, _1));
 }
 
-bool chat_user_cache::update(json::object_cref json_data)
+bool chat_user_cache::update(missio::json::object const& json_data)
 {
     bool updated = false;
 
-    if(json_data->contains("userlist"))
+    if(json_data.contains("userlist"))
     {
         clear_online_users();
 
-        json::array_cref json_userlist = json_data["userlist"];
+        missio::json::array const& json_userlist = json_data["userlist"];
 
-        for(std::size_t i = 0; i < json_userlist->size(); ++i)
+        for(missio::json::object const& json_user : json_userlist)
         {
-            json::object_cref json_user = json_userlist[i];
-
-            std::wstring nickname = json_user["nickname"];
-            chat_user::sex_type sex = json_user["sex"];
+            std::wstring const nickname = json_user["nickname"];
+            chat_user::sex_type const sex = json_user["sex"];
 
             chat_user& user = creating_get(nickname);
 
@@ -57,17 +55,19 @@ bool chat_user_cache::update(json::object_cref json_data)
         updated = true;
     }
 
-    if(json_data->contains("birthdays"))
+    if(json_data.contains("birthdays"))
     {
         clear_birthday_users();
 
-        json::object_cref json_birthdays = json_data["birthdays"];
-        json::array_cref json_nicknames = json_birthdays["nicknames"];
+        missio::json::object const& json_birthdays = json_data["birthdays"];
+        missio::json::array const& json_nicknames = json_birthdays["nicknames"];
 
         today_ = json_birthdays["today"].as<std::wstring>();
 
-        for(std::size_t index = 0; index < json_nicknames->size(); ++index)
-             creating_get(json_nicknames[index]).set_birthday(true);
+        for(std::wstring const nickname : json_nicknames[index])
+        {
+             creating_get(nickname).set_birthday(true);
+        }
 
         updated = true;
     }
@@ -223,4 +223,4 @@ chat_user& chat_user_cache::creating_get(std::wstring const& nickname)
     return *it;
 }
 
-}   // namespace missio
+}   // namespace chat

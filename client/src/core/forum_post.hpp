@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_forum_post_hpp
-#define _missio_core_forum_post_hpp
+#ifndef _chat_core_forum_post_hpp
+#define _chat_core_forum_post_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -16,7 +16,7 @@
 #include <ctime>
 
 
-namespace missio
+namespace chat
 {
 
 class forum_post
@@ -54,6 +54,6 @@ private:
     bool is_read_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_forum_post_hpp
+#endif  // _chat_core_forum_post_hpp

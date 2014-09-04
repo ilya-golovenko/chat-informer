@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _crypto_md5_digest_hpp
-#define _crypto_md5_digest_hpp
+#ifndef _chat_crypto_md5_digest_hpp
+#define _chat_crypto_md5_digest_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -16,6 +16,8 @@
 #include <string>
 
 
+namespace chat
+{
 namespace crypto
 {
 namespace md5
@@ -37,25 +39,22 @@ public:
 
     std::string to_string() const;
 
-    bool operator<(digest const& other) const;
-    bool operator==(digest const& other) const;
+    friend bool operator<(digest const& lhs, digest const& rhs);
+    friend bool operator==(digest const& lhs, digest const& rhs);
+    friend bool operator!=(digest const& lhs, digest const& rhs);
 
 private:
     unsigned char value_[16];
 };
 
-inline bool operator!=(digest const& lhs, digest const& rhs)
-{
-    return !(lhs == rhs);
-}
-
 inline std::ostream& operator<<(std::ostream& os, digest const& digest)
 {
-    os << digest.to_string();
-    return os;
+  os << digest.to_string();
+  return os;
 }
 
 }   // namespace md5
 }   // namespace crypto
+}   // namespace chat
 
-#endif  // _crypto_md5_digest_hpp
+#endif  // _chat_crypto_md5_digest_hpp

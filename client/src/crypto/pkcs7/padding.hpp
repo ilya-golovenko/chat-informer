@@ -1,17 +1,19 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _crypto_pkcs7_padding_hpp
-#define _crypto_pkcs7_padding_hpp
+#ifndef _chat_crypto_pkcs7_padding_hpp
+#define _chat_crypto_pkcs7_padding_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif  // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 
+namespace chat
+{
 namespace crypto
 {
 namespace pkcs7
@@ -22,5 +24,6 @@ unsigned char remove_padding(unsigned char const* block, unsigned char block_siz
 
 }   // namespace pkcs7
 }   // namespace crypto
+}   // namespace chat
 
-#endif  // _crypto_pkcs7_padding_hpp
+#endif  // _chat_crypto_pkcs7_padding_hpp

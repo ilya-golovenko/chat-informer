@@ -19,7 +19,7 @@
 #include <iterator>
 
 
-namespace missio
+namespace chat
 {
 
 download::pointer download::create(net::http::uri const& uri, boost::filesystem::path const& filename)
@@ -109,4 +109,4 @@ bool download::update_percent_downloaded(std::size_t size)
     return false;
 }
 
-}    // namespace missio
+}    // namespace chat

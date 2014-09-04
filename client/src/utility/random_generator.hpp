@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 /**
@@ -9,8 +9,8 @@
  * \brief Defines thread-safe random generator class.
  */
 
-#ifndef _utility_random_generator_hpp
-#define _utility_random_generator_hpp
+#ifndef _chat_utility_random_generator_hpp
+#define _chat_utility_random_generator_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -24,7 +24,7 @@
 #include <ctime>
 
 
-namespace util
+namespace chat
 {
 
 /**
@@ -32,8 +32,7 @@ namespace util
  * \brief Thread-safe random generator class.
  */
 template <typename T>
-class random_generator :
-    private boost::noncopyable
+class random_generator : private boost::noncopyable
 {
 public:
     typedef typename T::result_type result_type;
@@ -55,6 +54,6 @@ private:
     boost::mutex mutex_;
 };
 
-}   // namespace util
+}   // namespace chat
 
-#endif  // _utility_random_generator_hpp
+#endif  // _chat_utility_random_generator_hpp

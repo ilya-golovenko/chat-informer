@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _crypto_manager_hpp
-#define _crypto_manager_hpp
+#ifndef _chat_crypto_manager_hpp
+#define _chat_crypto_manager_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -20,14 +20,15 @@
 #include <boost/uuid/uuid.hpp>
 
 
+namespace chat
+{
 namespace crypto
 {
 
-class manager :
-    private boost::noncopyable
+class manager : private boost::noncopyable
 {
 public:
-    typedef util::raw_buffer buffer_type;
+    typedef raw_buffer buffer_type;
 
 public:
     manager();
@@ -55,5 +56,6 @@ private:
 };
 
 }   // namespace crypto
+}   // namespace chat
 
-#endif  // _crypto_manager_hpp
+#endif  // _chat_crypto_manager_hpp

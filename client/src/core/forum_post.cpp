@@ -14,7 +14,7 @@
 #include <missio/format/format.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 forum_post::forum_post(std::wstring const& id,
@@ -27,7 +27,7 @@ forum_post::forum_post(std::wstring const& id,
     time_(time),
     is_read_(false)
 {
-    format::print(uri_, forum_post_uri, id_);
+    missio::format::print(uri_, forum_post_uri, id_);
 }
 
 forum_post::~forum_post()
@@ -119,4 +119,4 @@ bool forum_post::is_read() const
     return is_read_;
 }
 
-}   // namespace missio
+}   // namespace chat

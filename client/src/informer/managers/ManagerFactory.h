@@ -9,6 +9,16 @@
 // Application headers
 #include <informer/managers/ManagerBase.h>
 
+// BOOST headers
+#include <boost/smart_ptr.hpp>
+#include <boost/function.hpp>
+
+// STL headers
+#include <utility>
+#include <typeinfo>
+#include <string>
+#include <list>
+
 
 class CManagerFactory
 {
@@ -20,7 +30,7 @@ public:
 
 public:
     template <typename T>
-    static inline T& Get() const;
+    static inline T& Get();
 
     template <typename T>
     static inline void Create();
@@ -35,7 +45,7 @@ private:
     typedef std::list<std::pair<std::string, manager_pointer> > manager_list;
 
 private:
-    static manager_pointer GetManager(std::type_info const& type_info) const;
+    static manager_pointer GetManager(std::type_info const& type_info);
     static void CreateManager(std::type_info const& type_info, create_function create);
 
 private:
@@ -43,7 +53,7 @@ private:
 };
 
 template <typename T>
-inline T& CManagerFactory::Get() const
+inline T& CManagerFactory::Get()
 {
     return *boost::static_pointer_cast<T>(GetManager(typeid(T)));
 }

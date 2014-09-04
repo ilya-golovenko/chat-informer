@@ -71,7 +71,7 @@ public:
 
     // Operations
 
-    void Assign(missio::forum_topic_list const& topics)
+    void Assign(chat::forum_topic_list const& topics)
     {
         int curSel;
         UINT topIndex;
@@ -93,7 +93,7 @@ public:
         {
             std::size_t index = m_topics.index_of(topicID);
 
-            if(missio::forum_topic_list::invalid_index != index)
+            if(chat::forum_topic_list::invalid_index != index)
                 curSel = static_cast<int>(index);
         }
 
@@ -199,7 +199,7 @@ public:
         int brush;
         int textColor;
 
-        missio::forum_topic const& topic = m_topics[itemID];
+        chat::forum_topic const& topic = m_topics[itemID];
 
         if(itemState & ITEM_SELECTED)
         {
@@ -295,7 +295,7 @@ public:
 
         if(LB_ERR != itemID)
         {
-            missio::forum_topic const& topic = m_topics[itemID];
+            chat::forum_topic const& topic = m_topics[itemID];
 
             BOOL enabled = topic.is_read() ? FALSE : TRUE;
             SetPostMenuItemEnabled(IDC_MARKASREAD, enabled);
@@ -312,7 +312,7 @@ public:
         m_topicMenu.GetSubMenu(0).EnableMenuItem(itemID, enable);
     }
 
-    void MeasureItemTimeTextWidth(missio::forum_topic const& topic, CDCHandle dc)
+    void MeasureItemTimeTextWidth(chat::forum_topic const& topic, CDCHandle dc)
     {
         CRect rcTime;
 
@@ -328,7 +328,7 @@ public:
         dc.SelectFont(oldFont);
     }
 
-    int MeasureItemHeight(missio::forum_topic const& topic, CDCHandle dc, CRect& rcItem)
+    int MeasureItemHeight(chat::forum_topic const& topic, CDCHandle dc, CRect& rcItem)
     {
         CFontHandle newFont = m_drawManager.Font(FONT_MAIN);
         CFontHandle oldFont = dc.SelectFont(newFont);
@@ -343,14 +343,14 @@ public:
         int iconCY = ::GetSystemMetrics(SM_CYSMICON);
         int height = std::max(rcItem.Height(), iconCY);
 
-        return (height + HEIGHT_MARGIN);
+        return height + HEIGHT_MARGIN;
     }
 
     void NavigateToTopicUri(UINT itemID)
     {
         if(LB_ERR != itemID)
         {
-            missio::forum_topic const& topic = m_topics[itemID];
+            chat::forum_topic const& topic = m_topics[itemID];
             CShellExecuteHelper(topic.uri()).Start();
             MarkTopicAsRead(itemID);
         }
@@ -365,7 +365,7 @@ public:
         }
     }
 /*
-    static std::wstring BuildTopicText(missio::forum_topic const& topic)
+    static std::wstring BuildTopicText(chat::forum_topic const& topic)
     {
         using boost::spirit::karma;
 
@@ -400,7 +400,7 @@ public:
 */
 private:
     int m_itemTimeTextWidth;
-    missio::forum_topic_list m_topics;
+    chat::forum_topic_list m_topics;
 };
 
 class CForumTopicListCtrl :

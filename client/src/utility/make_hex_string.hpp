@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
+//    This file is part of Chat.Informer project
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _utility_make_hex_string_hpp
-#define _utility_make_hex_string_hpp
+#ifndef _chat_utility_make_hex_string_hpp
+#define _chat_utility_make_hex_string_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -16,11 +16,11 @@
 #include <string>
 
 
-namespace util
+namespace chat
 {
 
 std::string make_hex_string(unsigned char const* input, std::size_t size);
 
-}   // namespace util
+}   // namespace chat
 
-#endif  // _utility_make_hex_string_hpp
+#endif  // _chat_utility_make_hex_string_hpp

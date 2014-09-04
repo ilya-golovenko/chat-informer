@@ -20,35 +20,12 @@ struct DialogBindTraits;
 template
 <
     typename Dialog
+    typename ...Args
 >
-struct DialogBindTraits<void (Dialog::*)()>
+struct DialogBindTraits<void (Dialog::*)(Args...)>
 {
-    typedef void (Dialog::*FunctionType)();
+    typedef void (Dialog::*FunctionType)(Args...);
     typedef DialogHandlerInvoker<Dialog, FunctionType> InvokerType;
     typedef DialogHandlerBinder<Dialog, FunctionType, InvokerType> BinderType;
 };
 
-template
-<
-    typename Dialog,
-    typename A0
->
-struct DialogBindTraits<void (Dialog::*)(A0)>
-{
-    typedef void (Dialog::*FunctionType)(A0);
-    typedef DialogHandlerInvoker<Dialog, FunctionType> InvokerType;
-    typedef DialogHandlerBinder<Dialog, FunctionType, InvokerType> BinderType;
-};
-
-template
-<
-    typename Dialog,
-    typename A0,
-    typename A1
->
-struct DialogBindTraits<void (Dialog::*)(A0, A1)>
-{
-    typedef void (Dialog::*FunctionType)(A0, A1);
-    typedef DialogHandlerInvoker<Dialog, FunctionType> InvokerType;
-    typedef DialogHandlerBinder<Dialog, FunctionType, InvokerType> BinderType;
-};

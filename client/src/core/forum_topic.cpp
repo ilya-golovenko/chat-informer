@@ -16,7 +16,7 @@
 #include <boost/bind.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 forum_topic::forum_topic(std::wstring const& id,
@@ -73,7 +73,7 @@ forum_topic& forum_topic::operator=(forum_topic const& other)
     return *this;
 }
 
-bool forum_topic::update(json::object_cref json_data)
+bool forum_topic::update(missio::json::object const& json_data)
 {
     return posts_.update(json_data);
 }
@@ -113,7 +113,7 @@ void forum_topic::mark_as_read()
 
 bool forum_topic::is_read() const
 {
-    return (boost::find_if(posts_, !boost::bind(&forum_post::is_read, _1)) == posts_.end());
+    return boost::find_if(posts_, !boost::bind(&forum_post::is_read, _1)) == posts_.end();
 }
 
 std::time_t forum_topic::time() const
@@ -129,4 +129,4 @@ forum_post_list const& forum_topic::posts() const
     return posts_;
 }
 
-}    // namespace missio
+}    // namespace chat

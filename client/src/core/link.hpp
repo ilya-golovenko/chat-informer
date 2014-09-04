@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_link_hpp
-#define _missio_core_link_hpp
+#ifndef _chat_core_link_hpp
+#define _chat_core_link_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -15,7 +15,7 @@
 #include <string>
 
 
-namespace missio
+namespace chat
 {
 
 class link
@@ -43,6 +43,6 @@ private:
     std::wstring descr_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_link_hpp
+#endif  // _chat_core_link_hpp

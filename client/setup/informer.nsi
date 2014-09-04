@@ -1,7 +1,7 @@
 ;--------------------------------
 ;
 ; SpChat.Ru Chat Informer Install Script
-; Copyright (C) 2011 SpChat.Ru Project
+; Copyright (C) 2013 SpChat.Ru Project
 
 ;--------------------------------
 ; Include section
@@ -16,7 +16,7 @@
     !define CHAT_NAME "SpChat.Ru"
     !define PUB_NAME "SpChat.Ru Project"
     !define PUB_WEBPAGE "http://informer.spchat.ru"
-    !define PUB_COPYRIGHT "© 2005, 2006, 2011 ${PUB_NAME}"
+    !define PUB_COPYRIGHT "© 2005, 2006, 2013 ${PUB_NAME}"
 
     !define APP_VERSION "2.0.0"
     !define APP_FILE_VERSION "2.0.0.0"
@@ -184,7 +184,7 @@ Function .onInit
     System::Call "${sysGetVersion} () .r0"
 
     ${If} $0 < 0x80000000
-        MessageBox MB_OK|MB_ICONSTOP "${APP_NAME} не может быть установлен под Windows 95/98/ME!"
+        MessageBox MB_OK|MB_ICONSTOP "Приложение ${APP_NAME} не может быть установлено на Windows 95/98/ME!"
         Abort
     ${EndIf}
 

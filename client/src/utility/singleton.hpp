@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _utility_singleton_hpp
-#define _utility_singleton_hpp
+#ifndef _chat_utility_singleton_hpp
+#define _chat_utility_singleton_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -16,7 +16,7 @@
 #include <boost/thread.hpp>
 
 
-namespace util
+namespace chat
 {
 
 template <typename T>
@@ -48,7 +48,7 @@ T& singleton<T>::instance()
 template <typename T>
 void singleton<T>::init()
 {
-    instance_.reset(new T());
+    instance_.reset(new T);
 }
 
 template <typename T>
@@ -57,6 +57,6 @@ boost::once_flag singleton<T>::flag_ = BOOST_ONCE_INIT;
 template <typename T>
 boost::scoped_ptr<T> singleton<T>::instance_;
 
-}   // namespace util
+}   // namespace chat
 
-#endif  // _utility_singleton_hpp
+#endif  // _chat_utility_singleton_hpp

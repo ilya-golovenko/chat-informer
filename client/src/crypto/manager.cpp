@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -14,6 +14,8 @@
 #include <stdexcept>
 
 
+namespace chat
+{
 namespace crypto
 {
 
@@ -133,3 +135,4 @@ unsigned char manager::remove_pkcs7_padding(unsigned char const* block)
 }
 
 }   // namespace crypto
+}   // namespace chat

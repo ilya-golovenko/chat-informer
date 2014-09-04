@@ -21,10 +21,10 @@ BOOL CNewsDlg::OnInitDialog(HWND /*hWnd*/, LPARAM /*lParam*/)
     DoDataExchange(DDX_LOAD);
     DlgResize_Init(false, false);
 
-    missio::factory::storage().on_news_updated(
+    chat::factory::storage().on_news_updated(
         BindDialogHandler(&CNewsDlg::OnNewsUpdated));
 
-    UpdateNews(missio::factory::storage().news());
+    UpdateNews(chat::factory::storage().news());
 
     return TRUE;
 }
@@ -47,25 +47,25 @@ void CNewsDlg::OnDestroy()
 
 // Storage event handlers
 
-void CNewsDlg::OnNewsUpdated(missio::news const& news)
+void CNewsDlg::OnNewsUpdated(chat::news const& news)
 {
     UpdateNews(news);
 }
 
 // Downloader event handlers
 
-void CNewsDlg::OnTemplateDownloaded(missio::download::pointer download, boost::system::error_code const& error)
+void CNewsDlg::OnTemplateDownloaded(chat::download::pointer download, boost::system::error_code const& error)
 {
     //if(IsWindow())
     //{
     if(!error)
-        UpdateNews(missio::factory::storage().news());
+        UpdateNews(chat::factory::storage().news());
     //}
 }
 
 // Implementation
 
-void CNewsDlg::UpdateNews(missio::news const& news)
+void CNewsDlg::UpdateNews(chat::news const& news)
 {
     boost::filesystem::path filename(L"data/news.html");
 
@@ -73,16 +73,16 @@ void CNewsDlg::UpdateNews(missio::news const& news)
     {
         net::http::uri_builder uri_builder;
 
-        uri_builder.set_host(missio::informer_hostname);
-        uri_builder.set_path(missio::news_template_path);
+        uri_builder.set_host(chat::informer_hostname);
+        uri_builder.set_path(chat::news_template_path);
 
-        //m_download = missio::download::create(uri_builder.uri(),
+        //m_download = chat::download::create(uri_builder.uri(),
         //    filename, boost::bind(&CNewsDlg::OnTemplateDownloaded, this, _1));
 
-        //m_download = missio::download::create(uri_builder.uri(), filename);
+        //m_download = chat::download::create(uri_builder.uri(), filename);
         //m_download->on_completion(BindDialogHandler(&CNewsDlg::OnTemplateDownloaded));
 
-        //missio::factory::downloader().add_download(m_download);
+        //chat::factory::downloader().add_download(m_download);
     }
     else
     {

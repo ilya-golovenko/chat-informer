@@ -77,7 +77,7 @@ public:
 
     bool Contains(Key const& key) const
     {
-        return (m_indicesMap.find(key) != m_indicesMap.end());
+        return m_indicesMap.find(key) != m_indicesMap.end();
     }
 
     void Clear()

@@ -73,11 +73,11 @@ public:
     void OnKeyDown_Message(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/);
 
     // Informer event handlers
-    void OnSendMessage(missio::query::pointer query);
+    void OnSendMessage(chat::query::pointer query);
 
     // Implementation
     CSendMessageDlg();
 
 private:
-    missio::query::pointer m_query;
+    chat::query::pointer m_query;
 };

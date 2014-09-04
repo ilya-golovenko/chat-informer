@@ -89,7 +89,7 @@ BOOL CInternetExplorer::IsVisible()
         if(FAILED(hRet))
             throw std::runtime_error("Cannot get visible status");
 
-        return (VARIANT_TRUE == vtVisible);
+        return VARIANT_TRUE == vtVisible;
     }
 
     throw std::runtime_error("Internet Explorer server is not initialized");

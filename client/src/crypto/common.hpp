@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _crypto_common_hpp
-#define _crypto_common_hpp
+#ifndef _chat_crypto_common_hpp
+#define _chat_crypto_common_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -18,6 +18,8 @@
 #include <string>
 
 
+namespace chat
+{
 namespace crypto
 {
 
@@ -35,5 +37,6 @@ std::string decrypt(std::string const& data, crypto::manager& crypto_manager);
 std::string calculate_md5(std::string const& data);
 
 }   // namespace crypto
+}   // namespace chat
 
-#endif  // _crypto_common_hpp
+#endif  // _chat_crypto_common_hpp

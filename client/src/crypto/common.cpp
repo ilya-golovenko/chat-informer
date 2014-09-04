@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -11,6 +11,8 @@
 #include <crypto/md5/computer.hpp>
 
 
+namespace chat
+{
 namespace crypto
 {
 
@@ -67,3 +69,4 @@ std::string calculate_md5(std::string const& data)
 }
 
 }   // namespace crypto
+}   // namespace chat

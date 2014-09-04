@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -9,6 +9,8 @@
 #include <crypto/md5/computer.hpp>
 
 
+namespace chat
+{
 namespace crypto
 {
 namespace md5
@@ -38,3 +40,4 @@ digest computer::get_digest()
 
 }   // namespace md5
 }   // namespace crypto
+}   // namespace chat

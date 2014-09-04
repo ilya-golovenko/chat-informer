@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@
 #include <boost/bind.hpp>
 
 
-namespace util
+namespace chat
 {
 
 simple_event::simple_event() :
@@ -62,4 +62,4 @@ bool simple_event::wait_flag() const
     return flag_;
 }
 
-}   // namespace util
+}   // namespace chat

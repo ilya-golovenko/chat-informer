@@ -13,27 +13,28 @@
 #include <informer/common/Logging.h>
 #include <informer/dialogs/MainDlg.h>
 #include <net/util/base64.hpp>
-#include <config/manager.hpp>
 #include <crypto/common.hpp>
 #include <core/common.hpp>
 #include <core/factory.hpp>
 
 // MISSIO headers
-#include <missio/logging/dispatcher.hpp>
+#include <missio/logging/factory.hpp>
+#include <missio/logging/common.hpp>
 #include <missio/logging/file_writer.hpp>
-#include <missio/utf8/convert.hpp>
+#include <missio/unicode/convert.hpp>
+#include <missio/config/common.hpp>
 
 
 WTL::CAppModule _Module;
 
 CApplication::CApplication()
 {
-    logging::dispatcher::create();
+    missio::logging::initialize();
 }
 
 CApplication::~CApplication()
 {
-    logging::dispatcher::destroy();
+    missio::logging::shutdown();
 }
 
 BOOL CApplication::IsPreviousInstanceRunning()
@@ -116,7 +117,7 @@ BOOL CApplication::Initialize(HINSTANCE hInstance)
     try
     {
         // Initialize global instances
-        missio::factory::create_instances();
+        chat::factory::create_instances();
 
         // Create application managers
         CManagerFactory::CreateManagers();
@@ -144,7 +145,7 @@ void CApplication::Configure()
     // Initialize application managers
     CManagerFactory::InitializeManagers();
 
-    missio::factory::storage().set_alarms(cfg::chat::alarms);
+    chat::factory::storage().set_alarms(cfg::chat::alarms);
 }
 
 void CApplication::Finalize()
@@ -161,7 +162,7 @@ void CApplication::Finalize()
         CManagerFactory::DestroyManagers();
 
         // Destroy global instances
-        missio::factory::destroy_instances();
+        chat::factory::destroy_instances();
     }
     catch(std::exception const& e)
     {
@@ -180,19 +181,19 @@ void CApplication::SetupLogger()
 {
     LOG_INFO("configuring logger");
 
-    logging::dispatcher::instance().add_writer(
-        logging::from_string(
-            cfg::logging::severity
-        ),
-        logging::file_writer::create(
+    //TODO: fix me!
+    /*
+    missio::logging::file_options(missio::logging::from_string(cfg::logging::severity)).
+        missio::logging::file_writer::create(
             cfg::logging::filename,
             cfg::logging::format,
             cfg::logging::max_size,
             cfg::logging::max_index
         )
     );
+    */
 
-    logging::dispatcher::instance().start();
+    missio::logging::start();
 }
 
 void CApplication::SetupInstanceID()
@@ -222,7 +223,7 @@ void CApplication::SetupInstanceID()
             throw std::runtime_error("cannot save instance ID");
     }
 
-    missio::factory::informer().set_instance_id(missio::instance_id(value));
+    chat::factory::informer().set_instance_id(chat::instance_id(value));
 }
 
 void CApplication::SetupProxySettings()
@@ -238,8 +239,8 @@ void CApplication::SetupProxySettings()
         else
             proxy_settings = GetUserProxySettings();
 
-        missio::factory::informer().set_proxy_settings(proxy_settings);
-        missio::factory::downloader().set_proxy_settings(proxy_settings);
+        chat::factory::informer().set_proxy_settings(proxy_settings);
+        chat::factory::downloader().set_proxy_settings(proxy_settings);
     }
 }
 
@@ -257,7 +258,7 @@ void CApplication::LoadConfiguration()
         try
         {
             LOG_INFO("loading configuration file: logging.conf");
-            config::manager::instance().load_file("logging.conf", true);
+            missio::config::load_from_file("logging.conf", true);
         }
         catch(std::exception const& e)
         {
@@ -271,7 +272,7 @@ void CApplication::LoadConfiguration()
         try
         {
             LOG_INFO("loading configuration file: chat_informer.conf");
-            config::manager::instance().load_file("chat_informer.conf", false);
+            missio::config::load_from_file("chat_informer.conf", false);
         }
         catch(std::exception const& e)
         {
@@ -285,12 +286,12 @@ void CApplication::SaveConfiguration()
 {
     LOG_INFO("saving configuration");
 
-    cfg::chat::alarms = missio::factory::storage().get_alarms();
+    cfg::chat::alarms = chat::factory::storage().get_alarms();
 
     try
     {
         LOG_INFO("saving configuration file: chat_informer.conf");
-        config::manager::instance().save_file("chat_informer.conf");
+        missio::config::save_to_file("chat_informer.conf");
     }
     catch(std::exception const& e)
     {
@@ -319,7 +320,7 @@ net::http::proxy_settings CApplication::GetUserProxySettings()
         std::string password = cfg::connection::proxy::password;
 
         password = net::util::base64::decode(password);
-        password = crypto::decrypt(password, missio::crypto_key);
+        password = crypto::decrypt(password, chat::crypto_key);
 
         proxy_settings.set_credentials(username, password);
     }
@@ -386,7 +387,7 @@ net::http::proxy_settings CApplication::GetSystemProxySettings()
                         if(std::string::npos != pos)
                             port = boost::lexical_cast<unsigned short>(proxy_server.substr(++pos));
 
-                        proxy_settings.set_proxy_server(utf8::convert(hostname), port);
+                        proxy_settings.set_proxy_server(missio::unicode::to_utf8_string(hostname), port);
                     }
                 }
             }

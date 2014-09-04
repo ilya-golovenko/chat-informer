@@ -52,7 +52,7 @@ public:
 
     // Operations
 
-    void Assign(missio::link_list const& links)
+    void Assign(chat::link_list const& links)
     {
         int curSel = GetCurSel();
 
@@ -95,7 +95,7 @@ public:
     {
         if(LB_ERR != itemID)
         {
-            missio::link const& link = m_links[itemID];
+            chat::link const& link = m_links[itemID];
             CShellExecuteHelper(link.uri()).Start();
         }
     }
@@ -106,7 +106,7 @@ public:
     {
         CRect rcText;
 
-        missio::link const& link = m_links[itemID];
+        chat::link const& link = m_links[itemID];
 
         CFontHandle newFont = m_drawManager.Font(FONT_MAIN);
         CFontHandle oldFont = dc.SelectFont(newFont);
@@ -164,7 +164,7 @@ public:
 
         DrawRectangle(dc, rcItem, pen, brush);
 
-        missio::link const& link = m_links[itemID];
+        chat::link const& link = m_links[itemID];
 
         int iconCX = ::GetSystemMetrics(SM_CXSMICON);
         int iconCY = ::GetSystemMetrics(SM_CYSMICON);
@@ -203,7 +203,7 @@ public:
 
 private:
     int m_itemNameTextWidth;
-    missio::link_list m_links;
+    chat::link_list m_links;
 };
 
 class CLinkListCtrl :

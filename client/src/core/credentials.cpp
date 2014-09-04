@@ -11,13 +11,13 @@
 #include <crypto/common.hpp>
 
 // MISSIO headers
-#include <missio/utf8/convert.hpp>
+#include <missio/unicode/convert.hpp>
 
 // STL headers
 #include <utility>
 
 
-namespace missio
+namespace chat
 {
 
 credentials::credentials()
@@ -64,7 +64,7 @@ std::string credentials::to_string() const
 
 std::wstring credentials::to_wstring() const
 {
-    return utf8::convert(to_string());
+    return missio::unicode::to_wide_string(to_string());
 }
 
 std::string credentials::make_credentials(std::string const& nickname, std::string const& password)
@@ -74,7 +74,7 @@ std::string credentials::make_credentials(std::string const& nickname, std::stri
 
 std::string credentials::make_credentials(std::wstring const& nickname, std::wstring const& password)
 {
-    return make_credentials(utf8::convert(nickname), utf8::convert(password));
+    return make_credentials(missio::unicode::to_utf8_string(nickname), missio::unicode::to_utf8_string(password));
 }
 
-}   // namespace missio
+}   // namespace chat

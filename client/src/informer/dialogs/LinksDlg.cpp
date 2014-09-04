@@ -22,10 +22,10 @@ BOOL CLinksDlg::OnInitDialog(HWND /*hWnd*/, LPARAM /*lParam*/)
     m_ctrlLinks.GetIdealSize(idealSize);
     ResizeClient(idealSize.cx, idealSize.cy);
 
-    missio::factory::storage().on_links_updated(
+    chat::factory::storage().on_links_updated(
         BindDialogHandler(&CLinksDlg::OnLinksUpdated));
 
-    m_ctrlLinks.Assign(missio::factory::storage().links());
+    m_ctrlLinks.Assign(chat::factory::storage().links());
 
     CenterWindow();
     return TRUE;
@@ -44,7 +44,7 @@ void CLinksDlg::OnClose()
 
 // Storage event handlers
 
-void CLinksDlg::OnLinksUpdated(missio::link_list const& links)
+void CLinksDlg::OnLinksUpdated(chat::link_list const& links)
 {
     m_ctrlLinks.Assign(links);
 }

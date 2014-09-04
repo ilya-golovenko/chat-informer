@@ -65,7 +65,7 @@ public:
         ATLASSERT(hIcon != NULL);
 
         m_icons.push_back(hIcon);
-        return (m_icons.size() - 1);
+        return m_icons.size() - 1;
     }
 
     void ClearIconList()
@@ -153,7 +153,7 @@ public:
 
     BOOL IsInstalled() const
     {
-        return (NULL != m_hWnd);
+        return NULL != m_hWnd;
     }
 
     // Implementation

@@ -59,7 +59,7 @@ void CManagerFactory::DestroyManagers()
     m_managers.clear();
 }
 
-CManagerFactory::manager_pointer CManagerFactory::GetManager(std::type_info const& type_info) const
+CManagerFactory::manager_pointer CManagerFactory::GetManager(std::type_info const& type_info)
 {
     manager_list::const_iterator it = boost::find(m_managers | boost::adaptors::map_keys, type_info.name());
 

@@ -34,16 +34,10 @@ public:
         DispatchHandler(DialogHandler_0<Dialog, Function, Invoker>(function_));
     }
 
-    template <typename Arg0>
-    void operator()(Arg0 const& arg0)
+    template <typename ...Args>
+    void operator()(Args const& ...args)
     {
-        DispatchHandler(DialogHandler_1<Dialog, Function, Invoker, Arg0>(function_, arg0));
-    }
-
-    template <typename Arg0, typename Arg1>
-    void operator()(Arg0 const& arg0, Arg1 const& arg1)
-    {
-        DispatchHandler(DialogHandler_2<Dialog, Function, Invoker, Arg0, Arg1>(function_, arg0, arg1));
+        DispatchHandler(DialogHandler<Dialog, Function, Invoker, Args...>(function_, args...));
     }
 
 private:

@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _crypto_md5_computer_hpp
-#define _crypto_md5_computer_hpp
+#ifndef _chat_crypto_md5_computer_hpp
+#define _chat_crypto_md5_computer_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -24,18 +24,22 @@
 #include <cstddef>
 
 
+namespace chat
+{
 namespace crypto
 {
 namespace md5
 {
 
-class computer :
-    private boost::noncopyable
+class computer : private boost::noncopyable
 {
 public:
     computer();
+
     computer(void const* data, std::size_t size);
+
     void append(void const* data, std::size_t size);
+
     digest get_digest();
 
 private:
@@ -45,5 +49,6 @@ private:
 
 }   // namespace md5
 }   // namespace crypto
+}   // namespace chat
 
-#endif  // _crypto_md5_computer_hpp
+#endif  // _chat_crypto_md5_computer_hpp

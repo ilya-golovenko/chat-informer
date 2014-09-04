@@ -100,10 +100,10 @@ public:
     BOOL OnSetCursor(HWND hWnd, UINT /*nHitTest*/, UINT /*uMsg*/);
     void OnThumbnail(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/);
     void OnOK(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/);
-    void OnUserInfo(missio::query::pointer query);
+    void OnUserInfo(chat::query::pointer query);
 
     // Downloader event handlers
-    //void OnThumbnailDownloaded(missio::download::completion_event_args const& args);
+    //void OnThumbnailDownloaded(chat::download::completion_event_args const& args);
 
     // Implementation
     CUserInfoDlg();
@@ -115,17 +115,17 @@ public:
     void SetWindowCaption(std::wstring const& nickname, bool loading);
     void AssignNumericField(WTL::CString& string, int value);
     void AssignTimeField(WTL::CString& string, std::time_t time);
-    void AssignSexField(WTL::CString& string, missio::chat_user::sex_type sex);
+    void AssignSexField(WTL::CString& string, chat::chat_user::sex_type sex);
     void AssignStringField(WTL::CString& string, std::wstring const& data);
     void AssignHyperLinkField(WTL::CHyperLink& hyperLink, std::wstring const& field, std::wstring const& prefix);
-    void FillUserData(missio::chat_user_info::pointer userInfo);
-    void DownloadThumbnail(missio::photo const& photo);
+    void FillUserData(chat::chat_user_info::pointer userInfo);
+    void DownloadThumbnail(chat::photo const& photo);
     void CancelAllDownloads();
 
 private:
     std::wstring m_nickname;
-    missio::photo_list m_photos;
+    chat::photo_list m_photos;
     std::size_t m_currentPhoto;
-    missio::query::pointer m_query;
-    missio::download::pointer m_download;
+    chat::query::pointer m_query;
+    chat::download::pointer m_download;
 };

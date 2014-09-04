@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _utility_raw_buffer_hpp
-#define _utility_raw_buffer_hpp
+#ifndef _chat_utility_raw_buffer_hpp
+#define _chat_utility_raw_buffer_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -16,14 +16,16 @@
 #include <iosfwd>
 
 
-namespace util
+namespace chat
 {
 
 class raw_buffer
 {
 public:
     typedef unsigned char value_type;
-
+    typedef std::size_t size_type;
+    typedef value_type& reference;
+    typedef value_type const& const_reference;
     typedef value_type* iterator;
     typedef value_type const* const_iterator;
 
@@ -85,6 +87,6 @@ private:
 
 std::ostream& operator<<(std::ostream& os, raw_buffer const& buffer);
 
-}   // namespace util
+}   // namespace chat
 
-#endif  // _utility_raw_buffer_hpp
+#endif  // _chat_utility_raw_buffer_hpp

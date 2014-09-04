@@ -13,5 +13,4 @@
 #include <string>
 
 
-std::wstring FormatErrorMessage(HRESULT errorCode);
 std::wstring FormatErrorMessage(DWORD errorCode = ::GetLastError());

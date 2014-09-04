@@ -25,10 +25,10 @@ BOOL CForumDlg::OnInitDialog(HWND /*hWnd*/, LPARAM /*lParam*/)
     // Set window size and position
     SetupDialogSizeAndPos();
 
-    missio::factory::storage().on_forum_updated(
+    chat::factory::storage().on_forum_updated(
         BindDialogHandler(&CForumDlg::OnForumUpdated));
 
-    m_ctrlForumTopicList.Assign(missio::factory::storage().forum().topics());
+    m_ctrlForumTopicList.Assign(chat::factory::storage().forum().topics());
 
     return TRUE;
 }
@@ -92,7 +92,7 @@ void CForumDlg::OnSize(UINT nType, CSize /*size*/)
 
 // Storage event handlers
 
-void CForumDlg::OnForumUpdated(missio::forum const& forum)
+void CForumDlg::OnForumUpdated(chat::forum const& forum)
 {
     m_ctrlForumTopicList.Assign(forum.topics());
 }

@@ -12,7 +12,7 @@
 #include <utility>
 
 
-namespace missio
+namespace chat
 {
 
 link_list::link_list()
@@ -45,23 +45,21 @@ link_list& link_list::operator=(link_list const& other)
     return *this;
 }
 
-bool link_list::update(json::object_cref json_data)
+bool link_list::update(missio::json::object const& json_data)
 {
-    if(json_data->contains("links"))
+    if(json_data.contains("links"))
     {
         links_.clear();
 
-        json::array_cref json_links = json_data["links"];
+        missio::json::array const& json_links = json_data["links"];
 
-        for(std::size_t i = 0; i < json_links->size(); ++i)
+        for(missio::json::object const& json_link : json_links)
         {
-            json::object_cref json_link = json_links[i];
+            std::wstring const uri = json_link["uri"];
+            std::wstring const name = json_link["name"];
+            std::wstring const descr = json_link["descr"];
 
-            std::wstring uri = json_link["uri"];
-            std::wstring name = json_link["name"];
-            std::wstring descr = json_link["descr"];
-
-            links_.push_back(link(uri, name, descr));
+            links_.emplace_back(uri, name, descr);
         }
 
         return true;
@@ -102,4 +100,4 @@ link const& link_list::operator[](std::size_t index) const
     return links_[index];
 }
 
-}   // namespace missio
+}   // namespace chat

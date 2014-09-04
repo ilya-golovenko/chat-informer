@@ -15,15 +15,15 @@
 #include <boost/make_shared.hpp>
 
 
-namespace missio
+namespace chat
 {
 
-query::pointer query::create(json::value const& data, bool need_auth, handler const& handler)
+query::pointer query::create(missio::json::value const& data, bool need_auth, handler const& handler)
 {
     return boost::make_shared<query>(data, need_auth, handler);
 }
 
-query::query(json::value const& data, bool need_auth, handler const& handler) :
+query::query(missio::json::value const& data, bool need_auth, handler const& handler) :
     error_(error::unknown),
     data_(data),
     need_auth_(need_auth),
@@ -40,7 +40,7 @@ void query::cancel()
 
 bool query::is_completed()
 {
-    return (::InterlockedExchangeAdd(&completed_, 0) == 1);
+    return 1 == ::InterlockedExchangeAdd(&completed_, 0);
 }
 
 bool query::need_auth() const
@@ -63,7 +63,7 @@ json::value const& query::json_data() const
     return data_;
 }
 
-void query::set_json_data(json::value const& data)
+void query::set_json_data(missio::json::value const& data)
 {
     data_.assign(data);
 }
@@ -77,4 +77,4 @@ void query::handle_info(error::type error)
     }
 }
 
-}   // namespace missio
+}   // namespace chat

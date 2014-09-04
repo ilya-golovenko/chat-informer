@@ -81,10 +81,10 @@ void CSendMessageDlg::OnSend(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
         json_data["message"]["text"] = message;
         json_data["message"]["nickname"] = nickname;
 
-        m_query = missio::query::create(json_data, true,
+        m_query = chat::query::create(json_data, true,
             boost::bind(&CSendMessageDlg::OnSendMessage, this, _1));
 
-        missio::factory::informer().add_query(m_query);
+        chat::factory::informer().add_query(m_query);
     }
 }
 
@@ -111,7 +111,7 @@ void CSendMessageDlg::OnKeyDown_Message(UINT nChar, UINT /*nRepCnt*/, UINT /*nFl
 
 // Informer event handlers
 
-void CSendMessageDlg::OnSendMessage(missio::query::pointer query)
+void CSendMessageDlg::OnSendMessage(chat::query::pointer query)
 {
     if(IsWindow())
     {
@@ -119,40 +119,40 @@ void CSendMessageDlg::OnSendMessage(missio::query::pointer query)
         {
             try
             {
-                json::object_cref json_data = query->json_data();
-                json::object_cref json_result = json_data["send_result"];
+                json::object const& json_data = query->json_data();
+                json::object const& json_result = json_data["send_result"];
 
                 if(!json_result["success"].as<bool>())
                 {
                     switch(json_result["error"].as<int>())
                     {
-                        case missio::server_error::bad_credentials:
+                        case chat::server_error::bad_credentials:
                             m_dialogManager.ShowMessage(IDS_SEND_CREDENTIALS);
                             cfg::chat::bad_credentials = true;
                             break;
 
-                        case missio::server_error::send_denied:
+                        case chat::server_error::send_denied:
                             m_dialogManager.ShowMessage(IDS_SEND_DENIED);
                             break;
 
-                        case missio::server_error::db_connect:
-                        case missio::server_error::db_query:
+                        case chat::server_error::db_connect:
+                        case chat::server_error::db_query:
                             m_dialogManager.ShowMessage(IDS_SEND_SERVER);
                             break;
 
-                        case missio::server_error::should_wait:
+                        case chat::server_error::should_wait:
                             m_dialogManager.ShowMessage(IDS_SEND_WAIT);
                             break;
 
-                        case missio::server_error::ignored:
+                        case chat::server_error::ignored:
                             m_dialogManager.ShowMessage(IDS_SEND_IGNORED);
                             break;
 
-                        case missio::server_error::offline:
+                        case chat::server_error::offline:
                             m_dialogManager.ShowMessage(IDS_SEND_OFFLINE);
                             break;
 
-                        case missio::server_error::generic:
+                        case chat::server_error::generic:
                             m_dialogManager.ShowMessage(IDS_SEND_FAILURE);
                             break;
 

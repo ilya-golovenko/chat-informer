@@ -19,7 +19,7 @@
 #include <algorithm>
 
 
-namespace missio
+namespace chat
 {
 
 forum_post_list::forum_post_list()
@@ -52,26 +52,24 @@ forum_post_list& forum_post_list::operator=(forum_post_list const& other)
     return *this;
 }
 
-bool forum_post_list::update(json::object_cref json_data)
+bool forum_post_list::update(missio::json::object const& json_data)
 {
     bool updated = false;
 
-    if(json_data->contains("posts"))
+    if(json_data.contains("posts"))
     {
-        json::array_cref json_posts = json_data["posts"];
+        missio::json::array const& json_posts = json_data["posts"];
 
-        for(std::size_t i = 0; i < json_posts->size(); ++i)
+        for(missio::json::object const& json_post : json_posts)
         {
-            json::object_cref json_post = json_posts[i];
+            std::wstring const id = json_post["id"];
+            std::wstring const title = json_post["title"];
+            std::wstring const author = json_post["author"];
+            std::time_t const time = json_post["time"];
 
-            std::wstring post_id = json_post["id"];
-            std::wstring title = json_post["title"];
-            std::wstring author = json_post["author"];
-            std::time_t time = json_post["time"];
-
-            if(!contains(post_id))
+            if(!contains(id))
             {
-                posts_.push_back(forum_post(post_id, title, author, time));
+                posts_.emplace_back(id, title, author, time);
                 updated = true;
             }
         }
@@ -162,7 +160,7 @@ forum_post_list::const_iterator forum_post_list::find(std::wstring const& post_i
 
 bool forum_post_list::contains(std::wstring const& post_id) const
 {
-    return (find(post_id) != end());
+    return find(post_id) != end();
 }
 
 std::size_t forum_post_list::index_of(std::wstring const& post_id) const
@@ -210,4 +208,4 @@ void forum_post_list::sort_post_list()
     boost::sort(posts_, boost::bind(&forum_post::time, _1) < boost::bind(&forum_post::time, _2));
 }
 
-}   // namespace missio
+}   // namespace chat

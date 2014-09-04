@@ -61,7 +61,7 @@ public:
 
     // Operations
 
-    void Assign(missio::chat_user_list const& users)
+    void Assign(chat::chat_user_list const& users)
     {
         std::wstring nickname;
         int curSel = GetCurSel();
@@ -81,7 +81,7 @@ public:
         EndUpdate();
     }
 
-    void Add(missio::chat_user const& user)
+    void Add(chat::chat_user const& user)
     {
         //TODO: implement
     }
@@ -228,9 +228,9 @@ public:
 
         if(LB_ERR != itemID)
         {
-            missio::chat_user const& user = m_users[itemID];
+            chat::chat_user const& user = m_users[itemID];
 
-            if(missio::chat_user::guest != user.sex())
+            if(chat::chat_user::guest != user.sex())
                 SetUserMenuItemEnabled(IDC_USERINFO, TRUE);
             else
                 SetUserMenuItemEnabled(IDC_USERINFO, FALSE);
@@ -298,7 +298,7 @@ public:
 
         if(LB_ERR != itemID)
         {
-            missio::chat_user const& user = m_users[itemID];
+            chat::chat_user const& user = m_users[itemID];
             m_dialogManager.SendMessage(user.nickname().c_str());
         }
     }
@@ -309,9 +309,9 @@ public:
 
         if(LB_ERR != itemID)
         {
-            missio::chat_user const& user = m_users[itemID];
+            chat::chat_user const& user = m_users[itemID];
 
-            if(missio::chat_user::guest == user.sex())
+            if(chat::chat_user::guest == user.sex())
                 m_dialogManager.ShowMessage(IDS_NOT_REGISTERED);
             else
                 m_dialogManager.ShowUserInfo(user.nickname().c_str());
@@ -324,8 +324,8 @@ public:
 
         if(LB_ERR != itemID)
         {
-            missio::chat_user const& user = m_users[itemID];
-            missio::factory::storage().switch_alarm(user.nickname());
+            chat::chat_user const& user = m_users[itemID];
+            chat::factory::storage().switch_alarm(user.nickname());
         }
     }
 
@@ -335,7 +335,7 @@ public:
     {
         CRect rcText;
 
-        missio::chat_user const& user = m_users[itemID];
+        chat::chat_user const& user = m_users[itemID];
 
         CFontHandle newFont = m_drawManager.Font(FONT_MAIN);
         CFontHandle oldFont = dc.SelectFont(newFont);
@@ -388,9 +388,9 @@ public:
         int icon—ount = 0;
         int icons[MAX_ICONS];
 
-        missio::chat_user const& user = m_users[itemID];
+        chat::chat_user const& user = m_users[itemID];
 
-        if(missio::chat_user::unknown != user.sex())
+        if(chat::chat_user::unknown != user.sex())
         {
             int customIcon = m_iconManager.FindCustomIconIndex(user.nickname());
 
@@ -402,19 +402,19 @@ public:
             {
                 switch(user.sex())
                 {
-                    case missio::chat_user::guest:
+                    case chat::chat_user::guest:
                         icons[icon—ount++] = ICON_GUEST;
                         break;
 
-                    case missio::chat_user::hidden:
+                    case chat::chat_user::hidden:
                         icons[icon—ount++] = ICON_HIDDEN;
                         break;
 
-                    case missio::chat_user::male:
+                    case chat::chat_user::male:
                         icons[icon—ount++] = ICON_MALE;
                         break;
 
-                    case missio::chat_user::female:
+                    case chat::chat_user::female:
                         icons[icon—ount++] = ICON_FEMALE;
                         break;
                 }
@@ -455,7 +455,7 @@ public:
 
 private:
     bool m_sortUsersByNicknames;
-    missio::chat_user_list m_users;
+    chat::chat_user_list m_users;
 };
 
 class CUserListCtrl :

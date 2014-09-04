@@ -56,15 +56,15 @@ public:
     void OnSize(UINT /*nType*/, CSize /*size*/);
 
     // Storage event handlers
-    void OnPhotoAlbumUpdated(missio::photoalbum const& photoalbum);
+    void OnPhotoAlbumUpdated(chat::photoalbum const& photoalbum);
 
     // Downloader event handlers
     //void OnPhotoThumbnailDownloaded(std::wstring const& photoID,
-    //    missio::download::completion_event_args const& args);
+    //    chat::download::completion_event_args const& args);
 
     // Implementation
-    void UpdatePhotoThumbnails(missio::photo_list const& photos);
-    void DownloadPhotoThumbnail(missio::photo const& photo);
+    void UpdatePhotoThumbnails(chat::photo_list const& photos);
+    void DownloadPhotoThumbnail(chat::photo const& photo);
     void SetupDialogSize();
 
 private:

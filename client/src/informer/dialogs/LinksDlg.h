@@ -49,5 +49,5 @@ public:
     void OnSize(UINT /*nType*/, CSize size);
 
     // Storage event handlers
-    void OnLinksUpdated(missio::link_list const& links);
+    void OnLinksUpdated(chat::link_list const& links);
 };

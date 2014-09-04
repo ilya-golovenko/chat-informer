@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -10,6 +10,8 @@
 #include <utility/make_hex_string.hpp>
 
 
+namespace chat
+{
 namespace crypto
 {
 namespace md5
@@ -57,15 +59,21 @@ std::string digest::to_string() const
     return util::make_hex_string(value_, 16);
 }
 
-bool digest::operator<(digest const& other) const
+bool operator<(digest const& lhs, digest const& rhs)
 {
-    return (0 > std::memcmp(value_, other.value_, 16));
+    return 0 > std::memcmp(lhs.value_, rhs.value_, 16);
 }
 
-bool digest::operator==(digest const& other) const
+bool operator==(digest const& lhs, digest const& rhs)
 {
-    return (0 == std::memcmp(value_, other.value_, 16));
+    return 0 == std::memcmp(lhs.value_, rhs.value_, 16);
+}
+
+bool operator!=(digest const& lhs, digest const& rhs)
+{
+    return 0 != std::memcmp(lhs.value_, rhs.value_, 16);
 }
 
 }   // namespace md5
 }   // namespace crypto
+}   // namespace chat

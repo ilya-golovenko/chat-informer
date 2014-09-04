@@ -4,8 +4,8 @@
 //    Copyright (C) 2012, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_common_hpp
-#define _missio_core_common_hpp
+#ifndef _chat_core_common_hpp
+#define _chat_core_common_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -24,7 +24,7 @@
 #include <string>
 
 
-namespace missio
+namespace chat
 {
 
 std::string const informer_name             = "SpChat.Ru Chat Informer";
@@ -62,6 +62,6 @@ boost::uuids::uuid const crypto_key =
     0x9B, 0xE9, 0x37, 0xC4, 0x56, 0x1A, 0x70, 0x5C
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_common_hpp
+#endif  // _chat_core_common_hpp

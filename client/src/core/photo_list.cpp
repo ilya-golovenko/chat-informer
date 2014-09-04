@@ -19,7 +19,7 @@
 #include <utility>
 
 
-namespace missio
+namespace chat
 {
 
 photo_list::photo_list()
@@ -50,28 +50,26 @@ photo_list& photo_list::operator=(photo_list const& other)
     return *this;
 }
 
-bool photo_list::update(json::object_cref json_data)
+bool photo_list::update(missio::json::object const& json_data)
 {
     boost::for_each(photos_, boost::bind(&photo::set_deleted, _1, true));
 
-    if(json_data->contains("photos"))
+    if(json_data.contains("photos"))
     {
-        json::array_cref json_photos = json_data["photos"];
+        missio::json::array const& json_photos = json_data["photos"];
 
-        for(std::size_t i = 0; i < json_photos->size(); ++i)
+        for(missio::json::object const& json_photo : json_photos)
         {
-            json::object_cref json_photo = json_photos[i];
-
-            std::wstring id = json_photo["id"];
-            std::wstring thumb = json_photo["thumb"];
+            std::wstring const id = json_photo["id"];
+            std::wstring const thumb = json_photo["thumb"];
 
             std::wstring descr; 
             std::wstring nickname;
 
-            if(json_photo->contains("descr"))
+            if(json_photo.contains("descr"))
                 descr = json_photo["descr"].as<std::wstring>();
 
-             if(json_photo->contains("nickname"))
+             if(json_photo.contains("nickname"))
                 nickname = json_photo["nickname"].as<std::wstring>();
 
             iterator it = find(id);
@@ -138,7 +136,7 @@ photo_list::const_iterator photo_list::find(std::wstring const& photo_id) const
 
 bool photo_list::contains(std::wstring const& photo_id) const
 {
-    return (find(photo_id) != end());
+    return find(photo_id) != end();
 }
 
 std::size_t photo_list::index_of(std::wstring const& photo_id) const
@@ -172,7 +170,7 @@ bool photo_list::cleanup()
 
     boost::remove_erase_if(photos_, boost::bind(&photo::is_deleted, _1));
 
-    return (photos_.size() < size);
+    return photos_.size() < size;
 }
 
 void photo_list::sort()
@@ -180,4 +178,4 @@ void photo_list::sort()
     boost::sort(photos_, boost::bind(&photo::id, _1) > boost::bind(&photo::id, _2));
 }
 
-}   // namespace missio
+}   // namespace chat

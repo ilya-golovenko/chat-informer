@@ -9,10 +9,10 @@
 #include <core/news.hpp>
 
 // MISSIO headers
-#include <missio/utf8/convert.hpp>
+#include <missio/unicode/convert.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 news::news()
@@ -44,17 +44,17 @@ void news::assign(news const& other)
     }
 }
 
-bool news::update(json::object_cref json_data)
+bool news::update(missio::json::object const& json_data)
 {
-    if(json_data->contains("news"))
+    if(json_data.contains("news"))
     {
-        json::object_cref news = json_data["news"];
+        missio::json::object const& news = json_data["news"];
 
-        std::wstring admin_news = news["admin"];
-        std::wstring moder_news = news["moder"];
+        std::wstring const admin_news = news["admin"];
+        std::wstring const moder_news = news["moder"];
 
-        bool updated = (!admin_news_.empty() && !moder_news_.empty()
-            && (admin_news_ != admin_news || moder_news_ != moder_news));
+        bool const updated = !admin_news_.empty() && !moder_news_.empty()
+            && (admin_news_ != admin_news || moder_news_ != moder_news);
 
         admin_news_ = admin_news;
         moder_news_ = moder_news;
@@ -77,17 +77,17 @@ std::wstring const& news::moder_news() const
 
 std::string news::to_string() const
 {
-    return utf8::convert(to_wstring());
+    return missio::unicode::to_utf8_string(to_wstring());
 }
 
 std::wstring news::to_wstring() const
 {
-    return (admin_news_ + moder_news_);
+    return admin_news_ + moder_news_;
 }
 
 bool news::empty() const
 {
-    return (admin_news_.empty() && moder_news_.empty());
+    return admin_news_.empty() && moder_news_.empty();
 }
 
 void news::clear()
@@ -96,4 +96,4 @@ void news::clear()
     moder_news_.clear();
 }
 
-}   // namespace missio
+}   // namespace chat

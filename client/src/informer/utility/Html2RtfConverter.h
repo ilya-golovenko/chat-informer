@@ -54,12 +54,12 @@ struct rtf_range_t
 
     bool contains(std::size_t pos) const
     {
-        return (pos >= begin && pos <= end);
+        return pos >= begin && pos <= end;
     }
 
     bool operator==(rtf_range_t const& other) const
     {
-        return (begin == other.begin && end == other.end);
+        return begin == other.begin && end == other.end;
     }
 };
 
@@ -70,7 +70,7 @@ struct rtf_link_t
 
     bool operator==(rtf_link_t const& other) const
     {
-        return (url == other.url && range == other.range);
+        return url == other.url && range == other.range;
     }
 };
 
@@ -83,7 +83,7 @@ struct rtf_font_t
 
     bool operator==(rtf_font_t const& other) const
     {
-        return (name == other.name && charset == other.charset);
+        return name == other.name && charset == other.charset;
     }
 };
 
@@ -95,7 +95,7 @@ struct rtf_color_t
 
     bool operator==(rtf_color_t const& other) const
     {
-        return (red == other.red && green == other.green && blue == other.blue);
+        return red == other.red && green == other.green && blue == other.blue;
     }
 };
 

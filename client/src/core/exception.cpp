@@ -9,10 +9,10 @@
 #include <core/exception.hpp>
 
 // MISSIO headers
-#include <missio/utf8/convert.hpp>
+#include <missio/unicode/convert.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 exception::exception(std::string const& message) :
@@ -21,7 +21,7 @@ exception::exception(std::string const& message) :
 }
 
 exception::exception(std::wstring const& message) :
-    message_(utf8::convert(message))
+    message_(missio::unicode::to_utf8_string(message))
 {
 }
 
@@ -39,4 +39,4 @@ std::string const& exception::message() const throw()
     return message_;
 }
 
-}   // namespace missio
+}   // namespace chat

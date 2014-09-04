@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_query_hpp
-#define _missio_core_query_hpp
+#ifndef _chat_core_query_hpp
+#define _chat_core_query_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -27,7 +27,7 @@
 #include <ctime>
 
 
-namespace missio
+namespace chat
 {
 
 class query :
@@ -41,10 +41,10 @@ public:
     typedef boost::function<void (pointer)> handler;
 
 public:
-    static pointer create(json::value const& data, bool need_auth, handler const& handler);
+    static pointer create(missio::json::value const& data, bool need_auth, handler const& handler);
 
 public:
-    query(json::value const& data, bool need_auth, handler const& handler);
+    query(missio::json::value const& data, bool need_auth, handler const& handler);
 
     void cancel();
     bool is_completed();
@@ -52,9 +52,9 @@ public:
     bool need_auth() const;
     error::type error() const;
 
-    json::value& json_data();
-    json::value const& json_data() const;
-    void set_json_data(json::value const& data);
+    missio::json::value& json_data();
+    missio::json::value const& json_data() const;
+    void set_json_data(missio::json::value const& data);
 
 private:
     void handle_info(error::type error);
@@ -62,7 +62,7 @@ private:
 private:
     std::time_t time_;
     error::type error_;
-    json::value data_;
+    missio::json::value data_;
     bool need_auth_;
     handler handler_;
 
@@ -70,6 +70,6 @@ private:
     volatile long completed_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_query_hpp
+#endif  // _chat_core_query_hpp

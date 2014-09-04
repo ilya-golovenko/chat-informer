@@ -13,7 +13,7 @@
 #include <missio/logging/common.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 void factory::create_instances()
@@ -62,4 +62,4 @@ boost::scoped_ptr<missio::storage> factory::storage_;
 boost::scoped_ptr<missio::informer> factory::informer_;
 boost::scoped_ptr<net::http::downloader> factory::downloader_;
 
-}   // namespace missio
+}   // namespace chat

@@ -63,7 +63,7 @@ BOOL CMainDlg::OnInitDialog(HWND /*hWnd*/, LPARAM /*lParam*/)
     m_eventManager.OnEventRemoved(BindDialogHandler(&CMainDlg::OnEventRemoved));
     m_informerManager.OnStateChanged(BindDialogHandler(&CMainDlg::OnStateChanged));
 
-    missio::factory::storage().on_users_updated(BindDialogHandler(&CMainDlg::OnUsersUpdated));
+    chat::factory::storage().on_users_updated(BindDialogHandler(&CMainDlg::OnUsersUpdated));
 
     return TRUE;
 }
@@ -155,17 +155,17 @@ void CMainDlg::OnHotKey(int nHotKeyID, UINT /*uModifiers*/, UINT /*uVirtKey*/)
 
         case ID_HOTKEY_FORUM:
             m_dialogManager.SwitchDialogVisibility(IDD_FORUM);
-            m_eventManager.RemoveEvent(missio::event::forum);
+            m_eventManager.RemoveEvent(chat::event::forum);
             break;
 
         case ID_HOTKEY_PHOTO:
             m_dialogManager.SwitchDialogVisibility(IDD_PHOTOALBUM);
-            m_eventManager.RemoveEvent(missio::event::photoalbum);
+            m_eventManager.RemoveEvent(chat::event::photoalbum);
             break;
 
         case ID_HOTKEY_NEWS:
             m_dialogManager.SwitchDialogVisibility(IDD_NEWS);
-            m_eventManager.RemoveEvent(missio::event::news);
+            m_eventManager.RemoveEvent(chat::event::news);
             break;
 
         default:
@@ -206,7 +206,7 @@ void CMainDlg::NotifyIcon_OnLButtonUp(UINT /*nMsg*/)
     }
     else
     {
-        missio::event::type event = m_eventManager.GetEvent();
+        chat::event::type event = m_eventManager.GetEvent();
         m_dialogManager.ShowDialog(CEventManager::GetEventDialogID(event));
     }
 }
@@ -228,19 +228,19 @@ void CMainDlg::OnShowHide(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 void CMainDlg::OnForum(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 {
     m_dialogManager.ShowDialog(IDD_FORUM);
-    m_eventManager.RemoveEvent(missio::event::forum);
+    m_eventManager.RemoveEvent(chat::event::forum);
 }
 
 void CMainDlg::OnPhotoAlbum(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 {
     m_dialogManager.ShowDialog(IDD_PHOTOALBUM);
-    m_eventManager.RemoveEvent(missio::event::photoalbum);
+    m_eventManager.RemoveEvent(chat::event::photoalbum);
 }
 
 void CMainDlg::OnNews(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 {
     m_dialogManager.ShowDialog(IDD_NEWS);
-    m_eventManager.RemoveEvent(missio::event::news);
+    m_eventManager.RemoveEvent(chat::event::news);
 }
 
 void CMainDlg::OnBirthdays(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
@@ -273,7 +273,7 @@ void CMainDlg::OnLogin(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
     m_asyncJobManager.AddJob(CLoginChatJob::Create());
 }
 /*
-void CMainDlg::OnIconDownloaded(missio::download::completion_event_args const& args)
+void CMainDlg::OnIconDownloaded(chat::download::completion_event_args const& args)
 {
     if(args.error)
     {
@@ -293,12 +293,12 @@ void CMainDlg::OnOptions(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
     //DEBUG!
     //m_dialogManager.ShowNotification("This is a test notification message!", IDD_INVALID);
 
-    //net::http::download::pointer download = missio::download::create(
+    //net::http::download::pointer download = chat::download::create(
     //    net::http::uri("http://spchat.ru/favicon.ico"),
     //    boost::filesystem::path("c:\\favicon.ico"),
     //    boost::bind(&OnIconDownloaded, _1));
 
-    //missio::factory::downloader().add_download(download); 
+    //chat::factory::downloader().add_download(download); 
 }
 
 void CMainDlg::OnAbout(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
@@ -324,7 +324,7 @@ void CMainDlg::OnMenu(UINT /*uNotifyCode*/, int /*nID*/, HWND hWnd)
 
 // Storage event handlers
 
-void CMainDlg::OnUsersUpdated(missio::chat_user_cache const& users)
+void CMainDlg::OnUsersUpdated(chat::chat_user_cache const& users)
 {
     m_ctrlUserList.Assign(users.get_online_users());
     UpdateNotifyIconText();
@@ -352,7 +352,7 @@ void CMainDlg::OnStateChanged(InformerState state)
 
 // Event manager event handlers
 
-void CMainDlg::OnEventAdded(missio::event::type event)
+void CMainDlg::OnEventAdded(chat::event::type event)
 {
     LOG_DEBUG("new event added: ", event);
 
@@ -360,19 +360,19 @@ void CMainDlg::OnEventAdded(missio::event::type event)
 
     switch(event)
     {
-        case missio::event::version:
+        case chat::event::version:
             SetMainMenuItemImage(IDC_ABOUT, ICON_YELLOW, OVERLAY_NEW);
             break;
 
-        case missio::event::forum:
+        case chat::event::forum:
             SetMainMenuItemImage(IDC_FORUM, ICON_FORUM, OVERLAY_NEW);
             break;
 
-        case missio::event::photoalbum:
+        case chat::event::photoalbum:
             SetMainMenuItemImage(IDC_PHOTOALBUM, ICON_PHOTO, OVERLAY_NEW);
             break;
 
-        case missio::event::news:
+        case chat::event::news:
             SetMainMenuItemImage(IDC_NEWS, ICON_NEWS, OVERLAY_NEW);
             break;
     }
@@ -381,21 +381,21 @@ void CMainDlg::OnEventAdded(missio::event::type event)
     UpdateNotifyIconText();
 }
 
-void CMainDlg::OnEventRemoved(missio::event::type event)
+void CMainDlg::OnEventRemoved(chat::event::type event)
 {
     LOG_DEBUG("new removed: ", event);
 
     switch(event)
     {
-        case missio::event::forum:
+        case chat::event::forum:
             SetMainMenuItemImage(IDC_FORUM, ICON_FORUM, OVERLAY_NONE);
             break;
 
-        case missio::event::photoalbum:
+        case chat::event::photoalbum:
             SetMainMenuItemImage(IDC_PHOTOALBUM, ICON_PHOTO, OVERLAY_NONE);
             break;
 
-        case missio::event::news:
+        case chat::event::news:
             SetMainMenuItemImage(IDC_NEWS, ICON_NEWS, OVERLAY_NONE);
             break;
     }
@@ -492,7 +492,7 @@ void CMainDlg::UpdateNotifyIconText()
 
     if(m_informerManager.IsOnline())
     {
-        missio::chat_user_cache const& users = missio::factory::storage().users();
+        chat::chat_user_cache const& users = chat::factory::storage().users();
         strCaption.Format(IDS_CHAT_USERS, users.get_online_users().size());
     }
     else if(m_informerManager.IsOffline())
@@ -508,7 +508,7 @@ void CMainDlg::UpdateNotifyIconText()
 
     if(m_eventManager.ContainsEvents())
     {
-        missio::event::type event = m_eventManager.PeekEvent();
+        chat::event::type event = m_eventManager.PeekEvent();
         strEvent.LoadString(CEventManager::GetEventStringID(event));
     }
 

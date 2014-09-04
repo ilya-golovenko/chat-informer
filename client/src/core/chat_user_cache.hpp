@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_chat_user_cache_hpp
-#define _missio_core_chat_user_cache_hpp
+#ifndef _chat_core_chat_user_cache_hpp
+#define _chat_core_chat_user_cache_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -25,7 +25,7 @@
 #include <vector>
 
 
-namespace missio
+namespace chat
 {
 
 class chat_user_cache :
@@ -38,7 +38,7 @@ public:
     void clear_cache();
     void cleanup_cache();
 
-    bool update(json::object_cref json_data);
+    bool update(missio::json::object const& json_data);
 
     chat_user_list get_alarm_users() const;
     chat_user_list get_online_users() const;
@@ -79,6 +79,6 @@ private:
      chat_user_list users_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_chat_user_cache_hpp
+#endif  // _chat_core_chat_user_cache_hpp

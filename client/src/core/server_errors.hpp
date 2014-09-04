@@ -4,15 +4,15 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_server_errors_hpp
-#define _missio_core_server_errors_hpp
+#ifndef _chat_core_server_errors_hpp
+#define _chat_core_server_errors_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif  // defined(_MSC_VER) && (_MSC_VER >= 1200) 
 
 
-namespace missio
+namespace chat
 {
 namespace server_error
 {
@@ -33,6 +33,6 @@ type const offline          = 204;
 type const generic          = 205;
 
 }   // namespace server_error
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_server_errors_hpp
+#endif  // _chat_core_server_errors_hpp

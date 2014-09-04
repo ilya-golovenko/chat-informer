@@ -31,37 +31,37 @@ void CInformerManager::Initialize()
 
     UpdateCredentials();
 
-    missio::factory::informer().set_completion_handler(
+    chat::factory::informer().set_completion_handler(
         boost::bind(&CInformerManager::OnInformerQuery, this, _1));
 
-    missio::factory::storage().on_events_updated(boost::bind(
+    chat::factory::storage().on_events_updated(boost::bind(
         &CInformerManager::OnEventsUpdated, shared_from_this(), _1));
 
-    missio::factory::informer().start();
-    missio::factory::downloader().start();
+    chat::factory::informer().start();
+    chat::factory::downloader().start();
 }
 
 void CInformerManager::Finalize()
 {
     LOG_INFO("finalizing");
 
-    missio::factory::downloader().stop();
-    missio::factory::informer().stop();
+    chat::factory::downloader().stop();
+    chat::factory::informer().stop();
 }
 
 bool CInformerManager::IsOnline() const
 {
-    return (m_state == InformerOnline);
+    return InformerOnline == m_state;
 }
 
 bool CInformerManager::IsStandby() const
 {
-    return (m_state == InformerStandby);
+    return InformerStandby == m_state;
 }
 
 bool CInformerManager::IsOffline() const
 {
-    return (m_state == InformerOffline);
+    return InformerOffline == m_state;
 }
 
 InformerState CInformerManager::GetState() const
@@ -97,36 +97,36 @@ void CInformerManager::UpdateCredentials(std::wstring const& nickname, std::wstr
     {
         if(m_credentials.IsEmpty())
         {
-            missio::factory::informer().reset_credentials();
+            chat::factory::informer().reset_credentials();
         }
         else
         {
-            missio::factory::informer().set_credentials(
-                missio::credentials::create(nickname, password));
+            chat::factory::informer().set_credentials(
+                chat::credentials::create(nickname, password));
         }
     }
 }
 
-void CInformerManager::OnUserIconDownloaded(std::wstring const& nickname, missio::download::completion_event_args const& args)
+void CInformerManager::OnUserIconDownloaded(std::wstring const& nickname, chat::download::completion_event_args const& args)
 {
     if(!args.error)
         AddUserIcon(nickname, args.filename);
 }
 
-void CInformerManager::OnFavoriteIconDownloaded(missio::download::completion_event_args const& args)
+void CInformerManager::OnFavoriteIconDownloaded(chat::download::completion_event_args const& args)
 {
     if(!args.error)
         AddFavoriteIcon(args.download->uri(), args.filename);
 }
 
-void CInformerManager::OnInformerQuery(missio::query::pointer query)
+void CInformerManager::OnInformerQuery(chat::query::pointer query)
 {
     if(!query->error())
     {
         try
         {
-            json::object_cref json_data = query->json_data();
-            missio::factory::storage().update(json_data);
+            missio::json::object const& json_data = query->json_data();
+            chat::factory::storage().update(json_data);
 
             UpdateInformerState(json_data);
             CheckAuthorization(json_data);
@@ -142,13 +142,13 @@ void CInformerManager::OnInformerQuery(missio::query::pointer query)
     {
         switch(query->error())
         {
-            case missio::error::network_io_error:
-            case missio::error::bad_http_response:
+            case chat::error::network_io_error:
+            case chat::error::bad_http_response:
                 SetInformerState(InformerStandby);
                 break;
 
-            case missio::error::bad_server_data:
-            case missio::error::bad_server_status:
+            case chat::error::bad_server_data:
+            case chat::error::bad_server_status:
                 SetInformerState(InformerOffline);
                 break;
 
@@ -158,24 +158,26 @@ void CInformerManager::OnInformerQuery(missio::query::pointer query)
     }
 }
 
-void CInformerManager::OnEventsUpdated(missio::event::type event)
+void CInformerManager::OnEventsUpdated(chat::event::type event)
 {
     CManagerFactory::Get<CEventManager>().AddEvent(event);
 }
 
-void CInformerManager::UpdateInformerState(json::object_cref json_data)
+void CInformerManager::UpdateInformerState(missio::json::object const& json_data)
 {
-    if(json_data->contains("server_info"))
+    if(json_data.contains("server_info"))
+    {
         SetInformerState(InformerOnline);
+    }
 }
 
-void CInformerManager::CheckAuthorization(json::object_cref json_data)
+void CInformerManager::CheckAuthorization(missio::json::object const& json_data)
 {
-    if(json_data->contains("auth_result"))
+    if(json_data.contains("auth_result"))
     {
-        json::object_cref json_result = json_data["auth_result"];
+        missio::json::object const& json_result = json_data["auth_result"];
 
-        if(json_result->contains("bad_credentials"))
+        if(json_result.contains("bad_credentials"))
         {
             cfg::chat::bad_credentials = true;
             ShowNotification(IDS_AUTH_CREDENTIALS, IDD_LOGIN);
@@ -185,17 +187,17 @@ void CInformerManager::CheckAuthorization(json::object_cref json_data)
         {
             switch(json_result["error"].as<int>())
             {
-                case missio::server_error::generic:
-                case missio::server_error::db_connect:
-                case missio::server_error::db_query:
+                case chat::server_error::generic:
+                case chat::server_error::db_connect:
+                case chat::server_error::db_query:
                     TerminateApplication(IDS_AUTH_SERVER);
                     break;
 
-                case missio::server_error::need_id:
+                case chat::server_error::need_id:
                     TerminateApplication(IDS_AUTH_CLIENT);
                     break;
 
-                case missio::server_error::id_banned:
+                case chat::server_error::id_banned:
                     TerminateApplication(IDS_AUTH_BANNED);
                     break;
 
@@ -206,15 +208,15 @@ void CInformerManager::CheckAuthorization(json::object_cref json_data)
     }
 }
 
-void CInformerManager::UpdateFavoriteIcons(json::object_cref json_data)
+void CInformerManager::UpdateFavoriteIcons(missio::json::object const& json_data)
 {
-    if(json_data->contains("links"))
+    if(json_data.contains("links"))
     {
-        missio::link_list const& links = missio::factory::storage().links();
+        chat::link_list const& links = chat::factory::storage().links();
 
         for(std::size_t index = 0; index < links.size(); ++index)
         {
-            missio::link::pointer link = links[index];
+            chat::link::pointer link = links[index];
 
             net::http::uri uri = link->uri();
             std::wstring id = link->id();
@@ -231,18 +233,16 @@ void CInformerManager::UpdateFavoriteIcons(json::object_cref json_data)
     }
 }
 
-void CInformerManager::UpdateUserIcons(json::object_cref json_data)
+void CInformerManager::UpdateUserIcons(missio::json::object const& json_data)
 {
-    if(json_data->contains("icons"))
+    if(json_data.contains("icons"))
     {
-        json::array_cref json_icons = json_data["icons"];
+        missio::json::array const& json_icons = json_data["icons"];
 
-        for(std::size_t index = 0; index < json_icons->size(); ++index)
+        for(missio::json::object const& json_icon : json_icons)
         {
-            json::object_cref json_icon = json_icons[index];
-
-            std::wstring nickname = json_icon["nickname"];
-            std::wstring filename = json_icon["filename"];
+            std::wstring const nickname = json_icon["nickname"];
+            std::wstring const filename = json_icon["filename"];
 
             boost::filesystem::path path("data/icons/users");
             path /= boost::filesystem::path(filename);
@@ -265,7 +265,7 @@ void CInformerManager::SetInformerState(InformerState state)
         m_state_changed(m_state);
 
         if(InformerOnline != m_state)
-            missio::factory::storage().clear_users();
+            chat::factory::storage().clear_users();
     }
 }
 
@@ -294,16 +294,16 @@ void CInformerManager::DownloadFavoriteIcon(net::http::uri const& uri, boost::fi
     uri_builder.set_host(uri.host());
     uri_builder.set_path("favicon.ico");
 
-    missio::download::pointer download = missio::download::create(uri_builder.uri(),
+    chat::download::pointer download = chat::download::create(uri_builder.uri(),
         path, boost::bind(&CInformerManager::OnFavoriteIconDownloaded, this, _1));
 
-    missio::factory::downloader().add_download(download);
+    chat::factory::downloader().add_download(download);
 }
 
 void CInformerManager::AddFavoriteIcon(net::http::uri const& uri, boost::filesystem::path const& filename)
 {
     AddCustomIcon(uri.host(), filename);
-    missio::factory::storage().fire_links_updated();
+    chat::factory::storage().fire_links_updated();
 }
 
 void CInformerManager::DownloadUserIcon(std::wstring const& nickname, boost::filesystem::path const& filename)
@@ -314,21 +314,21 @@ void CInformerManager::DownloadUserIcon(std::wstring const& nickname, boost::fil
 
     net::http::uri_builder uri_builder;
 
-    uri_builder.set_host(missio::informer_hostname);
-    uri_builder.set_path(missio::informer_icon_path + filename.string());
+    uri_builder.set_host(chat::informer_hostname);
+    uri_builder.set_path(chat::informer_icon_path + filename.string());
 
-    missio::download::pointer download = missio::download::create(uri_builder.uri(),
+    chat::download::pointer download = chat::download::create(uri_builder.uri(),
         path, boost::bind(&CInformerManager::OnUserIconDownloaded, this, nickname, _1));
 
-    missio::factory::downloader().add_download(download);
+    chat::factory::downloader().add_download(download);
 }
 
 void CInformerManager::AddUserIcon(std::wstring const& nickname, boost::filesystem::path const& filename)
 {
     AddCustomIcon(nickname, filename);
 
-    if(missio::factory::storage().users().contains(nickname))
-        missio::factory::storage().update_users();
+    if(chat::factory::storage().users().contains(nickname))
+        chat::factory::storage().update_users();
 }
 
 void CInformerManager::AddCustomIcon(std::wstring const& id, boost::filesystem::path const& filename)

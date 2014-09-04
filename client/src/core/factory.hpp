@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_factory_hpp
-#define _missio_core_factory_hpp
+#ifndef _chat_core_factory_hpp
+#define _chat_core_factory_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -20,7 +20,7 @@
 #include <boost/scoped_ptr.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 class factory
@@ -43,6 +43,6 @@ private:
     static boost::scoped_ptr<net::http::downloader> downloader_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_factory_hpp
+#endif  // _chat_core_factory_hpp

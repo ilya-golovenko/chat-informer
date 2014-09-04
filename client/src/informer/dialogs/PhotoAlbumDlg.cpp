@@ -27,10 +27,10 @@ BOOL CPhotoAlbumDlg::OnInitDialog(HWND /*hWnd*/, LPARAM /*lParam*/)
     SetupDialogSize();
     CenterWindow();
 
-    missio::factory::storage().on_photoalbum_updated(
+    chat::factory::storage().on_photoalbum_updated(
         BindDialogHandler(&CPhotoAlbumDlg::OnPhotoAlbumUpdated));
 
-    //UpdatePhotoThumbnails(missio::factory::storage.photoalbum().fresh_photos());
+    //UpdatePhotoThumbnails(chat::factory::storage.photoalbum().fresh_photos());
 
     return TRUE;
 }
@@ -68,7 +68,7 @@ void CPhotoAlbumDlg::OnSize(UINT nType, CSize /*size*/)
 
 // Storage event handlers
 
-void CPhotoAlbumDlg::OnPhotoAlbumUpdated(missio::photoalbum const& photoalbum)
+void CPhotoAlbumDlg::OnPhotoAlbumUpdated(chat::photoalbum const& photoalbum)
 {
     UpdatePhotoThumbnails(photoalbum.fresh_photos());
 }
@@ -76,7 +76,7 @@ void CPhotoAlbumDlg::OnPhotoAlbumUpdated(missio::photoalbum const& photoalbum)
 // Downloader event handlers
 /*
 void CPhotoAlbumDlg::OnPhotoThumbnailDownloaded(std::wstring const& photoID,
-    missio::download::completion_event_args const& args)
+    chat::download::completion_event_args const& args)
 {
     if(IsWindow())
     {
@@ -89,7 +89,7 @@ void CPhotoAlbumDlg::OnPhotoThumbnailDownloaded(std::wstring const& photoID,
 */
 // Implementation
 
-void CPhotoAlbumDlg::UpdatePhotoThumbnails(missio::photo_list const& photos)
+void CPhotoAlbumDlg::UpdatePhotoThumbnails(chat::photo_list const& photos)
 {
     m_ctrlPhotoAlbum.Assign(photos);
 
@@ -97,17 +97,17 @@ void CPhotoAlbumDlg::UpdatePhotoThumbnails(missio::photo_list const& photos)
         DownloadPhotoThumbnail(photos[i]);
 }
 
-void CPhotoAlbumDlg::DownloadPhotoThumbnail(missio::photo const& photo)
+void CPhotoAlbumDlg::DownloadPhotoThumbnail(chat::photo const& photo)
 {
     boost::filesystem::path filename;// = L"data/photos"
         // / boost::filesystem::path(photo.thumb());
 
     if(!boost::filesystem::exists(filename))
     {
-        //TODO: missio::download::pointer download = missio::download::create(photo.get_thumb_uri(),
+        //TODO: chat::download::pointer download = chat::download::create(photo.get_thumb_uri(),
         //    filename, boost::bind(&CPhotoAlbumDlg::OnPhotoThumbnailDownloaded, this, photo.id(), _1));
 
-        //missio::factory::downloader().add_download(download);
+        //chat::factory::downloader().add_download(download);
         //m_downloads.push_back(download);
     }
 }

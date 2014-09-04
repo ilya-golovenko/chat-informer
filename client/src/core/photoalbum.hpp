@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_photos_photoalbum_hpp
-#define _missio_core_photos_photoalbum_hpp
+#ifndef _chat_core_photos_photoalbum_hpp
+#define _chat_core_photos_photoalbum_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -21,7 +21,7 @@
 #include <boost/noncopyable.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 class photoalbum :
@@ -33,12 +33,12 @@ public:
 
     photo_list const& fresh_photos() const;
 
-    bool update(json::object_cref json_data);
+    bool update(missio::json::object const& json_data);
 
 private:
     photo_list fresh_photos_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_photos_photoalbum_hpp
+#endif  // _chat_core_photos_photoalbum_hpp

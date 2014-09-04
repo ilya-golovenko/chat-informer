@@ -70,7 +70,7 @@ public:
         }
 
         bHandled = pT->IsMsgHandled();
-        return (LRESULT)FALSE;
+        return static_cast<LRESULT>(FALSE);
     }
 
     LRESULT OnMouseLeave(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
@@ -85,7 +85,7 @@ public:
         }
 
         bHandled = pT->IsMsgHandled();
-        return (LRESULT)FALSE;
+        return static_cast<LRESULT>(FALSE);
     }
 
     // Implementation

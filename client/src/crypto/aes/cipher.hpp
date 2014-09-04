@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of missio project
-//    Copyright (C) 2011 Ilya Golovenko
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _crypto_aes_cipher_hpp
-#define _crypto_aes_cipher_hpp
+#ifndef _chat_crypto_aes_cipher_hpp
+#define _chat_crypto_aes_cipher_hpp
 
 // AES headers
 #include <crypto/impl/aes/aes.h>
@@ -14,13 +14,14 @@
 #include <boost/noncopyable.hpp>
 
 
+namespace chat
+{
 namespace crypto
 {
 namespace aes
 {
 
-class cipher :
-    private boost::noncopyable
+class cipher : private boost::noncopyable
 {
 public:
     static unsigned char const key_length = 16;
@@ -42,5 +43,6 @@ private:
 
 }   // namespace aes
 }   // namespace crypto
+}   // namespace chat
 
-#endif  // _crypto_aes_cipher_hpp
+#endif  // _chat_crypto_aes_cipher_hpp

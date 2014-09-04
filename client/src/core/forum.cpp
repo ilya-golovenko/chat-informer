@@ -9,7 +9,7 @@
 #include <core/forum.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 forum::forum()
@@ -25,12 +25,14 @@ forum_topic_list const& forum::topics() const
     return topics_;
 }
 
-bool forum::update(json::object_cref json_data)
+bool forum::update(missio::json::object const& json_data)
 {
-    if(json_data->contains("forum"))
+    if(json_data.contains("forum"))
+    {
         return topics_.update(json_data["forum"]);
+    }
 
     return false;
 }
 
-}   // namespace missio
+}   // namespace chat

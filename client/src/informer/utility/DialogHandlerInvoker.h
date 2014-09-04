@@ -26,49 +26,18 @@ template
 class DialogHandlerInvoker
 {
 public:
-    static void Invoke(Function function)
+    template <typename ...Args>
+    static void Invoke(Function function, Args const& ...args)
     {
         if(boost::shared_ptr<Dialog> dialog = FindDialog())
         {
             try
             {
-                ((*dialog).*function)();
+                ((*dialog).*function)(args...);
             }
             catch(std::exception const& e)
             {
-                LOG_ERROR("caught exception: {0}", e.what());
-            }
-        }
-    }
-
-    template <typename Arg0>
-    static void Invoke(Function function, Arg0 const& arg0)
-    {
-        if(boost::shared_ptr<Dialog> dialog = FindDialog())
-        {
-            try
-            {
-                ((*dialog).*function)(arg0);
-            }
-            catch(std::exception const& e)
-            {
-                LOG_ERROR("caught exception: {0}", e.what());
-            }
-        }
-    }
-
-    template <typename Arg0, typename Arg1>
-    static void Invoke(Function function, Arg0 const& arg0, Arg1 const& arg1)
-    {
-        if(boost::shared_ptr<Dialog> dialog = FindDialog())
-        {
-            try
-            {
-                ((*dialog).*function)(arg0, arg1);
-            }
-            catch(std::exception const& e)
-            {
-                LOG_ERROR("caught exception: {0}", e.what());
+                LOG_ERROR("caught exception: ", e);
             }
         }
     }

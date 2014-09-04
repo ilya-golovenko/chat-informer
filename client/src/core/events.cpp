@@ -9,10 +9,10 @@
 #include <core/events.hpp>
 
 // MISSIO headers
-#include <missio/utf8/convert.hpp>
+#include <missio/unicode/convert.hpp>
 
 
-namespace missio
+namespace chat
 {
 namespace event
 {
@@ -35,8 +35,8 @@ std::string to_string(type event)
 
 std::wstring to_wstring(type event)
 {
-    return utf8::convert(to_string(event));
+    return missio::unicode::to_wide_string(to_string(event));
 }
 
 }   // namespace event
-}   // namespace missio
+}   // namespace chat

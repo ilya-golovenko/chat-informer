@@ -19,7 +19,7 @@
 #include <algorithm>
 
 
-namespace missio
+namespace chat
 {
 
 forum_topic_list::forum_topic_list()
@@ -52,27 +52,24 @@ forum_topic_list& forum_topic_list::operator=(forum_topic_list const& other)
     return *this;
 }
 
-bool forum_topic_list::update(json::object_cref json_data)
+bool forum_topic_list::update(missio::json::object const& json_data)
 {
     bool updated = false;
 
-    if(json_data->contains("topics"))
+    if(json_data.contains("topics"))
     {
-        json::array_cref json_topics = json_data["topics"];
+        missio::json::array const& json_topics = json_data["topics"];
 
-        for(std::size_t i = 0; i < json_topics->size(); ++i)
+        for(missio::json::object const& json_topic : json_topics)
         {
-            json::object_cref json_topic = json_topics[i];
+            std::wstring const id = json_topic["id"];
+            std::wstring const title = json_topic["title"];
 
-            std::wstring topic_id = json_topic["id"];
-            std::wstring title = json_topic["title"];
-
-            iterator it = find(topic_id);
+            iterator it = find(id);
 
             if(it == end())
             {
-                forum_topic topic(topic_id, title);
-                topics_.push_back(std::move(topic));
+                topics_.emplace_back(id, title);
                 it = boost::prior(topics_.end());
             }
 
@@ -171,7 +168,7 @@ forum_topic_list::const_iterator forum_topic_list::find(std::wstring const& topi
 
 bool forum_topic_list::contains(std::wstring const& topic_id) const
 {
-    return (find(topic_id) != end());
+    return find(topic_id) != end();
 }
 
 std::size_t forum_topic_list::index_of(std::wstring const& topic_id) const
@@ -219,4 +216,4 @@ void forum_topic_list::sort_topic_list()
     boost::sort(topics_, boost::bind(&forum_topic::time, _1) < boost::bind(&forum_topic::time, _2));
 }
 
-}   // namespace missio
+}   // namespace chat

@@ -22,12 +22,12 @@ BOOL CAboutDlg::OnInitDialog(HWND /*hWnd*/, LPARAM /*lParam*/)
     DoDataExchange(DDX_LOAD);
     SetTimer(ID_TIMER_TRAFFIC, 500);
 
-    missio::storage& storage = missio::factory::storage();
-    missio::version const& version = storage.server_version();
+    chat::storage& storage = chat::factory::storage();
+    chat::version const& version = storage.server_version();
 
-    if(missio::version::unknown != version)
+    if(chat::version::unknown != version)
     {
-        if(version > missio::informer_version)
+        if(version > chat::informer_version)
             m_btnUpdate.ShowWindow(SW_SHOW);
     }
 
@@ -69,7 +69,7 @@ void CAboutDlg::UpdateInformerVersion()
 {
     DoDataExchange(DDX_SAVE, IDC_INFORMERNAME);
 
-    missio::version version = missio::informer_version;
+    chat::version version = chat::informer_version;
     std::wstring version_string = version.to_wstring();
 
     m_strInformerName += version_string.c_str();

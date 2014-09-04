@@ -8,6 +8,12 @@
 // Application headers
 #include <informer/common/Application.h>
 
+// ATL/WTL headers
+#include <atlbase.h>
+#include <atlwin.h>
+#include <atlapp.h>
+#include <atlctrls.h>
+
 
 CApplication _Application;
 

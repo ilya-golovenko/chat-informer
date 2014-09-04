@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_query_queue_hpp
-#define _missio_core_query_queue_hpp
+#ifndef _chat_core_query_queue_hpp
+#define _chat_core_query_queue_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -30,7 +30,7 @@
 #include <vector>
 
 /*
-namespace missio
+namespace chat
 {
 
 class query_queue :
@@ -66,6 +66,6 @@ private:
     util::async_timer timer_;
 };
 
-}   // namespace missio
+}   // namespace chat
 */
-#endif  // _missio_core_query_queue_hpp
+#endif  // _chat_core_query_queue_hpp

@@ -16,7 +16,7 @@
 #include <boost/bind.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 chat_user_list::chat_user_list()
@@ -175,7 +175,7 @@ chat_user const& chat_user_list::operator[](std::wstring const& nickname) const
 
 bool chat_user_list::contains(std::wstring const& nickname) const
 {
-    return (find(nickname) != end());
+    return find(nickname) != end();
 }
 
 std::size_t chat_user_list::index_of(std::wstring const& nickname) const
@@ -198,7 +198,7 @@ bool chat_user_list::compare(chat_user const& left, chat_user const& right, bool
     if(by_nickname)
         return boost::algorithm::ilexicographical_compare(left.nickname(), right.nickname());
 
-    return (left.sex() != right.sex() ? left.sex() > right.sex() : compare(left, right, true));
+    return left.sex() != right.sex() ? left.sex() > right.sex() : compare(left, right, true);
 }
 
-}   // namespace missio
+}   // namespace chat

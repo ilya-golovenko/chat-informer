@@ -17,11 +17,11 @@ BOOL CBirthdaysDlg::OnInitDialog(HWND /*hWnd*/, LPARAM /*lParam*/)
     SetMsgHandled(FALSE);
     DoDataExchange(DDX_LOAD);
 
-    missio::factory::storage().on_users_updated(
+    chat::factory::storage().on_users_updated(
         BindDialogHandler(&CBirthdaysDlg::OnUsersUpdated));
 
-    SetWindowCaption(missio::factory::storage().users().get_birthdays_today());
-    m_ctrlUserList.Assign(missio::factory::storage().users().get_birthday_users());
+    SetWindowCaption(chat::factory::storage().users().get_birthdays_today());
+    m_ctrlUserList.Assign(chat::factory::storage().users().get_birthday_users());
 
     return TRUE;
 }
@@ -38,7 +38,7 @@ void CBirthdaysDlg::OnOK(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 
 // Storage event handlers
 
-void CBirthdaysDlg::OnUsersUpdated(missio::chat_user_cache const& users)
+void CBirthdaysDlg::OnUsersUpdated(chat::chat_user_cache const& users)
 {
     SetWindowCaption(users.get_birthdays_today());
     m_ctrlUserList.Assign(users.get_birthday_users());

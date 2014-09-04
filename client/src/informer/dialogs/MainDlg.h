@@ -130,11 +130,11 @@ public:
     void OnMenu(UINT /*uNotifyCode*/, int /*nID*/, HWND hWnd);
 
     // Storage event handlers
-    void OnUsersUpdated(missio::chat_user_cache const& users);
+    void OnUsersUpdated(chat::chat_user_cache const& users);
 
     // EventManager event handlers
-    void OnEventAdded(missio::event::type event);
-    void OnEventRemoved(missio::event::type event);
+    void OnEventAdded(chat::event::type event);
+    void OnEventRemoved(chat::event::type event);
 
     // Informer manager event handlers
     void OnStateChanged(InformerState state);

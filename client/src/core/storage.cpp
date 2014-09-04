@@ -13,7 +13,7 @@
 #include <boost/ref.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 storage::storage()
@@ -54,7 +54,7 @@ missio::version const& storage::server_version() const
     return server_version_;
 }
 
-void storage::update(json::object_cref json_data)
+void storage::update(missio::json::object const& json_data)
 {
     update_server_version(json_data);
     update_photoalbum(json_data);
@@ -123,13 +123,13 @@ void storage::fire_links_updated()
     links_updated_(boost::cref(links_));
 }
 
-void storage::update_server_version(json::object_cref json_data)
+void storage::update_server_version(missio::json::object const& json_data)
 {
-    if(json_data->contains("server_info"))
+    if(json_data.contains("server_info"))
     {
-        int major = json_data["server_info"]["version"]["major"];
-        int minor = json_data["server_info"]["version"]["minor"];
-        int build = json_data["server_info"]["version"]["build"];
+        int const major = json_data["server_info"]["version"]["major"];
+        int const minor = json_data["server_info"]["version"]["minor"];
+        int const build = json_data["server_info"]["version"]["build"];
 
         server_version_ = version(major, minor, build);
 
@@ -138,7 +138,7 @@ void storage::update_server_version(json::object_cref json_data)
     }
 }
 
-void storage::update_photoalbum(json::object_cref json_data)
+void storage::update_photoalbum(missio::json::object const& json_data)
 {
     if(photoalbum_.update(json_data))
     {
@@ -147,7 +147,7 @@ void storage::update_photoalbum(json::object_cref json_data)
     }
 }
 
-void storage::update_users(json::object_cref json_data)
+void storage::update_users(missio::json::object const& json_data)
 {
     if(users_.update(json_data))
     {
@@ -156,7 +156,7 @@ void storage::update_users(json::object_cref json_data)
     }
 }
 
-void storage::update_forum(json::object_cref json_data)
+void storage::update_forum(missio::json::object const& json_data)
 {
     if(forum_.update(json_data))
     {
@@ -165,7 +165,7 @@ void storage::update_forum(json::object_cref json_data)
     }
 }
 
-void storage::update_links(json::object_cref json_data)
+void storage::update_links(missio::json::object const& json_data)
 {
     if(links_.update(json_data))
     {
@@ -174,7 +174,7 @@ void storage::update_links(json::object_cref json_data)
     }
 }
 
-void storage::update_news(json::object_cref json_data)
+void storage::update_news(missio::json::object const& json_data)
 {
     if(news_.update(json_data))
     {
@@ -183,4 +183,4 @@ void storage::update_news(json::object_cref json_data)
     }
 }
 
-}   // namespace missio
+}   // namespace chat

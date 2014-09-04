@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_events_hpp
-#define _missio_core_events_hpp
+#ifndef _chat_core_events_hpp
+#define _chat_core_events_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -16,7 +16,7 @@
 #include <string>
 
 
-namespace missio
+namespace chat
 {
 namespace event
 {
@@ -42,6 +42,6 @@ inline std::ostream& operator<<(std::ostream& os, type event)
 }
 
 }   // namespace event
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_events_hpp
+#endif  // _chat_core_events_hpp

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2012, 2013 Ilya Golovenko
+//    Copyright (C) 2012, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -28,7 +28,7 @@ struct type_adapter<WTL::CString>
     template <typename Sink>
     static void format(Sink& sink, WTL::CString const& value)
     {
-        format_value(sink, static_cast<LPCWSTR>(value));
+        write(sink, static_cast<LPCWSTR>(value));
     }
 };
 

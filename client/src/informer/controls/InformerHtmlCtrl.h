@@ -150,7 +150,7 @@ public:
     BOOL OnSetCursor(HWND /*hWnd*/, UINT nHitTest, UINT /*message*/)
     {
         return FALSE;
-//        return (m_old_link && HTCLIENT == nHitTest ? TRUE : FALSE);
+//        return m_old_link && HTCLIENT == nHitTest ? TRUE : FALSE;
     }
 
     LRESULT OnMsgNotify(LPNMHDR pnmh)

@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _utility_simple_event_hpp
-#define _utility_simple_event_hpp
+#ifndef _chat_utility_simple_event_hpp
+#define _chat_utility_simple_event_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -17,7 +17,7 @@
 #include <boost/thread.hpp>
 
 
-namespace util
+namespace chat
 {
 
 class simple_event :
@@ -67,6 +67,6 @@ private:
     event_type event_;
 };
 
-}   // namespace util
+}   // namespace chat
 
-#endif  // _utility_simple_event_hpp
+#endif  // _chat_utility_simple_event_hpp

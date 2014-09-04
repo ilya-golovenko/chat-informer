@@ -16,7 +16,7 @@
 #include <utility>
 
 
-namespace missio
+namespace chat
 {
 
 photo::photo(std::wstring const& id,
@@ -118,7 +118,7 @@ std::wstring photo::get_photo_uri() const
 {
     std::wstring uri;
 
-    format::print(uri, photoalbum_photo_uri, id_);
+    missio::format::print(uri, photoalbum_photo_uri, id_);
 
     return uri;
 }
@@ -127,9 +127,9 @@ std::wstring photo::get_thumb_uri() const
 {
     std::wstring uri;
 
-    format::print(uri, photoalbum_thumb_uri, thumb_);
+    missio::format::print(uri, photoalbum_thumb_uri, thumb_);
 
     return uri;
 }
 
-}   // namespace missio
+}   // namespace chat

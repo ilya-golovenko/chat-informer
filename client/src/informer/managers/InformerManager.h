@@ -45,15 +45,15 @@ public:
     void UpdateCredentials(std::wstring const& nickname, std::wstring const& password);
 
 private:
-    //void OnUserIconDownloaded(std::wstring const& nickname, missio::download::completion_event_args const& args);
-    //void OnFavoriteIconDownloaded(missio::download::completion_event_args const& args);
-    void OnInformerQuery(missio::query::pointer query);
-    void OnEventsUpdated(missio::event::type event);
+    //void OnUserIconDownloaded(std::wstring const& nickname, chat::download::completion_event_args const& args);
+    //void OnFavoriteIconDownloaded(chat::download::completion_event_args const& args);
+    void OnInformerQuery(chat::query::pointer query);
+    void OnEventsUpdated(chat::event::type event);
 
-    void UpdateInformerState(json::object_cref data);
-    void CheckAuthorization(json::object_cref data);
-    void UpdateFavoriteIcons(json::object_cref data);
-    void UpdateUserIcons(json::object_cref data);
+    void UpdateInformerState(missio::json::object const& data);
+    void CheckAuthorization(missio::json::object const& data);
+    void UpdateFavoriteIcons(missio::json::object const& data);
+    void UpdateUserIcons(missio::json::object const& data);
 
     void SetInformerState(InformerState state);
     void TerminateApplication(UINT stringID);

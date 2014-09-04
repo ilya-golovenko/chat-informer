@@ -652,7 +652,7 @@ public:
         }
 
         if(itemID > m_topIndex)
-            return (itemID - m_topIndex);
+            return itemID - m_topIndex;
 
         return 1;
     }

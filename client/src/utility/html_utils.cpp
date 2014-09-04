@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@
 #include <boost/algorithm/string.hpp>
 
 
-namespace util
+namespace chat
 {
 
 //TODO: reuse boost spirit qi & karam here
@@ -42,4 +42,4 @@ std::string unescape_html(std::string const& string)
     return output;
 }
 
-}   // namespace util
+}   // namespace chat

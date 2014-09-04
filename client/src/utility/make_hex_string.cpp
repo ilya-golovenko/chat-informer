@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -9,10 +9,10 @@
 #include <utility/make_hex_string.hpp>
 
 
-namespace util
+namespace chat
 {
 
-char const hex_digits[] = "0123456789ABCDEF";
+static char const hex_digits[] = "0123456789ABCDEF";
 
 std::string make_hex_string(unsigned char const* input, std::size_t size)
 {
@@ -28,4 +28,4 @@ std::string make_hex_string(unsigned char const* input, std::size_t size)
     return output;
 }
 
-}   // namespace util
+}   // namespace chat

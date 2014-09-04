@@ -20,8 +20,8 @@ BOOL CUpdateDlg::OnInitDialog(HWND /*hWnd*/, LPARAM /*lParam*/)
 {
     SetMsgHandled(FALSE);
 
-    missio::storage& storage = missio::factory::storage();
-    missio::version const& version = storage.server_version(); 
+    chat::storage& storage = chat::factory::storage();
+    chat::version const& version = storage.server_version(); 
 
     m_strMessage.Format(IDS_UPDATE_READY, version.to_string().c_str());
 
@@ -60,7 +60,7 @@ void CUpdateDlg::OnCancel(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 
 // Downloader events
 /*
-void CUpdateDlg::OnSetupDownloadProgress(missio::download::progress_event_args const& args)
+void CUpdateDlg::OnSetupDownloadProgress(chat::download::progress_event_args const& args)
 {
     if(IsWindow())
     {
@@ -69,7 +69,7 @@ void CUpdateDlg::OnSetupDownloadProgress(missio::download::progress_event_args c
     }
 }
 
-void CUpdateDlg::OnSetupDownloadCompleted(missio::download::completion_event_args const& args)
+void CUpdateDlg::OnSetupDownloadCompleted(chat::download::completion_event_args const& args)
 {
     if(IsWindow())
     {
@@ -84,28 +84,28 @@ void CUpdateDlg::OnSetupDownloadCompleted(missio::download::completion_event_arg
 
 void CUpdateDlg::StartDownloadingSetupExecutable()
 {
-    missio::storage& storage = missio::factory::storage();
-    missio::version const& version = storage.server_version(); 
+    chat::storage& storage = chat::factory::storage();
+    chat::version const& version = storage.server_version(); 
 
-    if(missio::version::unknown != version)
+    if(chat::version::unknown != version)
     {
         std::string filename;
 
-        format::print(filename, missio::informer_setup_file,
+        missio::format::print(filename, chat::informer_setup_file,
             version.major(), version.minor(), version.build());
 
         boost::filesystem::path path = boost::filesystem::temp_directory_path() / filename;
 
         net::http::uri_builder uri_builder;
 
-        uri_builder.set_host(missio::informer_hostname);
-        uri_builder.set_path(missio::informer_setup_path + filename);
+        uri_builder.set_host(chat::informer_hostname);
+        uri_builder.set_path(chat::informer_setup_path + filename);
 /*
-        m_setup_download = missio::download::create(uri_builder.uri(),
+        m_setup_download = chat::download::create(uri_builder.uri(),
             path, boost::bind(&CUpdateDlg::OnSetupDownloadProgress, this, _1),
             boost::bind(&CUpdateDlg::OnSetupDownloadCompleted, this, _1));
 */
-        missio::factory::downloader().add_download(m_setup_download);
+        chat::factory::downloader().add_download(m_setup_download);
     }
     else
     {
@@ -120,7 +120,7 @@ void CUpdateDlg::RunSetupExecutable(boost::filesystem::path const& filename)
     std::string parameters;
 
     boost::filesystem::path directory = boost::filesystem::initial_path();
-    format::print(parameters, missio::informer_setup_params, directory);
+    missio::format::print(parameters, chat::informer_setup_params, directory);
 
     try
     {

@@ -49,15 +49,15 @@ public:
     void OnDestroy();
 
     // Storage event handlers
-    void OnNewsUpdated(missio::news const& news);
+    void OnNewsUpdated(chat::news const& news);
 
     // Downloader event handlers
-    void OnTemplateDownloaded(missio::download::pointer download,
-                             boost::system::error_code const& error);
+    void OnTemplateDownloaded(chat::download::pointer download,
+                              boost::system::error_code const& error);
 
     // Implementation
-    void UpdateNews(missio::news const& news);
+    void UpdateNews(chat::news const& news);
 
 private:
-    missio::download::pointer m_download;
+    chat::download::pointer m_download;
 };

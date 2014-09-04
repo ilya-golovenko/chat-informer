@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@
 #include <cctype>
 
 
-namespace util
+namespace chat
 {
 
 raw_buffer::raw_buffer()
@@ -28,8 +28,7 @@ raw_buffer::raw_buffer()
 
 raw_buffer::~raw_buffer()
 {
-    if(buffer_)
-        std::free(buffer_);
+    std::free(buffer_);
 }
 
 raw_buffer::raw_buffer(std::size_t size)
@@ -195,7 +194,7 @@ void raw_buffer::allocate(std::size_t size)
             void* new_buffer = std::realloc(buffer_, new_size);
 
             if(!new_buffer)
-                throw std::runtime_error("not enough memory");
+                throw std::bad_alloc();
 
             buffer_ = reinterpret_cast<value_type*>(new_buffer);
 
@@ -261,4 +260,4 @@ std::ostream& operator<<(std::ostream& os, raw_buffer const& buffer)
     return os;
 }
 
-}   // namespace util
+}   // namespace chat

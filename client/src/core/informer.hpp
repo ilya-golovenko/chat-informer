@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_informer_hpp
-#define _missio_core_informer_hpp
+#ifndef _chat_core_informer_hpp
+#define _chat_core_informer_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -35,7 +35,7 @@
 #include <string>
 
 
-namespace missio
+namespace chat
 {
 
 class informer :
@@ -77,12 +77,12 @@ private:
     std::string encrypt(std::string const& data);
     std::string decrypt(std::string const& data);
 
-    void append_auth_data(json::object_ref json_data);
+    void append_auth_data(missio::json::object& json_data);
     net::http::request create_request(std::string const& data);
     net::http::request create_info_request(query::pointer query);
 
     error::type process_query_response(query::pointer query);
-    void process_response_data(json::object_cref json_data);
+    void process_response_data(missio::json::object const& json_data);
 
     void handle_info(query::pointer query, boost::system::error_code const& error);
     void handle_query_timer(info::type info, boost::system::error_code const& error);
@@ -117,6 +117,6 @@ private:
     net::http::client_session::pointer session_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_informer_hpp
+#endif  // _chat_core_informer_hpp

@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_news_news_hpp
-#define _missio_core_news_news_hpp
+#ifndef _chat_core_news_news_hpp
+#define _chat_core_news_news_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -18,7 +18,7 @@
 #include <string>
 
 
-namespace missio
+namespace chat
 {
 
 class news
@@ -32,7 +32,7 @@ public:
 
     void assign(news const& other);
 
-    bool update(json::object_cref json_data);
+    bool update(missio::json::object const& json_data);
 
     std::wstring const& admin_news() const;
     std::wstring const& moder_news() const;
@@ -48,6 +48,6 @@ private:
     std::wstring moder_news_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_news_news_hpp
+#endif  // _chat_core_news_news_hpp

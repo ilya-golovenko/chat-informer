@@ -12,7 +12,7 @@
 #include <crypto/common.hpp>
 
 // MISSIO headers
-#include <missio/utf8/convert.hpp>
+#include <missio/unicode/convert.hpp>
 
 
 CCredentials::CCredentials()
@@ -29,17 +29,17 @@ bool CCredentials::IsEmpty() const
     std::string const nickname = cfg::chat::nickname;
     std::string const password = cfg::chat::password;
 
-    return (nickname.empty() || password.empty());
+    return nickname.empty() || password.empty();
 }
 
 std::wstring CCredentials::GetNickName() const
 {
-    return utf8::convert(GetNickNameUTF8());
+    return missio::unicode::to_wide_string(GetNickNameUTF8());
 }
 
 std::wstring CCredentials::GetPassword() const
 {
-    return utf8::convert(GetPasswordUTF8());
+    return missio::unicode::to_wide_string(GetPasswordUTF8());
 }
 
 std::string CCredentials::GetNickNameUTF8() const
@@ -54,7 +54,7 @@ std::string CCredentials::GetPasswordUTF8() const
     if(!password.empty())
     {
         password = net::util::base64::decode(password);
-        password = crypto::decrypt(password, missio::crypto_key);
+        password = crypto::decrypt(password, chat::crypto_key);
     }
 
     return password;
@@ -75,12 +75,12 @@ bool CCredentials::Update(std::wstring const& nickname, std::wstring const& pass
 
     if(nickname != old_nickname || password != old_password)
     {
-        std::string utf8_nickname = utf8::convert(nickname);
-        std::string utf8_password = utf8::convert(password);
+        std::string utf8_nickname = missio::unicode::to_utf8_string(nickname);
+        std::string utf8_password = missio::unicode::to_utf8_string(password);
 
         if(!utf8_password.empty())
         {
-            utf8_password = crypto::encrypt(utf8_password, missio::crypto_key);
+            utf8_password = crypto::encrypt(utf8_password, chat::crypto_key);
             utf8_password = net::util::base64::encode(utf8_password);
         }
 

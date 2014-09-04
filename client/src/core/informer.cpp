@@ -22,7 +22,7 @@
 #include <boost/bind.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 informer::informer() :
@@ -166,7 +166,7 @@ void informer::start_available_queries()
 /*
         if(!queries_.empty())
         {
-            json::value data;
+            missio::json::value data;
             bool need_auth = false;
 
             info_set::iterator begin = queries_.begin();
@@ -266,15 +266,13 @@ std::string informer::decrypt(std::string const& data)
     return crypto::decrypt(data, crypto_manager_);
 }
 
-void informer::append_auth_data(json::object_ref json_data)
+void informer::append_auth_data(missio::json::object& json_data)
 {
-    json::object_ref auth_data = json_data["auth_data"];
-
-    auth_data["instance_id"] = instance_id_.to_string();
-    auth_data["version"] = informer_version.to_string();
+    json_data["auth_data"]["instance_id"] = instance_id_.to_string();
+    json_data["auth_data"]["version"] = informer_version.to_string();
 
     //if(!credentials_.empty())
-    //    auth_data["credentials"] = credentials_.to_string();
+    //    json_data["auth_data"]["credentials"] = credentials_.to_string();
 }
 
 net::http::request informer::create_request(std::string const& data)
@@ -303,7 +301,7 @@ net::http::request informer::create_info_request(query::pointer query)
     if(query->need_auth())
         append_auth_data(query->json_data());
 
-    std::string data = json::write(query->json_data());
+    std::string data = missio::json::write(query->json_data());
     net::http::request request = create_request(encrypt(data));
 
     request.add("X-Chat-Informer-ID", informer_id_);
@@ -325,7 +323,7 @@ error::type informer::process_query_response(query::pointer query)
         return error::bad_http_response;
 
     std::string data = decrypt(response.content());
-    json::value json_data = json::read(data);
+    missio::json::value json_data = missio::json::read(data);
 
     if(!json_data["server_status"].as<bool>())
         return error::bad_server_status;
@@ -336,11 +334,11 @@ error::type informer::process_query_response(query::pointer query)
     return error::successful;
 }
 
-void informer::process_response_data(json::object_cref json_data)
+void informer::process_response_data(missio::json::object const& json_data)
 {
-    if(json_data->contains("refresh"))
+    if(json_data.contains("refresh"))
     {
-        json::object_cref event_refresh = json_data["refresh"];
+        missio::json::object const& event_refresh = json_data["refresh"];
 /*
         for(info::type info = info::type_first;
             info <= info::type_last; ++info)
@@ -370,7 +368,7 @@ void informer::handle_info(query::pointer query, boost::system::error_code const
             {
                 query_error = process_query_response(query);
             }
-            catch(json::exception const& e)
+            catch(missio::json::exception const& e)
             {
                 LOG_ERROR("caught exception: ", e);
                 query_error = error::bad_server_data;
@@ -434,4 +432,4 @@ void informer::call_handler(query::pointer query, error::type error)
     }
 }
 
-}   // namespace missio
+}   // namespace chat

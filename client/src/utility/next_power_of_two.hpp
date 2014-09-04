@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2012, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _utility_next_power_of_two_hpp
-#define _utility_next_power_of_two_hpp
+#ifndef _chat_utility_next_power_of_two_hpp
+#define _chat_utility_next_power_of_two_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -15,11 +15,11 @@
 #include <cstddef>
 
 
-namespace util
+namespace chat
 {
 
 template <typename T>
-unsigned T next_power_of_two(unsigned T value)
+T next_power_of_two(T value)
 {
     if(value)
     {
@@ -41,6 +41,6 @@ unsigned T next_power_of_two(unsigned T value)
     return ++value;
 }
 
-}   // namespace util
+}   // namespace chat
 
-#endif  // _utility_next_power_of_two_hpp
+#endif  // _chat_utility_next_power_of_two_hpp

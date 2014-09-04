@@ -20,17 +20,17 @@ public:
     virtual void Initialize();
     virtual void Finalize();
 
-    void AddEvent(missio::event::type event);
-    void RemoveEvent(missio::event::type event);
+    void AddEvent(chat::event::type event);
+    void RemoveEvent(chat::event::type event);
     void ClearEvents();
 
     bool ContainsEvents() const;
-    bool ContainsEvent(missio::event::type event) const;
+    bool ContainsEvent(chat::event::type event) const;
 
-    missio::event::type GetEvent();
-    missio::event::type PeekEvent() const;
+    chat::event::type GetEvent();
+    chat::event::type PeekEvent() const;
 
-    void ShowEventNotification(missio::event::type event) const;
+    void ShowEventNotification(chat::event::type event) const;
 
     template <typename Handler>
     void OnEventAdded(Handler const& handler);
@@ -39,15 +39,15 @@ public:
     void OnEventRemoved(Handler const& handler);
 
 public:
-    static int GetEventStringID(missio::event::type event);
-    static int GetEventDialogID(missio::event::type event);
+    static int GetEventStringID(chat::event::type event);
+    static int GetEventDialogID(chat::event::type event);
 
 private:
-    boost::signals2::signal<void (missio::event::type)> m_event_added;
-    boost::signals2::signal<void (missio::event::type)> m_event_removed;
+    boost::signals2::signal<void (chat::event::type)> m_event_added;
+    boost::signals2::signal<void (chat::event::type)> m_event_removed;
 
 private:
-    std::set<missio::event::type> m_events;
+    std::set<chat::event::type> m_events;
 };
 
 template <typename Handler>

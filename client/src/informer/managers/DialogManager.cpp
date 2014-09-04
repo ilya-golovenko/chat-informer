@@ -159,7 +159,7 @@ bool CDialogManager::IsDialogVisible(int dialogID) const
     ATL::CWindow dialog = GetDialog(dialogID);
 
     if(TRUE == dialog.IsWindow())
-        return (TRUE == dialog.IsWindowVisible());
+        return TRUE == dialog.IsWindowVisible();
 
     return false;
 }
@@ -167,7 +167,7 @@ bool CDialogManager::IsDialogVisible(int dialogID) const
 ATL::CWindow CDialogManager::GetDialog(int dialogID) const
 {
     dialog_map::const_iterator it = m_dialog_map.find(dialogID);
-    return (it != m_dialog_map.end() ? *it->second : ATL::CWindow(NULL));
+    return it != m_dialog_map.end() ? *it->second : ATL::CWindow(NULL);
 }
 
 void CDialogManager::ShowUserInfo(ATL::CString const& strNickName)
@@ -223,7 +223,7 @@ void CDialogManager::RegisterDialog(int dialogID, create_function create)
 CDialogManager::dialog_pointer CDialogManager::FindDialog(int dialogID) const
 {
     dialog_map::const_iterator it = m_dialog_map.find(dialogID);
-    return (it != m_dialog_map.end() ? it->second : dialog_pointer());
+    return it != m_dialog_map.end() ? it->second : dialog_pointer();
 }
 
 dialog_pointer CDialogManager::CreateDialog(int dialogID)

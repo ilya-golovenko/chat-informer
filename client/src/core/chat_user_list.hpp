@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_chat_user_list_hpp
-#define _missio_core_chat_user_list_hpp
+#ifndef _chat_core_chat_user_list_hpp
+#define _chat_core_chat_user_list_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -19,7 +19,7 @@
 #include <string>
 
 
-namespace missio
+namespace chat
 {
 
 class chat_user_list
@@ -88,6 +88,6 @@ private:
     std::vector<chat_user> users_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_chat_user_list_hpp
+#endif  // _chat_core_chat_user_list_hpp

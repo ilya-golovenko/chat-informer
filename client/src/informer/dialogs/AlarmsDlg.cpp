@@ -38,10 +38,10 @@ BOOL CAlarmsDlg::OnInitDialog(HWND /*hWnd*/, LPARAM /*lParam*/)
 
     m_ctrlNickName.SetLimitText(32);
 
-    missio::factory::storage().on_users_updated(
+    chat::factory::storage().on_users_updated(
         BindDialogHandler(&CAlarmsDlg::OnUsersUpdated));
 
-    m_ctrlUserList.Assign(missio::factory::storage().users().get_alarm_users());
+    m_ctrlUserList.Assign(chat::factory::storage().users().get_alarm_users());
 
     return TRUE;
 }
@@ -56,7 +56,7 @@ void CAlarmsDlg::OnAdd(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
     if(!m_strNickName.IsEmpty())
     {
         std::wstring nickname = m_strNickName;
-        missio::factory::storage().add_alarm(nickname);
+        chat::factory::storage().add_alarm(nickname);
 
         m_strNickName.Empty();
         m_ctrlNickName.SetFocus();
@@ -71,14 +71,14 @@ void CAlarmsDlg::OnRemove(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 
     if(LB_ERR != itemID)
     {
-        //missio::chat_user_list const& users = m_ctrlUserList.GetUserList();
-        //missio::factory::storage().remove_alarm(users[itemID].nickname());
+        //chat::chat_user_list const& users = m_ctrlUserList.GetUserList();
+        //chat::factory::storage().remove_alarm(users[itemID].nickname());
     }
 }
 
 void CAlarmsDlg::OnClear(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 {
-    missio::factory::storage().clear_alarms();
+    chat::factory::storage().clear_alarms();
 }
 
 void CAlarmsDlg::OnOK(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
@@ -88,7 +88,7 @@ void CAlarmsDlg::OnOK(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 
 // Storage event handlers
 
-void CAlarmsDlg::OnUsersUpdated(missio::chat_user_cache const& users)
+void CAlarmsDlg::OnUsersUpdated(chat::chat_user_cache const& users)
 {
     m_ctrlUserList.Assign(users.get_alarm_users());
 }

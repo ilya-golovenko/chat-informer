@@ -11,27 +11,27 @@
 #include <core/chat_user_info.hpp>
 
 // MISSIO headers
+#include <missio/unicode/convert.hpp>
 #include <missio/format/format.hpp>
-#include <missio/utf8/convert.hpp>
 
 // BOOST headers
 #include <boost/make_shared.hpp>
 
 
-namespace missio
+namespace chat
 {
 
-chat_user_info::pointer chat_user_info::create(json::object_cref json_data)
+chat_user_info::pointer chat_user_info::create(missio::json::object const& json_data)
 {
     return boost::make_shared<chat_user_info>(json_data);
 }
 
-bool chat_user_info::contains_user_info(json::object_cref json_data)
+bool chat_user_info::contains_user_info(missio::json::object const& json_data)
 {
-    return (!json_data->contains("not_found") && json_data->contains("nickname"));
+    return !json_data.contains("not_found") && json_data.contains("nickname");
 }
 
-chat_user_info::chat_user_info(json::object_cref json_data) :
+chat_user_info::chat_user_info(missio::json::object const& json_data) :
     sex_(chat_user::unknown),
     reg_time_(0),
     last_join_(0)
@@ -39,32 +39,32 @@ chat_user_info::chat_user_info(json::object_cref json_data) :
     if(!contains_user_info(json_data))
         throw exception("cannot create user info");
 
-    nickname_ = json::get<std::wstring>(json_data, "nickname");
-    fullname_ = json::get<std::wstring>(json_data, "fullname");
-    birth_day_ = json::get<std::size_t>(json_data, "birth_day");
-    birth_year_ = json::get<std::size_t>(json_data, "birth_year");
-    birth_month_ = json::get<std::size_t>(json_data, "birth_month");
-    location_ = json::get<std::wstring>(json_data, "location");
-    homepage_ = json::get<std::wstring>(json_data, "homepage");
-    icq_ = json::get<std::wstring>(json_data, "icq");
-    email_ = json::get<std::wstring>(json_data, "email");
-    phone_ = json::get<std::wstring>(json_data, "phone");
-    eyes_ = json::get<std::wstring>(json_data, "eyes");
-    hair_ = json::get<std::wstring>(json_data, "hair");
-    height_ = json::get<std::wstring>(json_data, "height");
-    meetings_ = json::get<std::wstring>(json_data, "meetings");
-    knows_from_ = json::get<std::wstring>(json_data, "knows_from");
-    about_ = json::get<std::wstring>(json_data, "about");
-    reg_time_ = json::get<std::time_t>(json_data, "reg_time");
-    last_join_ = json::get<std::time_t>(json_data, "last_join");
+    nickname_ = missio::json::get<std::wstring>(json_data, "nickname");
+    fullname_ = missio::json::get<std::wstring>(json_data, "fullname");
+    birth_day_ = missio::json::get<std::size_t>(json_data, "birth_day");
+    birth_year_ = missio::json::get<std::size_t>(json_data, "birth_year");
+    birth_month_ = missio::json::get<std::size_t>(json_data, "birth_month");
+    location_ = missio::json::get<std::wstring>(json_data, "location");
+    homepage_ = missio::json::get<std::wstring>(json_data, "homepage");
+    icq_ = missio::json::get<std::wstring>(json_data, "icq");
+    email_ = missio::json::get<std::wstring>(json_data, "email");
+    phone_ = missio::json::get<std::wstring>(json_data, "phone");
+    eyes_ = missio::json::get<std::wstring>(json_data, "eyes");
+    hair_ = missio::json::get<std::wstring>(json_data, "hair");
+    height_ = missio::json::get<std::wstring>(json_data, "height");
+    meetings_ = missio::json::get<std::wstring>(json_data, "meetings");
+    knows_from_ = missio::json::get<std::wstring>(json_data, "knows_from");
+    about_ = missio::json::get<std::wstring>(json_data, "about");
+    reg_time_ = missio::json::get<std::time_t>(json_data, "reg_time");
+    last_join_ = missio::json::get<std::time_t>(json_data, "last_join");
 
     photos_.update(json_data);
 
-    if(json_data->contains("sex"))
+    if(json_data.contains("sex"))
         sex_ = json_data["sex"].as<chat_user::sex_type>();
 
-    if(json_data->contains("vkontakte"))
-        format::write(vkontakte_, json_data["vkontakte"].as<int>());
+    if(json_data.contains("vkontakte"))
+        missio::format::write(vkontakte_, json_data["vkontakte"].as<int>());
 }
 
 chat_user_info::~chat_user_info()
@@ -181,9 +181,9 @@ std::wstring chat_user_info::get_icq_uri() const
     std::string uri;
 
     if(!icq_.empty())
-        format::print(uri, icq_uri, icq_);
+        missio::format::print(uri, icq_uri, icq_);
 
-    return utf8::convert(uri);
+    return missio::unicode::to_wide_string(uri);
 }
 
 std::wstring chat_user_info::get_email_uri() const
@@ -191,9 +191,9 @@ std::wstring chat_user_info::get_email_uri() const
     std::string uri;
 
     if(!email_.empty())
-        format::print(uri, email_uri, email_);
+        missio::format::print(uri, email_uri, email_);
 
-    return utf8::convert(uri);
+    return missio::unicode::to_wide_string(uri);
 }
 
 std::wstring chat_user_info::get_vkontakte_uri() const
@@ -201,9 +201,9 @@ std::wstring chat_user_info::get_vkontakte_uri() const
     std::string uri;
 
     if(!vkontakte_.empty())
-        format::print(uri, vkontakte_uri, vkontakte_);
+        missio::format::print(uri, vkontakte_uri, vkontakte_);
 
-    return utf8::convert(uri);
+    return missio::unicode::to_wide_string(uri);
 }
 
 std::wstring chat_user_info::get_user_info_uri() const
@@ -211,9 +211,9 @@ std::wstring chat_user_info::get_user_info_uri() const
     std::string uri;
 
     if(!nickname_.empty())
-        format::print(uri, user_info_uri, nickname_);
+        missio::format::print(uri, user_info_uri, nickname_);
 
-    return utf8::convert(uri);
+    return missio::unicode::to_wide_string(uri);
 }
 
-}   // namespace missio
+}   // namespace chat

@@ -6,14 +6,14 @@
 //---------------------------------------------------------------------------
 #pragma once
 
+// WIndows headers
+#include <windows.h>
+
 // BOOST headers
 #include <boost/filesystem/path.hpp>
 
 // STL headers
 #include <string>
-
-// WIndows headers
-#include <windows.h>
 
 
 class CShellExecuteHelper

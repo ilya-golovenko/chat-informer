@@ -1,17 +1,16 @@
 
 import testing ;
 
-project informer/test/utility ;
+project /chat/informer/utility/test ;
 
-unit-test informer_utility_test
+unit-test chat_informer_utility_test
     :
         ## sources ##
         [ glob-tree *.cpp : .svn ]
-        /informer/utility//informer_utility
     :
         ## build requirements ##
         <toolset>msvc:<exception-handling>on
         <toolset>msvc:<asynch-exceptions>on 
     ;
 
-always informer_utility_test ;
+always chat_informer_utility_test ;

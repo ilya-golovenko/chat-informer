@@ -10,7 +10,7 @@
 #include <informer/common/Logging.h>
 
 // MISSIO headers
-#include <missio/logging/dispatcher.hpp>
+#include <missio/logging/factory.hpp>
 
 
 CExceptionFilter::CExceptionFilter() :
@@ -45,10 +45,10 @@ LONG WINAPI CExceptionFilter::UnhandledExceptionFilter(EXCEPTION_POINTERS* info)
     DWORD exceptionCode = exceptionRecord->ExceptionCode;
     PVOID exceptionAddress = exceptionRecord->ExceptionAddress;
 
-    std::wstring moduleName = GetModuleName(exceptionAddress);
-    wchar_t const* exceptionString = GetExceptionString(exceptionCode);
+    std::wstring const module_name = GetModuleName(exceptionAddress);
+    wchar_t const* exception_string = GetExceptionString(exceptionCode);
 
-    LOG_FAILURE("unhandled exception ", format::hex(exception_code, 8, true), " (",
+    LOG_FAILURE("unhandled exception ", missio::format::hex(exception_code, 8, true), " (",
         exception_string, ") at location ", exception_address, " in module ", module_name); 
 
     if(exceptionCode == EXCEPTION_ACCESS_VIOLATION)
@@ -58,17 +58,17 @@ LONG WINAPI CExceptionFilter::UnhandledExceptionFilter(EXCEPTION_POINTERS* info)
             PVOID violationAddress = reinterpret_cast<PVOID>(exceptionRecord->ExceptionInformation[1]);
 
             if(exceptionRecord->ExceptionInformation[0])
-                LOG_FAILURE("access violation error while writing to location {0}", violationAddress);
+                LOG_FAILURE("access violation error while writing to location ", violationAddress);
             else
-                LOG_FAILURE("access violation error while reading from location {0}", violationAddress);
+                LOG_FAILURE("access violation error while reading from location ", violationAddress);
         }
     }
 
     // wait for dispatcher to finish
-    logging::dispatcher::instance().stop();
+    missio::logging::stop();
 
     // destroy dispatcher
-    logging::dispatcher::destroy();
+    missio::logging::shutdown();
 
     //TODO: show error message
     //::MessageBox(NULL, L"", L"", MB_OK | MB_ICONERROR);

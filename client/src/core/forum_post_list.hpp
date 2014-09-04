@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_forum_post_list_hpp
-#define _missio_core_forum_post_list_hpp
+#ifndef _chat_core_forum_post_list_hpp
+#define _chat_core_forum_post_list_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -22,7 +22,7 @@
 #include <string>
 
 
-namespace missio
+namespace chat
 {
 
 class forum_post_list
@@ -41,7 +41,7 @@ public:
     forum_post_list(forum_post_list const& other);
     forum_post_list& operator=(forum_post_list const& other);
 
-    bool update(json::object_cref json_data);
+    bool update(missio::json::object const& json_data);
 
     void assign(forum_post_list&& other);
     void assign(forum_post_list const& other);
@@ -85,6 +85,6 @@ private:
     std::vector<forum_post> posts_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_forum_post_list_hpp
+#endif  // _chat_core_forum_post_list_hpp

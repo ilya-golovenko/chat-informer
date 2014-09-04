@@ -1,16 +1,11 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-/**
- * \file utility/concurrent_queue.hpp
- * \brief Defines thread-safe template queue class.
- */
-
-#ifndef _utility_concurrent_queue_hpp
-#define _utility_concurrent_queue_hpp
+#ifndef _chat_utility_concurrent_queue_hpp
+#define _chat_utility_concurrent_queue_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -25,7 +20,7 @@
 #include <deque>
 
 
-namespace util
+namespace chat
 {
 
 /**
@@ -33,15 +28,16 @@ namespace util
  * \brief Thread-safe template queue class.
  */
 template <typename T>
-class concurrent_queue :
-    private boost::noncopyable
+class concurrent_queue : private boost::noncopyable
 {
 public:
     /**
      * \brief Construct new queue.
+     *
+     * \param enabled Specifies whether the queue will be enabled after construction.
      */
-    concurrent_queue() :
-        enabled_(true)
+    explicit concurrent_queue(bool enabled = true) :
+        enabled_(enabled)
     {
     }
 
@@ -69,7 +65,7 @@ public:
      *
      * The queue will reject new items (\a push will return \a false),
      * but remaining items can be extracted using \a pop function,
-     * if \a clear_queue paramer is false.
+     * if \a clear parameter is false.
      *
      * \param clear Remove all items from the queue if true.
      */
@@ -158,9 +154,7 @@ public:
             event_.wait(lock);
         }
 
-        T& temp = queue_.front();
-        value = std::move(temp);
-
+        value = std::move(queue_.front());
         queue_.pop_front();
 
         return true;
@@ -180,6 +174,6 @@ private:
     boost::condition_variable event_;
 };
 
-}   // namespace util
+}   // namespace chat
 
-#endif  // _utility_concurrent_queue_hpp
+#endif  // _chat_utility_concurrent_queue_hpp

@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_core_version_hpp
-#define _missio_core_version_hpp
+#ifndef _chat_core_version_hpp
+#define _chat_core_version_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -16,7 +16,7 @@
 #include <string>
 
 
-namespace missio
+namespace chat
 {
 
 class version
@@ -25,9 +25,7 @@ public:
     version();
     ~version();
 
-    version(int major,
-            int minor,
-            int build);
+    version(int major, int minor, int build);
 
     version(version const& other);
     version& operator=(version const& other);
@@ -48,28 +46,13 @@ private:
     int build_;
 };
 
-inline bool operator==(version const& lhs, version const& rhs)
-{
-    return (lhs.major() == rhs.major()
-        && lhs.minor() == rhs.minor()
-        && lhs.build() == rhs.build());
-}
+bool operator<(version const& lhs, version const& rhs);
+bool operator==(version const& lhs, version const& rhs);
 
-inline bool operator<(version const& lhs, version const& rhs)
-{
-    if(lhs.major() != rhs.major())
-        return (lhs.major() < rhs.major());
-
-    if(lhs.minor() != rhs.minor())
-        return (lhs.minor() < rhs.minor());
-
-    return (lhs.build() < rhs.build());
-}
-
-inline bool operator!=(version const& lhs, version const& rhs) { return !(lhs == rhs); }
-inline bool operator<=(version const& lhs, version const& rhs) { return !(rhs < lhs); }
-inline bool operator>=(version const& lhs, version const& rhs) { return !(lhs < rhs); }
-inline bool operator>(version const& lhs, version const& rhs) { return (rhs < lhs); }
+inline bool operator!=(version const& lhs, version const& rhs) { return !operator==(lhs, rhs); }
+inline bool operator<=(version const& lhs, version const& rhs) { return !operator<(rhs, lhs); }
+inline bool operator>=(version const& lhs, version const& rhs) { return !operator<(lhs, rhs); }
+inline bool operator>(version const& lhs, version const& rhs) { return operator<(rhs, lhs); }
 
 inline std::ostream& operator<<(std::ostream& os, version const& version)
 {
@@ -77,6 +60,6 @@ inline std::ostream& operator<<(std::ostream& os, version const& version)
     return os;
 }
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_core_version_hpp
+#endif  // _chat_core_version_hpp

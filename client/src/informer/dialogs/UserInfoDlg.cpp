@@ -28,7 +28,7 @@ void CUserInfoDlg::LoadUserInfo(CString const& strNickName)
         AddUserInfoQuery();
 
         //TODO: arrrrggghhh.....
-        //m_currentPhoto = missio::photo_list::invalid_index;
+        //m_currentPhoto = chat::photo_list::invalid_index;
         //m_photos.clear();
     }
 
@@ -62,7 +62,7 @@ BOOL CUserInfoDlg::OnSetCursor(HWND hWnd, UINT /*nHitTest*/, UINT /*uMsg*/)
 {
     if(hWnd == m_ctrlThumbnail)
     {
-        if(missio::photo_list::invalid_index != m_currentPhoto)
+        if(chat::photo_list::invalid_index != m_currentPhoto)
         {
             SetCursor(AtlLoadSysCursor(IDC_HAND));
             return TRUE;
@@ -75,9 +75,9 @@ BOOL CUserInfoDlg::OnSetCursor(HWND hWnd, UINT /*nHitTest*/, UINT /*uMsg*/)
 
 void CUserInfoDlg::OnThumbnail(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 {
-    if(missio::photo_list::invalid_index != m_currentPhoto)
+    if(chat::photo_list::invalid_index != m_currentPhoto)
     {
-        missio::photo const& photo = m_photos[m_currentPhoto];
+        chat::photo const& photo = m_photos[m_currentPhoto];
         CShellExecuteHelper(photo.get_photo_uri()).Start();
     }
 }
@@ -89,18 +89,18 @@ void CUserInfoDlg::OnOK(UINT /*uNotifyCode*/, int /*nID*/, HWND /*hWnd*/)
 
 // Informer event handlers
 
-void CUserInfoDlg::OnUserInfo(missio::query::pointer query)
+void CUserInfoDlg::OnUserInfo(chat::query::pointer query)
 {
     if(IsWindow())
     {
         if(!query->error())
         {
-            json::object_cref json_data = query->json_data();
-            json::object_cref json_info = json_data["user_info"];
+            json::object const& json_data = query->json_data();
+            json::object const& json_info = json_data["user_info"];
 
-            if(missio::chat_user_info::contains_user_info(json_info))
+            if(chat::chat_user_info::contains_user_info(json_info))
             {
-                FillUserData(missio::chat_user_info::create(json_info));
+                FillUserData(chat::chat_user_info::create(json_info));
             }
             else
             {
@@ -118,7 +118,7 @@ void CUserInfoDlg::OnUserInfo(missio::query::pointer query)
 
 // Downloader event handlers
 /*
-void CUserInfoDlg::OnThumbnailDownloaded(missio::download::completion_event_args const& args)
+void CUserInfoDlg::OnThumbnailDownloaded(chat::download::completion_event_args const& args)
 {
     if(IsWindow())
     {
@@ -139,7 +139,7 @@ void CUserInfoDlg::OnThumbnailDownloaded(missio::download::completion_event_args
 // Implementation
 
 CUserInfoDlg::CUserInfoDlg() :
-    m_currentPhoto(missio::photo_list::invalid_index)
+    m_currentPhoto(chat::photo_list::invalid_index)
 {
 }
 
@@ -191,10 +191,10 @@ void CUserInfoDlg::AddUserInfoQuery()
 
     json_data["user"]["nickname"] = m_nickname;
 
-    m_query = missio::query::create(json_data, false,
+    m_query = chat::query::create(json_data, false,
         boost::bind(&CUserInfoDlg::OnUserInfo, this, _1));
 
-    missio::factory::informer().add_query(m_query);
+    chat::factory::informer().add_query(m_query);
 }
 
 void CUserInfoDlg::SetupHyperLinks()
@@ -230,19 +230,19 @@ void CUserInfoDlg::AssignTimeField(CString& string, std::time_t time)
         string = util::time_to_string(time).c_str();
 }
 
-void CUserInfoDlg::AssignSexField(CString& string, missio::chat_user::sex_type sex)
+void CUserInfoDlg::AssignSexField(CString& string, chat::chat_user::sex_type sex)
 {
     switch(sex)
     {
-        case missio::chat_user::hidden:
+        case chat::chat_user::hidden:
             string.LoadString(IDS_SEX_HIDDEN);
             break;
 
-        case missio::chat_user::male:
+        case chat::chat_user::male:
             string.LoadString(IDS_SEX_MALE);
             break;
 
-        case missio::chat_user::female:
+        case chat::chat_user::female:
             string.LoadString(IDS_SEX_FEMALE);
             break;
 
@@ -270,7 +270,7 @@ void CUserInfoDlg::AssignHyperLinkField(CHyperLink& hyperLink, std::wstring cons
     }
 }
 
-void CUserInfoDlg::FillUserData(missio::chat_user_info::pointer userInfo)
+void CUserInfoDlg::FillUserData(chat::chat_user_info::pointer userInfo)
 {
     SetWindowCaption(userInfo->nickname(), false);
 
@@ -328,15 +328,15 @@ void CUserInfoDlg::FillUserData(missio::chat_user_info::pointer userInfo)
     }
 }
 
-void CUserInfoDlg::DownloadThumbnail(missio::photo const& photo)
+void CUserInfoDlg::DownloadThumbnail(chat::photo const& photo)
 {
     boost::filesystem::path filename; //= L"data/photos"
         // / boost::filesystem::path(photo.thumb());
 
-    //m_download = missio::download::create(photo.get_thumb_uri(), filename,
+    //m_download = chat::download::create(photo.get_thumb_uri(), filename,
     //    boost::bind(&CUserInfoDlg::OnThumbnailDownloaded, this, _1));
 
-    missio::factory::downloader().add_download(m_download);
+    chat::factory::downloader().add_download(m_download);
 }
 
 void CUserInfoDlg::CancelAllDownloads()

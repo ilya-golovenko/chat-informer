@@ -375,7 +375,7 @@ std::size_t html2rtf_converter::get_color_index(std::string const& value)
     }
 
     colors_.push_back(color);
-    return (colors_.size() - 1);
+    return colors_.size() - 1;
 }
 
 std::string html2rtf_converter::parse_html_data(std::string const& html)

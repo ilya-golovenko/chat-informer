@@ -18,7 +18,7 @@
 #include <algorithm>
 
 /*
-namespace missio
+namespace chat
 {
 
 query_queue::pointer query_queue::create(boost::asio::io_service& io_service,
@@ -110,5 +110,5 @@ void query_queue::handle_timer(boost::system::error_code const& error)
     }
 }
 
-}   // namespace missio
+}   // namespace chat
 */

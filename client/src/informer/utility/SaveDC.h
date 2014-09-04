@@ -6,11 +6,11 @@
 //---------------------------------------------------------------------------
 #pragma once
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-
 // Windows headers
 #include <windows.h>
+
+// BOOST headers
+#include <boost/noncopyable.hpp>
 
 
 class CSaveDC :

@@ -9,10 +9,10 @@
 #include <core/info.hpp>
 
 // MISSIO headers
-#include <missio/utf8/convert.hpp>
+#include <missio/unicode/convert.hpp>
 
 
-namespace missio
+namespace chat
 {
 namespace info
 {
@@ -37,8 +37,8 @@ std::string to_string(type info)
 
 std::wstring to_wstring(type info)
 {
-    return utf8::convert(to_string(info));
+    return missio::unicode::to_wide_string(to_string(info));
 }
 
 }   // namespace info
-}   // namespace missio
+}   // namespace chat

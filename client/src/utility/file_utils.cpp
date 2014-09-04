@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
-//    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    This file is part of Chat.Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@
 #include <string>
 
 
-namespace util
+namespace chat
 {
 namespace file
 {
@@ -66,4 +66,4 @@ void append(boost::filesystem::path const& filename, std::string const& data)
 }
 
 }   // namespace file
-}   // namespace util
+}   // namespace chat

@@ -14,7 +14,7 @@
 #include <boost/uuid/uuid_io.hpp>
 
 
-namespace missio
+namespace chat
 {
 
 instance_id::instance_id() :
@@ -53,4 +53,4 @@ std::wstring instance_id::to_wstring() const
     return boost::uuids::to_wstring(value_);
 }
 
-}   // namespace missio
+}   // namespace chat

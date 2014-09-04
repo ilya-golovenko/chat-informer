@@ -75,7 +75,7 @@ public:
 
     // Operations
 
-    void Assign(missio::photo_list const& photos)
+    void Assign(chat::photo_list const& photos)
     {
         ATLASSERT(::IsWindow(m_hWnd));
 
@@ -121,7 +121,7 @@ public:
             UpdatePhotoThumbnail(m_photos[photoID]);
     }
 
-    void UpdatePhotoThumbnail(missio::photo const& photo)
+    void UpdatePhotoThumbnail(chat::photo const& photo)
     {
         ATLASSERT(::IsWindow(m_hWnd));
 
@@ -149,7 +149,7 @@ public:
 
         std::size_t index = m_photos.index_of(photoID);
 
-        if(missio::photo_list::invalid_index != index)
+        if(chat::photo_list::invalid_index != index)
             InvalidateItem(static_cast<UINT>(index));
     }
 
@@ -544,7 +544,7 @@ public:
 
         if(LB_ERR != itemID)
         {
-            missio::photo const& photo = m_photos[itemID];
+            chat::photo const& photo = m_photos[itemID];
             std::wstring const& nickname = photo.nickname();
 
             if(!nickname.empty())
@@ -588,7 +588,7 @@ public:
 
         if(LB_ERR != itemID)
         {
-            missio::photo const& photo = m_photos[itemID];
+            chat::photo const& photo = m_photos[itemID];
             std::wstring const& nickname = photo.nickname();
 
             if(!nickname.empty())
@@ -596,7 +596,7 @@ public:
         }
     }
 
-    void NavigateToPhotoUrl(missio::photo const& photo)
+    void NavigateToPhotoUrl(chat::photo const& photo)
     {
         //CShellExecuteHelper(photo.get_photo_url()).Start();
     }
@@ -757,7 +757,7 @@ public:
         GetClientRect(rc);
         rc.OffsetRect(0, m_scrollOffset);
 
-        return (TRUE == ((rc | m_itemRects[itemID]) == rc));
+        return rc == (rc | m_itemRects[itemID]);
     }
 
     // Overrideables
@@ -831,21 +831,13 @@ public:
         {
             dc.SelectFont(m_drawManager.Font(FONT_SMALL));
 
-            dc.DrawText(
-                descr.c_str(),
-                descr.size(),
-                rcText,
-                drawTextFormat | DT_CALCRECT);
+            dc.DrawText(descr.c_str(), descr.size(), rcText, drawTextFormat | DT_CALCRECT);
         }
 
         rcText.OffsetRect((PHOTO_WIDTH - rcText.Width()) / 2,
             (PHOTO_HEIGHT - TEXT_OFFSET - rcText.Height()) / 2);
 
-        dc.DrawText(
-            descr.c_str(),
-            descr.size(),
-            rcText,
-            drawTextFormat);
+        dc.DrawText(descr.c_str(), descr.size(), rcText, drawTextFormat);
 
         CPoint pt = rcItem.TopLeft();
         pt.Offset(THUMB_INDENT, THUMB_INDENT);
@@ -870,7 +862,7 @@ private:
     int m_hoveredItemID;
     int m_selectedItemID;
 
-    missio::photo_list m_photos;
+    chat::photo_list m_photos;
 
     std::vector<CRect> m_itemRects;
     CInformerImageList<std::wstring> m_images;

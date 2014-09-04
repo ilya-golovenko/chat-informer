@@ -4,8 +4,8 @@
 //    Copyright (C) 2011, 2013 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
-#ifndef _missio_exception_hpp
-#define _missio_exception_hpp
+#ifndef _chat_exception_hpp
+#define _chat_exception_hpp
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -16,7 +16,7 @@
 #include <string>
 
 
-namespace missio
+namespace chat
 {
 
 class exception :
@@ -35,6 +35,6 @@ private:
     std::string message_;
 };
 
-}   // namespace missio
+}   // namespace chat
 
-#endif  // _missio_exception_hpp
+#endif  // _chat_exception_hpp

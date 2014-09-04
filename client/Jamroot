@@ -1,13 +1,16 @@
 
-import os ;
+import modules ;
 
 path-constant TOP : . ;
 path-constant SRC : src ;
+path-constant OBJ : obj ;
 path-constant BIN : bin ;
 path-constant TEST : test ;
 path-constant DEPENDS : depends ;
 
-local BOOST_ROOT = [ os.environ BOOST_ROOT ] ;
+path-constant MISSIO_ROOT : $(DEPENDS)/missio ;
+
+BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
 
 if ! $(BOOST_ROOT)
 {
@@ -19,13 +22,16 @@ if ! $(BOOST_ROOT)
 
 use-project /boost : $(BOOST_ROOT) ;
 
-use-project /missio : $(DEPENDS)/missio ;
+use-project /missio : $(MISSIO_ROOT) ;
 
-use-project /cpp-netlib : $(DEPENDS)/cpp-netlib ;
+#use-project /cpp-netlib : $(DEPENDS)/cpp-netlib ;
 
-project informer
+project /chat/informer
     :
         requirements
+        <link>static
+        <runtime-link>static
+        <threading>multi
         <warnings>all
         <include>$(SRC)
         <include>$(BOOST_ROOT)
@@ -55,38 +61,48 @@ project informer
         <toolset>msvc:<cxxflags>/wd4714
         <toolset>msvc:<cxxflags>/wd4800
     :
-        default-build
-        release debug
-        <threading>multi
-        <runtime-link>static
-        <link>static
+        default-build release debug
     :
-        build-dir
-        obj
+        source-location $(SRC)
+    :
+        build-dir $(OBJ)
     ;
 
-use-project /informer : $(TOP) ;
-
-use-project /informer/application : $(SRC)/informer ;
-use-project /informer/utility : $(SRC)/utility ;
-use-project /informer/crypto : $(SRC)/crypto ;
-use-project /informer/core : $(SRC)/core ;
-
-use-project /informer/test/utility : $(TEST)/utility ;
-use-project /informer/test/crypto : $(TEST)/crypto ;
+use-project /chat/informer/utility/test : $(TEST)/utility ;
+use-project /chat/informer/crypto/test : $(TEST)/crypto ;
 
 build-project $(TEST)/utility ;
 build-project $(TEST)/crypto ;
 
-build-project $(SRC)/informer ;
+# Windows libraries
+lib psapi ;
+lib shlwapi ;
 
-install informer
+exe chat_informer
     :
         ## sources ##
-        /informer/application
+        [ glob-tree *.cpp *.c : .svn ]
+        /missio/logging//missio_unicode
+        /missio/logging//missio_logging
+        /boost/system//boost_system
+        /boost/thread//boost_thread
+        /boost/date_time//boost_date_time
+        /boost/filesystem//boost_filesystem
+        ## requirements ##
+        <include>$(DEPEND)/wtl
+        <define>_WTL_USE_CSTRING
+        <define>_WTL_NO_AUTOMATIC_NAMESPACE
+        <library>shlwapi
+        <library>psapi
+    ;
+
+install install-chat_informer
+    :
+        ## sources ##
+        chat_informer
     :
         ## build requirements ##
-        <variant>release:<location>$(BIN)/release
-        <variant>profile:<location>$(BIN)/profile
         <variant>debug:<location>$(BIN)/debug
+        <variant>profile:<location>$(BIN)/profile
+        <variant>release:<location>$(BIN)/release
     ;
