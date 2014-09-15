@@ -76,27 +76,30 @@ build-project $(TEST)/crypto ;
 
 # Windows libraries
 lib psapi ;
+lib ws2_32 ;
 lib shlwapi ;
 
 exe chat_informer
     :
         ## sources ##
         [ glob-tree *.cpp *.c : .svn ]
-        /missio/logging//missio_unicode
+        /missio/unicode//missio_unicode
         /missio/logging//missio_logging
         /boost/system//boost_system
         /boost/thread//boost_thread
         /boost/date_time//boost_date_time
         /boost/filesystem//boost_filesystem
+    :
         ## requirements ##
         <include>$(DEPEND)/wtl
         <define>_WTL_USE_CSTRING
         <define>_WTL_NO_AUTOMATIC_NAMESPACE
         <library>shlwapi
+        <library>ws2_32
         <library>psapi
     ;
 
-install install-chat_informer
+install install-chat-informer
     :
         ## sources ##
         chat_informer
