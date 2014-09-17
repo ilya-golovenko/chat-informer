@@ -1,19 +1,19 @@
 
-project informer/application ;
+project /chat/informer/application ;
 
 # Required Windows libraries
 
 lib shlwapi ;
 lib psapi ;
 
-exe informer_application
+exe chat_informer_application
     :
         ## sources ##
         [ glob-tree *.cpp : .svn ]
-        /informer/utility//informer_utility
-        /informer/config//informer_config
-        /informer/crypto//informer_crypto
-        /informer/core//informer_core
+        /chat/informer/utility//chat_informer_utility
+        /chat/informer/config//chat_informer_config
+        /chat/informer/crypto//chat_informer_crypto
+        /chat/informer/core//chat_informer_core
         /missio/logging//missio_logging
     :
         ## requirements ##

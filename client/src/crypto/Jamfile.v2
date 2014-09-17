@@ -1,11 +1,11 @@
 
-project informer/crypto ;
+project /chat/informer/crypto ;
 
-lib informer_crypto
+lib chat_informer_crypto
     :
         ## sources ##
         [ glob-tree *.cpp *.c : .svn ]
-        /informer/utility//informer_utility
+        /chat/informer/utility//chat_informer_utility
     :
         ## build requirements ##
     ;

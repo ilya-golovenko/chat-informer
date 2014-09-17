@@ -1,7 +1,7 @@
 
-project informer/utility ;
+project /chat/informer/utility ;
 
-lib informer_utility
+lib chat_informer_utility
     :
         ## sources ##
         [ glob-tree *.cpp : .svn ]

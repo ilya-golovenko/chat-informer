@@ -1,12 +1,12 @@
 
-project informer/core ;
+project /chat/informer/core ;
 
-lib informer_core
+lib chat_informer_core
     :
         ## sources ##
         [ glob-tree *.cpp : .svn ]
-        /informer/utility//informer_utility
-        /informer/crypto//informer_crypto
+        /chat/informer/utility//chat_informer_utility
+        /chat/informer/crypto//chat_informer_crypto
         /missio/logging//missio_logging
         /missio/json//missio_json
     :

@@ -56,14 +56,18 @@ IF NOT EXIST "%BOOST_JAM%" (
     )
 )
 
-pushd "%INFORMER_ROOT%"
-
 SET JOBS_NUM=%NUMBER_OF_PROCESSORS%
+
+IF %JOBS_NUM% LEQ 0 (
+    SET JOBS_NUM=2
+)
 
 SET BOOST_ROOT="%BOOST_ROOT%"
 SET BOOST_BUILD_PATH="%BOOST_BUILD_PATH%"
 
+pushd "%INFORMER_ROOT%"
+
 ECHO Starting build of chat informer
-"%BOOST_JAM%" -j%JOBS_NUM% toolset=msvc %*
+"%BOOST_JAM%" -q -j%JOBS_NUM% %*
 
 popd

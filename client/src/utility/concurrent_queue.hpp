@@ -11,12 +11,10 @@
 # pragma once
 #endif  // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-#include <boost/thread.hpp>
-
 // STL headers
+#include <condition_variable>
 #include <utility>
+#include <thread>
 #include <deque>
 
 
@@ -28,7 +26,7 @@ namespace chat
  * \brief Thread-safe template queue class.
  */
 template <typename T>
-class concurrent_queue : private boost::noncopyable
+class concurrent_queue
 {
 public:
     /**
@@ -46,8 +44,11 @@ public:
      */
     ~concurrent_queue()
     {
-        disable(true);
+        disable();
     }
+
+    concurrent_queue(concurrent_queue const&) = delete;
+    concurrent_queue& operator=(concurrent_queue const&) = delete;
 
     /**
      * \brief Enables queue.
@@ -56,7 +57,7 @@ public:
      */
     void enable()
     {
-        boost::mutex::scoped_lock lock(mutex_);
+        std::unique_lock<std::mutex> lock(mutex_);
         enabled_ = true;
     }
 
@@ -69,9 +70,9 @@ public:
      *
      * \param clear Remove all items from the queue if true.
      */
-    void disable(bool clear)
+    void disable(bool clear = true)
     {
-        boost::mutex::scoped_lock lock(mutex_);
+        std::unique_lock<std::mutex> lock(mutex_);
         enabled_ = false;
 
         if(clear)
@@ -82,7 +83,7 @@ public:
     }
 
     /**
-     * \brief Adds a copy of value to the queue.
+     * \brief Copies value to the queue.
      *
      * Adds new value to the queue and
      * notifies waiting consumers, if any.
@@ -93,7 +94,7 @@ public:
      */
     bool push(T const& value)
     {
-        boost::mutex::scoped_lock lock(mutex_);
+        std::unique_lock<std::mutex> lock(mutex_);
 
         if(!enabled_)
             return false;
@@ -107,7 +108,7 @@ public:
     }
 
     /**
-     * \brief Adds (moves) value to the queue.
+     * \brief Moves value to the queue.
      *
      * Adds new value to the queue and
      * notifies waiting consumers, if any.
@@ -118,7 +119,7 @@ public:
      */
     bool push(T&& value)
     {
-        boost::mutex::scoped_lock lock(mutex_);
+        std::unique_lock<std::mutex> lock(mutex_);
 
         if(!enabled_)
             return false;
@@ -144,7 +145,7 @@ public:
      */
     bool pop(T& value)
     {
-        boost::mutex::scoped_lock lock(mutex_);
+        std::unique_lock<std::mutex> lock(mutex_);
 
         while(queue_.empty())
         {
@@ -161,17 +162,17 @@ public:
     }
 
 private:
-    /// Queue mutex
-    boost::mutex mutex_;
+    /// Indicates whether queue is enabled
+    bool enabled_;
 
     /// Queue
     std::deque<T> queue_;
 
-    /// Indicates whether queue is enabled
-    volatile bool enabled_;
+    /// Queue mutex
+    std::mutex mutex_;
 
     /// New value event
-    boost::condition_variable event_;
+    std::condition_variable event_;
 };
 
 }   // namespace chat
