@@ -1,5 +1,5 @@
 
-project /chat/informer/core ;
+project chat/informer/core ;
 
 lib chat_informer_core
     :

@@ -325,7 +325,7 @@ error::type informer::process_query_response(query::pointer query)
     std::string data = decrypt(response.content());
     missio::json::value json_data = missio::json::read(data);
 
-    if(!json_data["server_status"].as<bool>())
+    if(!json_data["server_status"].get<bool>())
         return error::bad_server_status;
 
     process_response_data(json_data);

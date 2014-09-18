@@ -24,29 +24,28 @@ use-project /boost : $(BOOST_ROOT) ;
 
 use-project /missio : $(MISSIO_ROOT) ;
 
-#use-project /cpp-netlib : $(DEPENDS)/cpp-netlib ;
-
 project /chat/informer
     :
         requirements
+        <warnings>all
         <link>static
         <runtime-link>static
         <threading>multi
-        <warnings>all
         <include>$(SRC)
         <include>$(BOOST_ROOT)
-        <include>$(DEPENDS)/missio
-        <include>$(DEPENDS)/cpp-netlib
+        <include>$(MISSIO_ROOT)
         <define>BOOST_ALL_NO_LIB
+        <define>BOOST_SYSTEM_NO_DEPRECATED
         <define>BOOST_FILESYSTEM_VERSION=3
         <define>BOOST_FILESYSTEM_NO_DEPRECATE
-        <toolset>msvc:<define>WIN32
-        <toolset>msvc:<define>_WIN32
-        <toolset>msvc:<define>UNICODE
-        <toolset>msvc:<define>_UNICODE
-        <toolset>msvc:<define>NOMINMAX
-        <toolset>msvc:<define>_WIN32_WINNT=0x0501
-        <toolset>msvc:<define>WIN32_LEAN_AND_MEAN
+        <define>BOOST_SPIRIT_USE_PHOENIX_V3
+        <target-os>windows:<define>WIN32
+        <target-os>windows:<define>_WIN32
+        <target-os>windows:<define>UNICODE
+        <target-os>windows:<define>_UNICODE
+        <target-os>windows:<define>NOMINMAX
+        <target-os>windows:<define>WIN32_LEAN_AND_MEAN
+        <target-os>windows:<define>_WIN32_WINNT=0x0601
         <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
         <toolset>msvc:<define>_SCL_SECURE_NO_DEPRECATE
         <toolset>msvc:<define>_CRT_SECURE_NO_WARNINGS
@@ -60,6 +59,13 @@ project /chat/informer
         <toolset>msvc:<cxxflags>/wd4702
         <toolset>msvc:<cxxflags>/wd4714
         <toolset>msvc:<cxxflags>/wd4800
+        <toolset>gcc:<cxxflags>-std=gnu++1y
+        <toolset>gcc:<cxxflags>-Wno-long-long
+        <toolset>gcc:<cxxflags>-Wno-attributes
+        <toolset>gcc:<cxxflags>-Wno-strict-aliasing
+        <toolset>gcc:<cxxflags>-Wno-unused-parameter
+        <toolset>gcc:<cxxflags>-Wno-unused-variable
+        <toolset>gcc:<cxxflags>-Wno-unused-local-typedefs
     :
         default-build release debug
     :
@@ -68,11 +74,18 @@ project /chat/informer
         build-dir $(OBJ)
     ;
 
-use-project /chat/informer/utility/test : $(TEST)/utility ;
-use-project /chat/informer/crypto/test : $(TEST)/crypto ;
+use-project /chat/informer/application : $(SRC)/informer ;
+use-project /chat/informer/utility : $(SRC)/utility ;
+use-project /chat/informer/crypto : $(SRC)/crypto ;
+use-project /chat/informer/core : $(SRC)/core ;
+
+use-project /chat/informer/test/utility : $(TEST)/utility ;
+use-project /chat/informer/test/crypto : $(TEST)/crypto ;
 
 build-project $(TEST)/utility ;
 build-project $(TEST)/crypto ;
+
+#build-project $(SRC)/informer ;
 
 # Windows libraries
 lib psapi ;

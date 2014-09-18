@@ -1,5 +1,5 @@
 
-project /chat/informer/crypto ;
+project chat/informer/crypto ;
 
 lib chat_informer_crypto
     :

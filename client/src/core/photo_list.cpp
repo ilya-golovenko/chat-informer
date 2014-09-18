@@ -67,10 +67,10 @@ bool photo_list::update(missio::json::object const& json_data)
             std::wstring nickname;
 
             if(json_photo.contains("descr"))
-                descr = json_photo["descr"].as<std::wstring>();
+                descr = json_photo["descr"].get<std::wstring>();
 
              if(json_photo.contains("nickname"))
-                nickname = json_photo["nickname"].as<std::wstring>();
+                nickname = json_photo["nickname"].get<std::wstring>();
 
             iterator it = find(id);
 

@@ -183,9 +183,9 @@ void CInformerManager::CheckAuthorization(missio::json::object const& json_data)
             ShowNotification(IDS_AUTH_CREDENTIALS, IDD_LOGIN);
         }
 
-        if(!json_result["success"].as<bool>())
+        if(!json_result["success"].get<bool>())
         {
-            switch(json_result["error"].as<int>())
+            switch(json_result["error"].get<int>())
             {
                 case chat::server_error::generic:
                 case chat::server_error::db_connect:

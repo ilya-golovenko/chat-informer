@@ -28,6 +28,8 @@ public:
     typedef value_type const& const_reference;
     typedef value_type* iterator;
     typedef value_type const* const_iterator;
+    typedef value_type* pointer;
+    typedef value_type const* const_pointer;
 
 public:
     raw_buffer();
@@ -46,11 +48,11 @@ public:
     void append(void const* data, std::size_t size);
 
     bool empty() const;
-    std::size_t size() const;
-    std::size_t capacity() const;
+    size_type size() const;
+    size_type capacity() const;
 
-    value_type* data();
-    value_type const* data() const;
+    pointer data();
+    const_pointer data() const;
 
     iterator begin();
     iterator end();
@@ -64,26 +66,25 @@ public:
     void shrink(std::size_t size);
     void resize(std::size_t size);
 
-    value_type& operator[](std::size_t index);
-    value_type const& operator[](std::size_t index) const;
-
-    bool operator<(raw_buffer const& other) const;
-    bool operator==(raw_buffer const& other) const;
-    bool operator!=(raw_buffer const& other) const;
+    reference operator[](std::size_t index);
+    const_reference operator[](std::size_t index) const;
 
 private:
-    void initialize();
     void allocate(std::size_t size);
 
 private:
     std::size_t size_;
-    value_type* buffer_ptr_;
+    value_type* data_;
 
-    value_type* buffer_;
     std::size_t buffer_size_;
+    value_type* buffer_;
 
     value_type small_buffer_[64];
 };
+
+bool operator<(raw_buffer const& lhs, raw_buffer const& rhs);
+bool operator==(raw_buffer const& lhs, raw_buffer const& rhs);
+bool operator!=(raw_buffer const& lhs, raw_buffer const& rhs);
 
 std::ostream& operator<<(std::ostream& os, raw_buffer const& buffer);
 

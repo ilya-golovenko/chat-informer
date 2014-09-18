@@ -62,9 +62,9 @@ bool chat_user_cache::update(missio::json::object const& json_data)
         missio::json::object const& json_birthdays = json_data["birthdays"];
         missio::json::array const& json_nicknames = json_birthdays["nicknames"];
 
-        today_ = json_birthdays["today"].as<std::wstring>();
+        today_ = json_birthdays["today"].get<std::wstring>();
 
-        for(std::wstring const nickname : json_nicknames[index])
+        for(std::wstring const nickname : json_nicknames)
         {
              creating_get(nickname).set_birthday(true);
         }

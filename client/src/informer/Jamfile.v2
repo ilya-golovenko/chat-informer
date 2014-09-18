@@ -1,5 +1,5 @@
 
-project /chat/informer/application ;
+project chat/informer/application ;
 
 # Required Windows libraries
 

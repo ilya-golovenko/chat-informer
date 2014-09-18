@@ -40,7 +40,6 @@ public:
 
 public:
     explicit chat_user_info(missio::json::object const& json_data);
-    ~chat_user_info();
 
     std::wstring const& nickname() const;
     std::wstring const& fullname() const;

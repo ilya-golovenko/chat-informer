@@ -122,9 +122,9 @@ void CSendMessageDlg::OnSendMessage(chat::query::pointer query)
                 json::object const& json_data = query->json_data();
                 json::object const& json_result = json_data["send_result"];
 
-                if(!json_result["success"].as<bool>())
+                if(!json_result["success"].get<bool>())
                 {
-                    switch(json_result["error"].as<int>())
+                    switch(json_result["error"].get<int>())
                     {
                         case chat::server_error::bad_credentials:
                             m_dialogManager.ShowMessage(IDS_SEND_CREDENTIALS);

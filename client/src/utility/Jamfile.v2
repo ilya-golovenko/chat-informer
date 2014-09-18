@@ -1,5 +1,5 @@
 
-project /chat/informer/utility ;
+project chat/informer/utility ;
 
 lib chat_informer_utility
     :
