@@ -23,7 +23,7 @@ namespace chat
 {
 
 raw_buffer::raw_buffer() :
-    size_(0u),
+    data_size_(0u),
     data_(nullptr),
     buffer_size_(0u),
     buffer_(nullptr)
@@ -59,7 +59,7 @@ raw_buffer& raw_buffer::operator=(raw_buffer const& other)
 void raw_buffer::assign(raw_buffer const& other)
 {
     if(&other != this)
-        assign(other.data_, other.size_);
+        assign(other.data_, other.data_size_);
 }
 
 void raw_buffer::assign(void const* data, std::size_t size)
@@ -76,17 +76,17 @@ void raw_buffer::append(raw_buffer const& other)
 void raw_buffer::append(void const* data, std::size_t size)
 {
     grow(size);
-    std::memcpy(data_ + size_ - size, data, size);
+    std::memcpy(data_ + data_size_ - size, data, size);
 }
 
 bool raw_buffer::empty() const
 {
-    return !size_;
+    return 0u == data_size_;
 }
 
 raw_buffer::size_type raw_buffer::size() const
 {
-    return size_;
+    return data_size_;
 }
 
 raw_buffer::size_type raw_buffer::capacity() const
@@ -111,7 +111,7 @@ raw_buffer::iterator raw_buffer::begin()
 
 raw_buffer::iterator raw_buffer::end()
 {
-    return data_ + size_;
+    return data_ + data_size_;
 }
 
 raw_buffer::const_iterator raw_buffer::begin() const
@@ -121,14 +121,14 @@ raw_buffer::const_iterator raw_buffer::begin() const
 
 raw_buffer::const_iterator raw_buffer::end() const
 {
-    return data_ + size_;
+    return data_ + data_size_;
 }
 
 void raw_buffer::clear()
 {
     std::free(buffer_);
 
-    size_ = 0u;
+    data_size_ = 0u;
     data_ = nullptr;
 
     buffer_size_ = 0u;
@@ -137,12 +137,12 @@ void raw_buffer::clear()
 
 void raw_buffer::grow(std::size_t size)
 {
-    allocate(size_ + size);
+    allocate(data_size_ + size);
 }
 
 void raw_buffer::shrink(std::size_t size)
 {
-    allocate(size_ > size ? size_ - size : 0u);
+    allocate(data_size_ > size ? data_size_ - size : 0u);
 }
 
 void raw_buffer::resize(std::size_t size)
@@ -178,8 +178,8 @@ void raw_buffer::allocate(std::size_t size)
             data_ = buffer_;
         }
 
-        if(size_ > 0u && size_ <= sizeof(small_buffer_))
-            std::memcpy(data_, small_buffer_, size_);
+        if(data_size_ > 0u && data_size_ <= sizeof(small_buffer_))
+            std::memcpy(data_, small_buffer_, data_size_);
     }
     else
     {
@@ -187,7 +187,7 @@ void raw_buffer::allocate(std::size_t size)
 
         if(buffer_)
         {
-            if(size > 0u && size_ > sizeof(small_buffer_))
+            if(size > 0u && data_size_ > sizeof(small_buffer_))
                 std::memcpy(data_, buffer_, size);
 
             std::free(buffer_);
@@ -197,7 +197,7 @@ void raw_buffer::allocate(std::size_t size)
         }
     }
 
-    size_ = size;
+    data_size_ = size;
 }
 
 bool operator<(raw_buffer const& lhs, raw_buffer const& rhs)
@@ -230,6 +230,9 @@ std::ostream& operator<<(std::ostream& os, raw_buffer const& buffer)
 
     if(has_non_printable)
     {
+        std::ios state(nullptr);
+        state.copyfmt(os);
+
         auto const old_flags = os.flags();
 
         os.unsetf(std::ios::showbase);
@@ -244,7 +247,7 @@ std::ostream& operator<<(std::ostream& os, raw_buffer const& buffer)
                << value;
         }
 
-        os.flags(old_flags);
+        os.copyfmt(state);
     }
     else
     {

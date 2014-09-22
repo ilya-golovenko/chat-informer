@@ -73,7 +73,7 @@ private:
     void allocate(std::size_t size);
 
 private:
-    std::size_t size_;
+    std::size_t data_size_;
     value_type* data_;
 
     std::size_t buffer_size_;
