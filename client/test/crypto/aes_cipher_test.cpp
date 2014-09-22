@@ -1,3 +1,9 @@
+//---------------------------------------------------------------------------
+//
+//    This file is part of Chat Informer project
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
+//
+//---------------------------------------------------------------------------
 
 // Application headers
 #include <crypto/aes/cipher.hpp>
@@ -29,7 +35,8 @@ BOOST_AUTO_TEST_CASE(aes_cipher_encryption_test)
     };
 
     unsigned char output[16];
-    crypto::aes::cipher aes_cipher;
+
+    chat::crypto::aes::cipher aes_cipher;
 
     aes_cipher.set_key(crypto_key);
     aes_cipher.encrypt_block(input, output);
@@ -53,7 +60,8 @@ BOOST_AUTO_TEST_CASE(aes_cipher_round_trip_test)
 
     unsigned char encrypted[16];
     unsigned char decrypted[16];
-    crypto::aes::cipher aes_cipher;
+
+    chat::crypto::aes::cipher aes_cipher;
 
     aes_cipher.set_key(crypto_key);
     aes_cipher.encrypt_block(input, encrypted);

@@ -1,12 +1,13 @@
 
 import testing ;
 
-project /chat/informer/crypto/test ;
+project chat/informer/crypto/test ;
 
 unit-test informer_crypto_test
     :
         ## sources ##
         [ glob-tree *.cpp : .svn ]
+        /chat/informer/crypto//chat_informer_crypto
     :
         ## build requirements ##
         <toolset>msvc:<exception-handling>on

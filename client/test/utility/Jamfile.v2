@@ -1,12 +1,13 @@
 
 import testing ;
 
-project /chat/informer/utility/test ;
+project chat/informer/utility/test ;
 
 unit-test chat_informer_utility_test
     :
         ## sources ##
         [ glob-tree *.cpp : .svn ]
+        /chat/informer/utility//chat_informer_utility
     :
         ## build requirements ##
         <toolset>msvc:<exception-handling>on

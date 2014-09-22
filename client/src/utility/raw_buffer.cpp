@@ -217,45 +217,29 @@ bool operator!=(raw_buffer const& lhs, raw_buffer const& rhs)
 
 std::ostream& operator<<(std::ostream& os, raw_buffer const& buffer)
 {
-    bool has_non_printable = false;
+    std::ios state(nullptr);
+    state.copyfmt(os);
+
+    os.unsetf(std::ios::showbase);
+    os.setf(std::ios::uppercase);
 
     for(auto const value : buffer)
     {
-        if(!std::isprint(value))
+        if(std::isprint(value))
         {
-            has_non_printable = true;
-            break;
+            os << static_cast<char>(value);
+        }
+        else
+        {
+          os << "\\x"
+             << std::hex
+             << std::setw(2)
+             << std::setfill('0')
+             << static_cast<int>(value);
         }
     }
 
-    if(has_non_printable)
-    {
-        std::ios state(nullptr);
-        state.copyfmt(os);
-
-        auto const old_flags = os.flags();
-
-        os.unsetf(std::ios::showbase);
-        os.setf(std::ios::uppercase);
-
-        for(int const value : buffer)
-        {
-            os << std::setfill('0')
-               << std::setw(2)
-               << std::hex
-               << "\\x"
-               << value;
-        }
-
-        os.copyfmt(state);
-    }
-    else
-    {
-        for(char const value : buffer)
-        {
-            os << value;
-        }
-    }
+    os.copyfmt(state);
 
     return os;
 }

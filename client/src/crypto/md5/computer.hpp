@@ -17,9 +17,6 @@
 // MD5 headers
 #include <crypto/impl/md5/md5.h>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-
 // STL headers
 #include <cstddef>
 
@@ -31,12 +28,15 @@ namespace crypto
 namespace md5
 {
 
-class computer : private boost::noncopyable
+class computer
 {
 public:
     computer();
 
     computer(void const* data, std::size_t size);
+
+    computer(computer const&) = delete;
+    computer& operator=(computer const&) = delete;
 
     void append(void const* data, std::size_t size);
 

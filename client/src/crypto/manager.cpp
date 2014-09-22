@@ -12,20 +12,13 @@
 
 // STL headers
 #include <stdexcept>
+#include <cstring>
 
 
 namespace chat
 {
 namespace crypto
 {
-
-manager::manager()
-{
-}
-
-manager::~manager()
-{
-}
 
 manager::manager(std::string const& pass)
 {
@@ -55,7 +48,7 @@ void manager::set_uuid_key(boost::uuids::uuid const& key)
 
 void manager::encrypt(buffer_type const& input, buffer_type& output)
 {
-    if(input.size() > 0)
+    if(!input.empty())
     {
         output.resize(input.size() + aes::cipher::block_size);
         output.resize(encrypt(input.data(), input.size(), output.data()));
@@ -68,7 +61,7 @@ void manager::encrypt(buffer_type const& input, buffer_type& output)
 
 void manager::decrypt(buffer_type const& input, buffer_type& output)
 {
-    if(input.size() > 0)
+    if(!input.empty())
     {
         output.resize(input.size());
         output.resize(decrypt(input.data(), input.size(), output.data()));
@@ -81,12 +74,12 @@ void manager::decrypt(buffer_type const& input, buffer_type& output)
 
 std::size_t manager::encrypt(unsigned char const* input, std::size_t size, unsigned char* output)
 {
-    unsigned char tail_size = size % aes::cipher::block_size;
-    std::size_t blocks = size / aes::cipher::block_size;
+    unsigned char const tail_size = size % aes::cipher::block_size;
+    std::size_t const blocks_num = size / aes::cipher::block_size;
 
-    size = (blocks + 1) * aes::cipher::block_size;
+    size = (blocks_num + 1) * aes::cipher::block_size;
 
-    for(std::size_t i = 0; i < blocks; ++i)
+    for(std::size_t i = 0; i < blocks_num; ++i)
     {
         cipher_.encrypt_block(input, output);
 
@@ -105,12 +98,12 @@ std::size_t manager::encrypt(unsigned char const* input, std::size_t size, unsig
 
 std::size_t manager::decrypt(unsigned char const* input, std::size_t size, unsigned char* output)
 {
-    if(size % aes::cipher::block_size != 0)
+    if(size % aes::cipher::block_size != 0u)
         throw std::runtime_error("data size is not a multiple of the block size");
 
-    std::size_t blocks = size / aes::cipher::block_size;
+    std::size_t const blocks_num = size / aes::cipher::block_size;
 
-    for(std::size_t i = 0; i < blocks - 1; ++i)
+    for(std::size_t i = 0; i < blocks_num - 1; ++i)
     {
         cipher_.decrypt_block(input, output);
 

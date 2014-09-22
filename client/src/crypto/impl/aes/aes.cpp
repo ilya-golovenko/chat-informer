@@ -33,6 +33,7 @@
 // speed optimized version
 #include "AES.h"
 #include <assert.h>
+#include <string.h>
 #include <stdio.h>
 #include <fstream>
 #include <iostream>

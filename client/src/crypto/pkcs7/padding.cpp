@@ -10,6 +10,7 @@
 
 // STL headers
 #include <stdexcept>
+#include <cstring>
 
 
 namespace chat
@@ -21,23 +22,26 @@ namespace pkcs7
 
 void add_padding(unsigned char* block, unsigned char block_size, unsigned char data_size)
 {
+    if(0u == block_size)
+        throw std::runtime_error("invalid block size");
+
     if(data_size > block_size)
         throw std::runtime_error("invalid data size");
 
-    unsigned char padding = block_size - data_size;
-
-    if(0 == padding)
-        padding = block_size;
+    unsigned char const padding = block_size - data_size % block_size;
 
     std::memset(block + data_size, padding, padding);
 }
 
 unsigned char remove_padding(unsigned char const* block, unsigned char block_size)
 {
-    unsigned char padding = block[block_size - 1];
-    unsigned char size = block_size - padding;
+    if(0u == block_size)
+        throw std::runtime_error("invalid block size");
 
-    if(0 == padding || padding > block_size)
+    unsigned char const padding = block[block_size - 1];
+    unsigned char const size = block_size - padding;
+
+    if(padding > block_size)
         throw std::runtime_error("invalid PKCS#7 padding");
 
     for(unsigned char i = size; i < block_size - 1; ++i)

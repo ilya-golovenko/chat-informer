@@ -9,6 +9,9 @@
 #include <crypto/md5/digest.hpp>
 #include <utility/make_hex_string.hpp>
 
+// STL headers
+#include <cstring>
+
 
 namespace chat
 {
@@ -56,7 +59,7 @@ void digest::copy(unsigned char value[16]) const
 
 std::string digest::to_string() const
 {
-    return util::make_hex_string(value_, 16);
+    return make_hex_string(value_, 16);
 }
 
 bool operator<(digest const& lhs, digest const& rhs)

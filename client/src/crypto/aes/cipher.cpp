@@ -25,10 +25,6 @@ cipher::cipher()
     decrypt_context_.SetParameters(key_bits, block_bits);
 }
 
-cipher::~cipher()
-{
-}
-
 void cipher::set_key(unsigned char const key[key_length])
 {
     encrypt_context_.StartEncryption(key);

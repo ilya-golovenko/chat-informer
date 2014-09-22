@@ -10,9 +10,6 @@
 // AES headers
 #include <crypto/impl/aes/aes.h>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-
 
 namespace chat
 {
@@ -21,7 +18,7 @@ namespace crypto
 namespace aes
 {
 
-class cipher : private boost::noncopyable
+class cipher
 {
 public:
     static unsigned char const key_length = 16;
@@ -29,7 +26,9 @@ public:
 
 public:
     cipher();
-    ~cipher();
+
+    cipher(cipher const&) = delete;
+    cipher& operator=(cipher const&) = delete;
 
     void set_key(unsigned char const key[key_length]);
 

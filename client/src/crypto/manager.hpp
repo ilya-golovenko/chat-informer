@@ -16,7 +16,6 @@
 #include <utility/raw_buffer.hpp>
 
 // BOOST headers
-#include <boost/noncopyable.hpp>
 #include <boost/uuid/uuid.hpp>
 
 
@@ -25,17 +24,20 @@ namespace chat
 namespace crypto
 {
 
-class manager : private boost::noncopyable
+class manager
 {
 public:
     typedef raw_buffer buffer_type;
 
 public:
-    manager();
-    ~manager();
+    manager() = default;
+    ~manager() = default;
 
     explicit manager(std::string const& pass);
     explicit manager(boost::uuids::uuid const& key);
+
+    manager(manager const&) = delete;
+    manager& operator=(manager const&) = delete;
 
     void set_passphrase(std::string const& pass);
     void set_uuid_key(boost::uuids::uuid const& key);
