@@ -79,13 +79,20 @@ use-project /chat/informer/utility : $(SRC)/utility ;
 use-project /chat/informer/crypto : $(SRC)/crypto ;
 use-project /chat/informer/core : $(SRC)/core ;
 
-use-project /chat/informer/test/utility : $(TEST)/utility ;
-use-project /chat/informer/test/crypto : $(TEST)/crypto ;
+use-project /chat/informer/utility/test : $(TEST)/utility ;
+use-project /chat/informer/crypto/test : $(TEST)/crypto ;
 
 build-project $(TEST)/utility ;
 build-project $(TEST)/crypto ;
 
 #build-project $(SRC)/informer ;
+
+alias /chat/informer/test
+    :
+        ## sources ##
+        /chat/informer/utility/test
+        /chat/informer/crypto/test
+    ;
 
 # Windows libraries
 lib psapi ;

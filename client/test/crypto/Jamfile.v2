@@ -3,7 +3,7 @@ import testing ;
 
 project chat/informer/crypto/test ;
 
-unit-test informer_crypto_test
+unit-test chat_informer_crypto_test
     :
         ## sources ##
         [ glob-tree *.cpp : .svn ]
