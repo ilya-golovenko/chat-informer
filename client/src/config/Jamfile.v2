@@ -1,0 +1,14 @@
+
+project chat/informer/config ;
+
+lib chat_informer_config
+    :
+        ## sources ##
+        [ glob-tree *.cpp : .svn ]
+        /chat/informer/utility//chat_informer_utility
+        /chat/informer/crypto//chat_informer_crypto
+        /missio/logging//missio_logging
+        /missio/json//missio_json
+    :
+        ## build requirements ##
+    ;
