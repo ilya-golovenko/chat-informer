@@ -6,9 +6,9 @@ path-constant SRC : src ;
 path-constant OBJ : obj ;
 path-constant BIN : bin ;
 path-constant TEST : test ;
-path-constant DEPENDS : depends ;
+path-constant DEPS : deps ;
 
-path-constant MISSIO_ROOT : $(DEPENDS)/missio ;
+path-constant MISSIO_ROOT : $(DEPS)/missio ;
 
 BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
 
@@ -75,8 +75,10 @@ project /chat/informer
     ;
 
 use-project /chat/informer/application : $(SRC)/informer ;
+use-project /chat/informer/network : $(SRC)/network ;
 use-project /chat/informer/utility : $(SRC)/utility ;
 use-project /chat/informer/crypto : $(SRC)/crypto ;
+use-project /chat/informer/config : $(SRC)/config ;
 use-project /chat/informer/core : $(SRC)/core ;
 
 use-project /chat/informer/utility/test : $(TEST)/utility ;
@@ -86,6 +88,17 @@ build-project $(TEST)/utility ;
 build-project $(TEST)/crypto ;
 
 #build-project $(SRC)/informer ;
+
+alias /chat/informer
+    :
+        ## sources ##
+        /chat/informer/application
+        /chat/informer/network
+        /chat/informer/utility
+        /chat/informer/crypto
+        /chat/informer/config
+        /chat/informer/core
+    ;
 
 alias /chat/informer/test
     :
