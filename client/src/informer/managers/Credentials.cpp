@@ -1,23 +1,19 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2012, 2013 Ilya Golovenko
+//    Copyright (C) 2012, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
 // Application headers
 #include <informer/managers/Credentials.h>
 #include <informer/common/Config.h>
-#include <net/util/base64.hpp>
+#include <network/util/base64.hpp>
 #include <crypto/common.hpp>
 
 // MISSIO headers
 #include <missio/unicode/convert.hpp>
 
-
-CCredentials::CCredentials()
-{
-}
 
 bool CCredentials::IsBad() const
 {

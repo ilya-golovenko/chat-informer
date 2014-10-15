@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -9,15 +9,16 @@
 // Application headers
 #include <informer/managers/IAsyncJob.h>
 
-// BOOST headers
-#include <boost/noncopyable.h>
-#include <boost/shared_ptr.h>
+// STL headers
+#include <memory>
 
 
-class CAsyncJobBase :
-    private boost::noncopyable,
-    public IAsyncJob
+class CAsyncJobBase : public IAsyncJob
 {
 public:
-    typedef boost::shared_ptr<IAsyncJob> Pointer;
+    typedef std::shared_ptr<IAsyncJob> Pointer;
+
+public:
+    CAsyncJobBase(CAsyncJobBase const&) = delete;
+    CAsyncJobBase& operator=(CAsyncJobBase const&) = delete;
 };

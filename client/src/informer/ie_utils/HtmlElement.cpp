@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -16,22 +16,6 @@
 CHtmlElement::CHtmlElement(ATL::CComPtr<IHTMLElement>& spHtmlElement) :
     m_spHtmlElement(spHtmlElement)
 {
-}
-
-CHtmlElement::~CHtmlElement()
-{
-}
-
-CHtmlElement::CHtmlElement(CHtmlElement const& other) :
-    m_spHtmlElement(other.m_spHtmlElement)
-{
-}
-
-CHtmlElement& CHtmlElement::operator=(CHtmlElement const& other)
-{
-    if(&other != this)
-        m_spHtmlElement = other.m_spHtmlElement;
-    return *this;
 }
 
 CHtmlForm CHtmlElement::AsForm()

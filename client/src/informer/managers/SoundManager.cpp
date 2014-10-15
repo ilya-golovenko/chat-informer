@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -10,26 +10,22 @@
 #include <informer/common/Logging.h>
 
 
-CSoundManager::CSoundManager()
-{
-}
-
 void CSoundManager::Initialize()
 {
-    LOG_INFO("initializing");
+    LOG_COMP_INFO(CSoundManager, "initializing");
 
     CreateSounds();
 }
 
 void CSoundManager::Finalize()
 {
-    LOG_INFO("finalizing");
+    LOG_COMP_INFO(CSoundManager, "finalizing");
 
 }
 
 void CSoundManager::Play(int sound)
 {
-    ::PlaySound(L"error.wav", NULL, SND_ASYNC | SND_NODEFAULT | SND_NOSTOP | SND_NOWAIT | SND_FILENAME);
+    ::PlaySound(L"error.wav", nullptr, SND_ASYNC | SND_NODEFAULT | SND_NOSTOP | SND_NOWAIT | SND_FILENAME);
 }
 
 void CSoundManager::CreateSounds()

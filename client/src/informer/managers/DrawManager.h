@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -9,8 +9,9 @@
 // Application headers
 #include <informer/managers/ManagerBase.h>
 
-// BOOST headers
-#include <boost/array.hpp>
+// STL headers
+#include <string>
+#include <array>
 
 
 // Colors
@@ -79,11 +80,11 @@ enum
     FONT_COUNT
 };
 
-class CDrawManager :
-    public CManagerBase<CDrawManager>
+class CDrawManager : public CManagerBase<CDrawManager>
 {
 public:
-    CDrawManager();
+    CDrawManager() = default;
+    ~CDrawManager() = default;
 
     virtual void Initialize();
     virtual void Finalize();
@@ -103,12 +104,11 @@ private:
     void DestroyPens();
     void DestroyFonts();
 
-    void CreateLogFont(WTL::CLogFont& logFont, bool useMenuFont,
-                       std::wstring const& faceName, LONG height);
+    void CreateLogFont(WTL::CLogFont& logFont, bool useMenuFont, std::wstring const& faceName, LONG height);
 
 private:
-    boost::array<COLORREF, COLOR_COUNT> m_colors;
-    boost::array<WTL::CBrush, BRUSH_COUNT> m_brushes;
-    boost::array<WTL::CPen, PEN_COUNT> m_pens;
-    boost::array<WTL::CFont, FONT_COUNT> m_fonts;
+    std::array<COLORREF, COLOR_COUNT> m_colors;
+    std::array<WTL::CBrush, BRUSH_COUNT> m_brushes;
+    std::array<WTL::CPen, PEN_COUNT> m_pens;
+    std::array<WTL::CFont, FONT_COUNT> m_fonts;
 };

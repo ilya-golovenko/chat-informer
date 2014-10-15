@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -10,20 +10,16 @@
 #include <informer/common/Logging.h>
 
 
-CSkinManager::CSkinManager()
-{
-}
-
 void CSkinManager::Initialize()
 {
-    LOG_INFO("initializing");
+    LOG_COMP_INFO(CSkinManager, "initializing");
 
     // Load skin defined by configuration
 }
 
 void CSkinManager::Finalize()
 {
-    LOG_INFO("finalizing");
+    LOG_COMP_INFO(CSkinManager, "finalizing");
 
 }
 

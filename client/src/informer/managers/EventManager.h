@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -10,12 +10,18 @@
 #include <informer/managers/ManagerBase.h>
 #include <core/events.hpp>
 
+// BOOST headers
+#include <boost/signals2.hpp>
 
-class CEventManager :
-    public CManagerBase<CEventManager>
+// STL headers
+#include <set>
+
+
+class CEventManager : public CManagerBase<CEventManager>
 {
 public:
-    CEventManager();
+    CEventManager() = default;
+    ~CEventManager() = default;
 
     virtual void Initialize();
     virtual void Finalize();

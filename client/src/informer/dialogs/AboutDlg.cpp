@@ -1,15 +1,15 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
 // Application headers
 #include <informer/dialogs/AboutDlg.h>
+#include <network/common/statistics.hpp>
 #include <core/version.hpp>
 #include <core/common.hpp>
-#include <net/common/statistics.hpp>
 
 // Event handlers
 

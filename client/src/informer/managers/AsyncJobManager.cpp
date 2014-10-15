@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -9,50 +9,59 @@
 #include <informer/common/Logging.h>
 
 
-CAsyncJobManager::CAsyncJobManager()
-{
-}
-
 void CAsyncJobManager::Initialize()
 {
-    LOG_INFO("initializing");
+    LOG_COMP_TRACE_FUNCTION(CDialogManager);
 
-    m_threads.create_thread(boost::bind(&CAsyncJobManager::ThreadExecute, this));
-    m_threads.create_thread(boost::bind(&CAsyncJobManager::ThreadExecute, this));
+    LOG_COMP_INFO(CAsyncJobManager, "initializing");
+
+    m_threads.emplace_back(std::thread(&CAsyncJobManager::ThreadExecute, this));
+    m_threads.emplace_back(std::thread(&CAsyncJobManager::ThreadExecute, this));
 }
 
 void CAsyncJobManager::Finalize()
 {
-    LOG_INFO("finalizing");
+    LOG_COMP_TRACE_FUNCTION(CDialogManager);
+
+    LOG_COMP_INFO(CAsyncJobManager, "finalizing");
 
     m_asyncJobs.disable(true);
-    m_threads.join_all();
+
+    for(std::thread& thread : m_threads)
+    {
+        if(thread.joinable())
+        {
+            thread.join();
+        }
+    }
 }
 
 void CAsyncJobManager::AddJob(CAsyncJobBase::Pointer asyncJob)
 {
-    LOG_DEBUG("adding new async job");
+    LOG_COMP_DEBUG(CAsyncJobManager, "adding new async job");
 
     m_asyncJobs.push(asyncJob);
 }
 
 void CAsyncJobManager::ThreadExecute()
 {
-    LOG_DEBUG("async job thread started");
+    LOG_COMP_TRACE_FUNCTION(CDialogManager);
 
-    for(CAsyncJobBase::Pointer asyncJob;
-        m_asyncJobs.pop(asyncJob); )
+    LOG_COMP_DEBUG(CAsyncJobManager, "async job thread started");
+
+    for(CAsyncJobBase::Pointer asyncJob; m_asyncJobs.pop(asyncJob); )
     {
         RunJob(asyncJob);
     }
 
-    LOG_DEBUG("async job thread terminated");
+    LOG_COMP_DEBUG(CAsyncJobManager, "async job thread terminated");
 }
 
 void CAsyncJobManager::RunJob(CAsyncJobBase::Pointer asyncJob)
 {
-    LOG_TRACE_SCOPE();
-    LOG_DEBUG("starting async job");
+    LOG_COMP_TRACE_FUNCTION(CDialogManager);
+
+    LOG_COMP_DEBUG(CAsyncJobManager, "starting async job");
 
     try
     {
@@ -60,6 +69,6 @@ void CAsyncJobManager::RunJob(CAsyncJobBase::Pointer asyncJob)
     }
     catch(std::exception const& e)
     {
-        LOG_ERROR("caught exception: ", e);
+        LOG_COMP_ERROR(CAsyncJobManager, "caught exception: ", e);
     }
 }

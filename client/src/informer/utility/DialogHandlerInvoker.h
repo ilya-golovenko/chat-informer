@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -11,11 +11,9 @@
 #include <informer/managers/DialogManager.h>
 #include <informer/common/Logging.h>
 
-// BOOST headers
-#include <boost/shared_ptr.hpp>
-
 // STL headers
 #include <exception>
+#include <memory>
 
 
 template
@@ -29,7 +27,7 @@ public:
     template <typename ...Args>
     static void Invoke(Function function, Args const& ...args)
     {
-        if(boost::shared_ptr<Dialog> dialog = FindDialog())
+        if(std::shared_ptr<Dialog> dialog = FindDialog())
         {
             try
             {
@@ -37,13 +35,13 @@ public:
             }
             catch(std::exception const& e)
             {
-                LOG_ERROR("caught exception: ", e);
+                LOG_COMP_ERROR(DialogHandlerInvoker, "caught exception: ", e);
             }
         }
     }
 
 private:
-    static boost::shared_ptr<Dialog> FindDialog()
+    static std::shared_ptr<Dialog> FindDialog()
     {
         return CManagerFactory::Get<CDialogManager>().Find<Dialog>();
     }

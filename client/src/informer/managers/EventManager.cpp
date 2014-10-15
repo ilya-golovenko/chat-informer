@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -21,23 +21,23 @@
 #include <stdexcept>
 
 
-CEventManager::CEventManager()
-{
-}
-
 void CEventManager::Initialize()
 {
-    LOG_INFO("initializing");
+    LOG_COMP_TRACE_FUNCTION(CEventManager);
+
+    LOG_COMP_INFO(CEventManager, "initializing");
 }
 
 void CEventManager::Finalize()
 {
-    LOG_INFO("finalizing");
+    LOG_COMP_TRACE_FUNCTION(CEventManager);
+
+    LOG_COMP_INFO(CEventManager, "finalizing");
 }
 
 void CEventManager::AddEvent(chat::event::type event)
 {
-    LOG_DEBUG("adding event: ", event);
+    LOG_COMP_DEBUG(CEventManager, "adding event: ", event);
 
     if(chat::event::none != event)
     {
@@ -53,7 +53,7 @@ void CEventManager::AddEvent(chat::event::type event)
 
 void CEventManager::RemoveEvent(chat::event::type event)
 {
-    LOG_DEBUG("removing event: ", event);
+    LOG_COMP_DEBUG(CEventManager, "removing event: ", event);
 
     if(chat::event::none != event)
     {
@@ -64,7 +64,7 @@ void CEventManager::RemoveEvent(chat::event::type event)
 
 void CEventManager::ClearEvents()
 {
-    LOG_DEBUG("clearing events");
+    LOG_COMP_DEBUG(CEventManager, "clearing events");
 
     boost::for_each(m_events, boost::bind(boost::cref(m_event_removed), _1));
 
@@ -101,7 +101,7 @@ chat::event::type CEventManager::PeekEvent() const
 
 void CEventManager::ShowEventNotification(chat::event::type event) const
 {
-    LOG_DEBUG("showing notification for event: ", event);
+    LOG_COMP_DEBUG(CEventManager, "showing notification for event: ", event);
 
     if(chat::event::none != event)
     {

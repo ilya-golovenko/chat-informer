@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2012, 2013 Ilya Golovenko
+//    Copyright (C) 2012, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -22,8 +22,9 @@ CManagerFactory::manager_map CManagerFactory::m_managers;
 
 void CManagerFactory::CreateManagers()
 {
-    LOG_TRACE_SCOPE();
-    LOG_NOTICE("creating managers");
+    LOG_COMP_TRACE_FUNCTION(CManagerFactory);
+
+    LOG_COMP_NOTICE(CManagerFactory, "creating managers");
 
     Create<CDrawManager>();
     Create<CIconManager>();
@@ -37,24 +38,32 @@ void CManagerFactory::CreateManagers()
 
 void CManagerFactory::InitializeManagers()
 {
-    LOG_TRACE_SCOPE();
-    LOG_NOTICE("initializing managers");
+    LOG_COMP_TRACE_FUNCTION(CManagerFactory);
+
+    LOG_COMP_NOTICE(CManagerFactory, "initializing managers");
 
     boost::for_each(m_managers | boost::adaptors::map_values, boost::bind(&IManager::Initialize, _1));
 }
 
 void CManagerFactory::FinalizeManagers()
 {
-    LOG_TRACE_SCOPE();
-    LOG_NOTICE("finalizing managers");
+    LOG_COMP_TRACE_FUNCTION(CManagerFactory);
+
+    LOG_COMP_NOTICE(CManagerFactory, "finalizing managers");
+
+    for(auto const& manager : m_managers)
+    {
+        manager.second->Finalize();
+    }
 
     boost::for_each(m_managers | boost::adaptors::map_values | boost::adaptors::reversed, boost::bind(&IManager::Finalize, _1));
 }
 
 void CManagerFactory::DestroyManagers()
 {
-    LOG_TRACE_SCOPE();
-    LOG_NOTICE("destroying managers");
+    LOG_COMP_TRACE_FUNCTION(CManagerFactory);
+
+    LOG_COMP_NOTICE(CManagerFactory, "destroying managers");
 
     m_managers.clear();
 }
@@ -71,10 +80,12 @@ CManagerFactory::manager_pointer CManagerFactory::GetManager(std::type_info cons
 
 void CManagerFactory::CreateManager(std::type_info const& type_info, create_function create)
 {
-    LOG_DEBUG("creating manager: ", type_info.name());
+    LOG_COMP_TRACE_FUNCTION(CManagerFactory);
+
+    LOG_COMP_DEBUG(CManagerFactory, "creating manager: ", type_info.name());
 
     if(boost::count(m_managers | boost::adaptors::map_keys, type_info.name()))
         throw std::runtime_error("manager already created");
 
-    m_managers.push_back(std::make_pair(type_info.name(), create()));
+    m_managers.emplace_back(type_info.name(), create());
 }

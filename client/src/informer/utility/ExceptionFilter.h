@@ -1,27 +1,26 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
 
-// Windows headers
-#include <windows.h>
-
-// BOOST headers
-#include <boost/noncopyable.hpp>
-
 // STL headers
 #include <string>
 
+// Windows headers
+#include <windows.h>
 
-class CExceptionFilter :
-    private boost::noncopyable
+
+class CExceptionFilter
 {
 public:
     CExceptionFilter();
     ~CExceptionFilter();
+
+    CExceptionFilter(CExceptionFilter const&) = delete;
+    CExceptionFilter& operator=(CExceptionFilter const&) = delete;
 
     void Install();
     void Uninstall();

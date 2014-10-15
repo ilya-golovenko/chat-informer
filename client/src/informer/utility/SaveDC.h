@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -9,12 +9,8 @@
 // Windows headers
 #include <windows.h>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
 
-
-class CSaveDC :
-    private boost::noncopyable
+class CSaveDC
 {
 public:
     CSaveDC(HDC hDC) :
@@ -27,6 +23,9 @@ public:
     {
         ::RestoreDC(m_hDC, m_savedDC);
     }
+
+    CSaveDC(CSaveDC const&) = delete;
+    CSaveDC& operator=(CSaveDC const&) = delete;
 
 private:
     HDC m_hDC;

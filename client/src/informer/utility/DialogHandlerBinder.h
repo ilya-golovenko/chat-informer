@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -27,11 +27,6 @@ public:
     DialogHandlerBinder(Function function) :
         function_(function)
     {
-    }
-
-    void operator()()
-    {
-        DispatchHandler(DialogHandler_0<Dialog, Function, Invoker>(function_));
     }
 
     template <typename ...Args>

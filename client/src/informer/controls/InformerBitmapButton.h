@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -33,7 +33,7 @@ class ATL_NO_VTABLE CInformerBitmapButtonImpl :
 public:
     // Members
     CToolTipCtrl m_ctrlToolTip;
-    boost::scoped_array<WCHAR> m_strTip;
+    std::uniqure_ptr<WCHAR[]> m_strTip;
 
 public:
     enum
@@ -77,8 +77,7 @@ public:
 
         if(!m_ctrlToolTip.IsWindow())
         {
-            m_ctrlToolTip.Create(m_hWnd, NULL, NULL, WS_POPUP
-                | TTS_NOPREFIX | TTS_ALWAYSTIP, WS_EX_TOPMOST);
+            m_ctrlToolTip.Create(m_hWnd, NULL, NULL, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, WS_EX_TOPMOST);
 
             ATLASSERT(m_ctrlToolTip.IsWindow());
 
@@ -87,8 +86,7 @@ public:
             m_ctrlToolTip.SetTipTextColor(m_drawManager.Color(COLOR_TEXT_NORMAL));
         }
 
-        CToolInfo toolInfo(TTF_SUBCLASS,
-            m_hWnd, 0, 0, m_strTip.get());
+        CToolInfo toolInfo(TTF_SUBCLASS, m_hWnd, 0, 0, m_strTip.get());
 
         m_ctrlToolTip.AddTool(toolInfo);
 

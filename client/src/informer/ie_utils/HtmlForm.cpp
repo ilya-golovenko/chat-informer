@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -16,22 +16,6 @@
 CHtmlForm::CHtmlForm(ATL::CComPtr<IHTMLFormElement>& spHtmlFormElement) :
     m_spHtmlFormElement(spHtmlFormElement)
 {
-}
-
-CHtmlForm::~CHtmlForm()
-{
-}
-
-CHtmlForm::CHtmlForm(CHtmlForm const& other) :
-    m_spHtmlFormElement(other.m_spHtmlFormElement)
-{
-}
-
-CHtmlForm& CHtmlForm::operator=(CHtmlForm const& other)
-{
-    if(&other != this)
-        m_spHtmlFormElement = other.m_spHtmlFormElement;
-    return *this;
 }
 
 CHtmlElement CHtmlForm::GetElement(CString const& strName)

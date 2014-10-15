@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -11,18 +11,17 @@
 #include <atlmisc.h>
 #include <atlcomcli.h>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-
 
 class CHtmlDocument;
 
-class CInternetExplorer :
-    private boost::noncopyable
+class CInternetExplorer
 {
 public:
-    CInternetExplorer();
-    ~CInternetExplorer();
+    CInternetExplorer() = default;
+    ~CInternetExplorer() = default;
+
+    CInternetExplorer(CInternetExplorer const&) = delete;
+    CInternetExplorer& operator=(CInternetExplorer const&) = delete;
 
     void Start();
     void Quit();

@@ -1,19 +1,19 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
-
-// WIndows headers
-#include <windows.h>
 
 // BOOST headers
 #include <boost/filesystem/path.hpp>
 
 // STL headers
 #include <string>
+
+// Windows headers
+#include <windows.h>
 
 
 class CShellExecuteHelper

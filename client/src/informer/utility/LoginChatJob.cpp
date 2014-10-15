@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@
 
 CLoginChatJob::Pointer CLoginChatJob::Create()
 {
-    return boost::make_shared<CLoginChatJob>();
+    return std::make_shared<CLoginChatJob>();
 }
 
 void CLoginChatJob::Run()
@@ -24,7 +24,7 @@ void CLoginChatJob::Run()
     if(m_informerManager.HasCredentials() &&
         !m_informerManager.IsBadCredentials())
     {
-        if(SUCCEEDED(::CoInitialize(NULL)))
+        if(SUCCEEDED(::CoInitialize(nullptr)))
         {
             CInternetExplorer browser;
 

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -14,10 +14,10 @@
 #include <informer/managers/ManagerFactory.h>
 #include <informer/common/Config.h>
 #include <informer/common/Logging.h>
+#include <network/http/uri_builder.hpp>
 #include <core/common.hpp>
 #include <core/factory.hpp>
 #include <core/server_errors.hpp>
-#include <net/http/uri_builder.hpp>
 
 
 CInformerManager::CInformerManager() :
@@ -27,7 +27,9 @@ CInformerManager::CInformerManager() :
 
 void CInformerManager::Initialize()
 {
-    LOG_INFO("initializing");
+    LOG_COMP_TRACE_FUNCTION(CInformerManager);
+
+    LOG_COMP_INFO(CInformerManager, "initializing");
 
     UpdateCredentials();
 
@@ -43,7 +45,9 @@ void CInformerManager::Initialize()
 
 void CInformerManager::Finalize()
 {
-    LOG_INFO("finalizing");
+    LOG_COMP_TRACE_FUNCTION(CInformerManager);
+
+    LOG_COMP_INFO(CInformerManager, "finalizing");
 
     chat::factory::downloader().stop();
     chat::factory::informer().stop();
@@ -91,7 +95,7 @@ std::wstring CInformerManager::GetPassword() const
 
 void CInformerManager::UpdateCredentials(std::wstring const& nickname, std::wstring const& password);
 {
-    LOG_INFO("updating credentials");
+    LOG_COMP_INFO(CInformerManager, "updating credentials");
 
     if(m_credentials.Update(nickname, password))
     {
@@ -126,6 +130,7 @@ void CInformerManager::OnInformerQuery(chat::query::pointer query)
         try
         {
             missio::json::object const& json_data = query->json_data();
+
             chat::factory::storage().update(json_data);
 
             UpdateInformerState(json_data);
@@ -135,7 +140,7 @@ void CInformerManager::OnInformerQuery(chat::query::pointer query)
         }
         catch(std::exception const& e)
         {
-            LOG_ERROR("caught exception: ", e);
+            LOG_COMP_ERROR(CInformerManager, "caught exception: ", e);
         }
     }
     else
@@ -259,7 +264,7 @@ void CInformerManager::SetInformerState(InformerState state)
 {
     if(m_state != state)
     {
-        LOG_INFO("informer state has changed: ", state);
+        LOG_COMP_INFO(CInformerManager, "informer state has changed: ", state);
 
         m_state = state;
         m_state_changed(m_state);
@@ -271,7 +276,7 @@ void CInformerManager::SetInformerState(InformerState state)
 
 void CInformerManager::TerminateApplication(UINT stringID)
 {
-    LOG_WARNING("terminating application");
+    LOG_COMP_WARNING(CInformerManager, "terminating application");
 
     CManagerFactory::Get<CSoundManager>().Play(SOUND_ERROR);
     CManagerFactory::Get<CDialogManager>().ShowMessage(stringID);
@@ -285,7 +290,7 @@ void CInformerManager::ShowNotification(UINT stringID, int dialogID)
 
 void CInformerManager::DownloadFavoriteIcon(net::http::uri const& uri, boost::filesystem::path const& filename)
 {
-    LOG_DEBUG("downloading favorite icon (uri: ", uri, "; filename: ", filename, ")");
+    LOG_COMP_DEBUG(CInformerManager, "downloading favorite icon (uri: ", uri, "; filename: ", filename, ")");
 
     boost::filesystem::path path = "data/icons/links" / filename;
 
@@ -308,7 +313,7 @@ void CInformerManager::AddFavoriteIcon(net::http::uri const& uri, boost::filesys
 
 void CInformerManager::DownloadUserIcon(std::wstring const& nickname, boost::filesystem::path const& filename)
 {
-    LOG_DEBUG("downloading user icon (nickname: ", nickname, "; filename: ", filename, ")");
+    LOG_COMP_DEBUG(CInformerManager, "downloading user icon (nickname: ", nickname, "; filename: ", filename, ")");
 
     boost::filesystem::path path = "data/icons/users" / filename;
 
@@ -333,6 +338,6 @@ void CInformerManager::AddUserIcon(std::wstring const& nickname, boost::filesyst
 
 void CInformerManager::AddCustomIcon(std::wstring const& id, boost::filesystem::path const& filename)
 {
-    LOG_DEBUG("adding custom icon (id: ", id, "; filename: ", filename, ")");
+    LOG_COMP_DEBUG(CInformerManager, "adding custom icon (id: ", id, "; filename: ", filename, ")");
     CManagerFactory::Get<CIconManager>().AddCustomIcon(id, filename);
 }

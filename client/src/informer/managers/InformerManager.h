@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -17,9 +17,14 @@
 // MISSIO headers
 #include <missio/json/json.hpp>
 
+// BOOST headers
+#include <boost/signals2.hpp>
 
-class CInformerManager :
-    public CManagerBase<CInformerManager>
+// STL headers
+#include <string>
+
+
+class CInformerManager : public CManagerBase<CInformerManager>
 {
 public:
     CInformerManager();

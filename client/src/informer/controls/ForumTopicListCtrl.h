@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -56,10 +56,6 @@ public:
         std::wstring topic_id;
         bool is_new;
         bool is_read;
-
-        ITEM_DATA()
-        {
-        }
     };
 
 public:

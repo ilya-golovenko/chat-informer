@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -19,10 +19,9 @@ class CHtmlDocument
 {
 public:
     CHtmlDocument(ATL::CComPtr<IHTMLDocument3>& spHtmlDocument3);
-    ~CHtmlDocument();
 
-    CHtmlDocument(CHtmlDocument const& other);
-    CHtmlDocument& operator=(CHtmlDocument const& other);
+    CHtmlDocument(CHtmlDocument const&) = default;
+    CHtmlDocument& operator=(CHtmlDocument const&) = default;
 
     WTL::CString GetURL();
     WTL::CString GetDomain();

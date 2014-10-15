@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -16,8 +16,7 @@
 #include <string>
 
 
-class CShellExecuteJob :
-    public CAsyncJobBase
+class CShellExecuteJob : public CAsyncJobBase
 {
 public:
     static Pointer Create(boost::filesystem::path const& filename,

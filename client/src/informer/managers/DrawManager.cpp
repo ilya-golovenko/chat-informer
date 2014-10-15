@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -11,13 +11,11 @@
 #include <informer/common/Config.h>
 
 
-CDrawManager::CDrawManager()
-{
-}
-
 void CDrawManager::Initialize()
 {
-    LOG_INFO("initializing");
+    LOG_COMP_TRACE_FUNCTION(CDrawManager);
+
+    LOG_COMP_INFO(CDrawManager, "initializing");
 
     CreateColors();
     CreateBrushes();
@@ -27,7 +25,9 @@ void CDrawManager::Initialize()
 
 void CDrawManager::Finalize()
 {
-    LOG_INFO("finalizing");
+    LOG_COMP_TRACE_FUNCTION(CDrawManager);
+
+    LOG_COMP_INFO(CDrawManager, "finalizing");
 
     DestroyBrushes();
     DestroyPens();
@@ -56,7 +56,9 @@ HFONT CDrawManager::Font(std::size_t font)
 
 void CDrawManager::CreateColors()
 {
-    LOG_DEBUG("creating colors");
+    LOG_COMP_TRACE_FUNCTION(CDrawManager);
+
+    LOG_COMP_DEBUG(CDrawManager, "creating colors");
 
     m_colors[COLOR_BACK_WHITE] = cfg::skin::color::back::white;
     m_colors[COLOR_BACK_LIGHT] = cfg::skin::color::back::light;
@@ -78,7 +80,9 @@ void CDrawManager::CreateColors()
 
 void CDrawManager::CreateBrushes()
 {
-    LOG_DEBUG("creating brushes");
+    LOG_COMP_TRACE_FUNCTION(CDrawManager);
+
+    LOG_COMP_DEBUG(CDrawManager, "creating brushes");
 
     m_brushes[BRUSH_WHITE].CreateSolidBrush(m_colors[COLOR_BACK_WHITE]);
     m_brushes[BRUSH_LIGHT].CreateSolidBrush(m_colors[COLOR_BACK_LIGHT]);
@@ -89,7 +93,9 @@ void CDrawManager::CreateBrushes()
 
 void CDrawManager::CreatePens()
 {
-    LOG_DEBUG("creating pens");
+    LOG_COMP_TRACE_FUNCTION(CDrawManager);
+
+    LOG_COMP_DEBUG(CDrawManager, "creating pens");
 
     m_pens[PEN_NORMAL].CreatePen(PS_SOLID, 1, m_colors[COLOR_RECT_NORMAL]);
     m_pens[PEN_SELECTED].CreatePen(PS_SOLID, 1, m_colors[COLOR_RECT_SELECTED]);
@@ -100,7 +106,9 @@ void CDrawManager::CreatePens()
 
 void CDrawManager::CreateFonts()
 {
-    LOG_DEBUG("creating fonts");
+    LOG_COMP_TRACE_FUNCTION(CDrawManager);
+
+    LOG_COMP_DEBUG(CDrawManager, "creating fonts");
 
     WTL::CLogFont logFontMain;
     WTL::CLogFont logFontMenu;
@@ -136,39 +144,44 @@ void CDrawManager::CreateFonts()
 
 void CDrawManager::DestroyBrushes()
 {
-    LOG_DEBUG("destroying brushes");
+    LOG_COMP_TRACE_FUNCTION(CDrawManager);
 
-    for(std::size_t i = 0; i < m_brushes.size(); ++i)
+    LOG_COMP_DEBUG(CDrawManager, "destroying brushes");
+
+    for(WTL::CBrush& brush : m_brushes)
     {
-        if(!m_brushes[i].IsNull())
-            m_brushes[i].DeleteObject();
+        if(!brush.IsNull())
+            brush.DeleteObject();
     }
 }
 
 void CDrawManager::DestroyPens()
 {
-    LOG_DEBUG("destroying pens");
+    LOG_COMP_TRACE_FUNCTION(CDrawManager);
 
-    for(std::size_t i = 0; i < m_pens.size(); ++i)
+    LOG_COMP_DEBUG(CDrawManager, "destroying pens");
+
+    for(WTL::CPen& pen : m_pens)
     {
-        if(!m_pens[i].IsNull())
-            m_pens[i].DeleteObject();
+        if(!pen.IsNull())
+            pen.DeleteObject();
     }
 }
 
 void CDrawManager::DestroyFonts()
 {
-    LOG_DEBUG("destroying fonts");
+    LOG_COMP_TRACE_FUNCTION(CDrawManager);
 
-    for(std::size_t i = 0; i < m_fonts.size(); ++i)
+    LOG_COMP_DEBUG(CDrawManager, "destroying fonts");
+
+    for(WTL::CFont& font : m_fonts)
     {
-        if(!m_fonts[i].IsNull())
-            m_fonts[i].DeleteObject();
+        if(!font.IsNull())
+            font.DeleteObject();
     }
 }
 
-void CDrawManager::CreateLogFont(WTL::CLogFont& logFont, bool useMenuFont,
-                                 std::wstring const& faceName, LONG height)
+void CDrawManager::CreateLogFont(WTL::CLogFont& logFont, bool useMenuFont, std::wstring const& faceName, LONG height)
 {
     if(useMenuFont)
     {

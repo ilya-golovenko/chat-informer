@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -89,7 +89,9 @@ CIconManager::~CIconManager()
 
 void CIconManager::Initialize()
 {
-    LOG_INFO("initializing");
+    LOG_COMP_TRACE_FUNCTION(CIconManager);
+
+    LOG_COMP_INFO(CIconManager, "initializing");
 
     CreateBlankIcon();
     ReloadIcons();
@@ -97,7 +99,9 @@ void CIconManager::Initialize()
 
 void CIconManager::Finalize()
 {
-    LOG_INFO("finalizing");
+    LOG_COMP_TRACE_FUNCTION(CIconManager);
+
+    LOG_COMP_INFO(CIconManager, "finalizing");
 
     DestroyImageList();
 }
@@ -117,7 +121,9 @@ bool CIconManager::ReloadIcons()
 
 bool CIconManager::ReloadIcons(boost::filesystem::path const& path)
 {
-    LOG_DEBUG("reloading icons from path: ", path);
+    LOG_COMP_TRACE_FUNCTION(CIconManager);
+
+    LOG_COMP_DEBUG(CIconManager, "reloading icons from path: ", path);
 
     RecreateImageList();
 
@@ -138,7 +144,7 @@ int CIconManager::FindCustomIconIndex(std::wstring const& id)
     ATLASSERT(!id.empty());
     ATLASSERT(!m_icons.IsNull());
 
-    index_map::const_iterator it = m_customIcons.find(boost::to_lower_copy(id));
+    index_map::const_iterator it = m_customIcons.find(boost::algorithm::to_lower_copy(id));
 
     if(it != m_customIcons.end())
         return it->second;
@@ -152,9 +158,9 @@ void CIconManager::AddCustomIcon(std::wstring const& id, boost::filesystem::path
     ATLASSERT(!filename.empty());
     ATLASSERT(!m_icons.IsNull());
 
-    LOG_DEBUG("adding custom icon (id: ", id, "; filename: ", filename, ")");
+    LOG_COMP_DEBUG(CIconManager, "adding custom icon (id: ", id, "; filename: ", filename, ")");
 
-    m_customIcons.insert(index_map::value_type(boost::to_lower_copy(id), LoadIconFromFile(filename)));
+    m_customIcons.emplace(boost::algorithm::to_lower_copy(id), LoadIconFromFile(filename));
 }
 
 void CIconManager::DrawIcon(HDC hDC, CPoint pt, int icon, int overlay, int state)
@@ -186,7 +192,7 @@ void CIconManager::DrawIcon(HDC hDC, CPoint pt, std::wstring const& id, int over
     ATLASSERT(!id.empty());
     ATLASSERT(!m_icons.IsNull());
 
-    int icon = FindCustomIconIndex(id);
+    int const icon = FindCustomIconIndex(id);
 
     if(icon >= 0)
         DrawIcon(hDC, pt, icon, overlay, state);
@@ -196,7 +202,7 @@ void CIconManager::CreateImageList()
 {
     ATLASSERT(m_icons.IsNull());
 
-    LOG_DEBUG("creating image list");
+    LOG_COMP_DEBUG(CIconManager, "creating image list");
 
     ATLVERIFY(m_icons.Create(m_cx, m_cy, ILC_MASK | ILC_COLOR32, ICON_COUNT, 8));
 }
@@ -205,7 +211,7 @@ void CIconManager::DestroyImageList()
 {
     if(!m_icons.IsNull())
     {
-        LOG_DEBUG("destroying image list");
+        LOG_COMP_DEBUG(CIconManager, "destroying image list");
 
         m_icons.Destroy();
         m_customIcons.clear();
@@ -214,7 +220,7 @@ void CIconManager::DestroyImageList()
 
 void CIconManager::RecreateImageList()
 {
-    LOG_DEBUG("recreating image list");
+    LOG_COMP_DEBUG(CIconManager, "recreating image list");
 
     DestroyImageList();
     CreateImageList();
@@ -227,19 +233,19 @@ int CIconManager::LoadIconFromFile(boost::filesystem::path const& filename)
 
     CIcon icon;
 
-    LOG_DEBUG("loading icon from file: ", filename);
+    LOG_COMP_DEBUG(CIconManager, "loading icon from file: ", filename);
     icon.LoadIcon(filename.c_str(), m_cx, m_cy, LR_LOADFROMFILE);
 
     if(icon.IsNull())
     {
-        LOG_WARNING("cannot load icon, using blank");
+        LOG_COMP_WARNING(CIconManager, "cannot load icon, using blank");
         icon.Attach(m_iconBlank.DuplicateIcon());
     }
 
     if(!icon.IsNull())
         return m_icons.AddIcon(icon);
 
-    LOG_ERROR("cannot use blank icon");
+    LOG_COMP_ERROR(CIconManager, "cannot use blank icon");
 
     return -1;
 }
@@ -248,7 +254,7 @@ void CIconManager::CreateBlankIcon()
 {
     if(m_iconBlank.IsNull())
     {
-        LOG_DEBUG("creating blank icon");
+        LOG_COMP_DEBUG(CIconManager, "creating blank icon");
 
         BYTE andMask[128];
         BYTE xorMask[128];

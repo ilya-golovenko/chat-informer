@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -19,11 +19,11 @@ enum
     SOUND_COUNT
 };
 
-class CSoundManager :
-    public CManagerBase<CSoundManager>
+class CSoundManager : public CManagerBase<CSoundManager>
 {
 public:
-    CSoundManager();
+    CSoundManager() = default;
+    ~CSoundManager() = default;
 
     virtual void Initialize();
     virtual void Finalize();

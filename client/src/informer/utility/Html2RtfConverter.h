@@ -123,12 +123,14 @@ struct html_tag_style_t
 
 typedef boost::optional<html_tag_style_t> optional_html_tag_style_t;
 
-class Html2RtfConverter :
-    private boost::noncopyable
+class Html2RtfConverter
 {
 public:
     Html2RtfConverter();
     ~Html2RtfConverter();
+
+    Html2RtfConverter(Html2RtfConverter const&) = delete;
+    Html2RtfConverter& operator=(Html2RtfConverter const&) = delete;
 
     std::string convert(std::string const& html);
 

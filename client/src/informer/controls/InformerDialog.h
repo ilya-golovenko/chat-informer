@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -24,8 +24,7 @@ class ATL_NO_VTABLE CInformerDlgImpl :
     public CIdleHandler,
     public CMessageFilter,
     public CInformerHelper,
-    public CDialogImpl<T, TBase>,
-    public boost::enable_shared_from_this<T>
+    public CDialogImpl<T, TBase>
 {
 public:
     enum
@@ -36,9 +35,9 @@ public:
 public:
     // Operations
 
-    static boost::shared_ptr<T> Create(HWND hWndParent)
+    static std::shared_ptr<T> Create(HWND hWndParent)
     {
-        boost::shared_ptr<T> dialog = boost::make_shared<T>();
+        std::shared_ptr<T> dialog = std::make_shared<T>();
         dialog->CDialogImpl<T, TBase>::Create(hWndParent);
 
         if(!dialog->IsWindow())
@@ -219,10 +218,6 @@ public:
     }
 
     // Implementation
-
-    virtual ~CInformerDlgImpl()
-    {
-    }
 
     void EnsureVisible()
     {

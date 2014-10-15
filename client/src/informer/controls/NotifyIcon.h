@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -70,7 +70,10 @@ public:
 
     void ClearIconList()
     {
-        boost::for_each(m_icons, boost::bind<BOOL>(&::DestroyIcon, _1));
+        for(HICON hIcon : m_icons)
+        {
+            ::DestroyIcon(hIcon);
+        }
 
         m_icons.clear();
     }

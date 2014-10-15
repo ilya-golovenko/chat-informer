@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -9,7 +9,7 @@
 // Application headers
 #include <informer/utility/ExceptionFilter.h>
 #include <informer/utility/SingleInstance.h>
-#include <net/http/proxy_settings.hpp>
+#include <network/http/proxy_settings.hpp>
 
 // Windows headers
 #include <windows.h>
@@ -19,12 +19,14 @@
 #include <atlwin.h>
 
 
-class CApplication :
-    private boost::noncopyable
+class CApplication
 {
 public:
     CApplication();
     ~CApplication();
+
+    CApplication(CApplication const&) = delete;
+    CApplication& operator=(CApplication const&) = delete;
 
     BOOL IsPreviousInstanceRunning();
     int ActivatePreviousInstance();

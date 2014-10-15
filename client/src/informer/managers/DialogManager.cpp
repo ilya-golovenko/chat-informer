@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -34,13 +34,15 @@ CDialogManager::CDialogManager() :
 
 CDialogManager::~CDialogManager()
 {
-    if(m_message_hook)
+    if(nullptr != m_message_hook)
         ::UnhookWindowsHookEx(m_message_hook);
 }
 
 void CDialogManager::Initialize()
 {
-    LOG_INFO("initializing");
+    LOG_COMP_TRACE_FUNCTION(CDialogManager);
+
+    LOG_COMP_INFO(CDialogManager, "initializing");
 
     m_main_thread_id = ::GetCurrentThreadId();
 
@@ -51,7 +53,7 @@ void CDialogManager::Initialize()
     if(!m_message_hook)
         throw std::runtime_error("cannot create message hook");
 
-    LOG_NOTICE("registering dialogs");
+    LOG_COMP_INFO(CDialogManager, "registering dialogs");
 
     Register<CForumDlg>();
     Register<CAlarmsDlg>();
@@ -69,27 +71,30 @@ void CDialogManager::Initialize()
 
 void CDialogManager::Finalize()
 {
-    LOG_INFO("finalizing");
+    LOG_COMP_TRACE_FUNCTION(CDialogManager);
 
-    if(m_message_hook)
+    LOG_COMP_INFO(CDialogManager, "finalizing");
+
+    if(nullptr != m_message_hook)
         ::UnhookWindowsHookEx(m_message_hook);
 
-    m_message_hook = NULL;
+    m_message_hook = nullptr;
 }
 
 ATL::CWindow CDialogManager::CreateMainDialog()
 {
-    LOG_INFO("creating main dialog");
+    LOG_COMP_INFO(CDialogManager, "creating main dialog");
 
-    dialog_pointer dialog = CMainDlg::Create(NULL);
-    m_dialog_map.insert(std::make_pair(IDD_MAIN, dialog));
+    dialog_pointer dialog = CMainDlg::Create(nullptr);
+
+    m_dialog_map.emplace(IDD_MAIN, dialog);
 
     return *dialog;
 }
 
 void CDialogManager::DestroyMainDialog()
 {
-    LOG_INFO("destroying main dialog");
+    LOG_COMP_INFO(CDialogManager, "destroying main dialog");
     GetMainDialog().DestroyWindow();
 }
 
@@ -100,7 +105,7 @@ ATL::CWindow CDialogManager::GetMainDialog() const
 
 void CDialogManager::ShowDialog(int dialogID, bool bringToTop)
 {
-    LOG_DEBUG("showing dialog (ID: ", dialogID, ")");
+    LOG_COMP_DEBUG(CDialogManager, "showing dialog (ID: ", dialogID, ")");
 
     dialog_pointer dialog = FindDialog(dialogID);
 
@@ -120,7 +125,7 @@ void CDialogManager::ShowDialog(int dialogID, bool bringToTop)
 
 void CDialogManager::DestroyDialog(int dialogID)
 {
-    LOG_DEBUG("destroying dialog (ID: ", dialogID, ")");
+    LOG_COMP_DEBUG(CDialogManager, "destroying dialog (ID: ", dialogID, ")");
 
     ::PostThreadMessage(m_main_thread_id, WM_DESTROY_DIALOG,
         static_cast<WPARAM>(dialogID), reinterpret_cast<LPARAM>(this));
@@ -128,7 +133,7 @@ void CDialogManager::DestroyDialog(int dialogID)
 
 void CDialogManager::SwitchDialogVisibility(int dialogID)
 {
-    LOG_DEBUG("switching dialog visibility (ID: ", dialogID, ")");
+    LOG_COMP_DEBUG(CDialogManager, "switching dialog visibility (ID: ", dialogID, ")");
 
     ATL::CWindow dialog = GetDialog(dialogID);
 
@@ -136,13 +141,13 @@ void CDialogManager::SwitchDialogVisibility(int dialogID)
     {
         if(TRUE == dialog.IsWindowVisible())
         {
-            LOG_DEBUG("closing dialog (ID: ", dialogID, ")");
+            LOG_COMP_DEBUG(CDialogManager, "closing dialog (ID: ", dialogID, ")");
 
             dialog.PostMessage(WM_SYSCOMMAND, SC_CLOSE);
         }
         else
         {
-            LOG_DEBUG("showing dialog (ID: ", dialogID, ")");
+            LOG_COMP_DEBUG(CDialogManager, "showing dialog (ID: ", dialogID, ")");
 
             dialog.ShowWindow(SW_SHOW);
             ::SetForegroundWindow(dialog);
@@ -167,18 +172,18 @@ bool CDialogManager::IsDialogVisible(int dialogID) const
 ATL::CWindow CDialogManager::GetDialog(int dialogID) const
 {
     dialog_map::const_iterator it = m_dialog_map.find(dialogID);
-    return it != m_dialog_map.end() ? *it->second : ATL::CWindow(NULL);
+    return it != m_dialog_map.end() ? *it->second : ATL::CWindow(nullptr);
 }
 
 void CDialogManager::ShowUserInfo(ATL::CString const& strNickName)
 {
-    LOG_DEBUG("showing user info dialog (nickname: ", strNickName, ")");
+    LOG_COMP_DEBUG(CDialogManager, "showing user info dialog (nickname: ", strNickName, ")");
     Show<CUserInfoDlg>()->LoadUserInfo(strNickName);
 }
 
 void CDialogManager::SendMessage(ATL::CString const& strNickName)
 {
-    LOG_DEBUG("showing send message dialog (nickname: ", strNickName, ")");
+    LOG_COMP_DEBUG(CDialogManager, "showing send message dialog (nickname: ", strNickName, ")");
     Show<CSendMessageDlg>()->SetUserNickName(strNickName);
 }
 
@@ -192,7 +197,7 @@ void CDialogManager::ShowMessage(UINT stringID, HWND hWndParent)
 
 void CDialogManager::ShowMessage(ATL::CString const& strMessage, HWND hWndParent)
 {
-    LOG_DEBUG("showing message dialog (message: '", strMessage, "')");
+    LOG_COMP_DEBUG(CDialogManager, "showing message dialog (message: '", strMessage, "')");
     CMessageDlg(strMessage).DoModal(hWndParent);
 }
 
@@ -206,18 +211,18 @@ void CDialogManager::ShowNotification(UINT stringID, int dialogID)
 
 void CDialogManager::ShowNotification(ATL::CString const& strText, int dialogID)
 {
-    LOG_DEBUG("showing notification (text: '", strText, "'; ID: ", dialogID, ")");
+    LOG_COMP_DEBUG(CDialogManager, "showing notification (text: '", strText, "'; ID: ", dialogID, ")");
     Show<CNotificationDlg>(false)->SetNotification(strText, dialogID);
 }
 
 void CDialogManager::RegisterDialog(int dialogID, create_function create)
 {
-    LOG_DEBUG("registering dialog (ID: ", dialogID, ")");
+    LOG_COMP_DEBUG(CDialogManager, "registering dialog (ID: ", dialogID, ")");
 
     if(boost::count(m_create_map | boost::adaptors::map_keys, dialogID))
         throw std::runtime_error("dialog already registered");
 
-    m_create_map.insert(std::make_pair(dialogID, create));
+    m_create_map.emplace(dialogID, create);
 }
 
 CDialogManager::dialog_pointer CDialogManager::FindDialog(int dialogID) const
@@ -234,7 +239,8 @@ dialog_pointer CDialogManager::CreateDialog(int dialogID)
         throw std::runtime_error("dialog not registered");
 
     dialog_pointer dialog = (*it)(GetDialog(IDD_MAIN));
-    m_dialog_map.insert(std::make_pair(dialogID, dialog));
+
+    m_dialog_map.emplace(dialogID, dialog);
 
     return dialog;
 }
@@ -265,5 +271,5 @@ LRESULT CALLBACK CDialogManager::GetMsgProc(int nCode, WPARAM wParam, LPARAM lPa
         }
     }
 
-    return ::CallNextHookEx(NULL, nCode, wParam, lParam);
+    return ::CallNextHookEx(nullptr, nCode, wParam, lParam);
 }

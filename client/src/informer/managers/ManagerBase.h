@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -9,23 +9,19 @@
 // Application headers
 #include <informer/managers/IManager.h>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-#include <boost/smart_ptr.hpp>
+// STL headers
+#include <memory>
 
 
 template <typename T>
-class CManagerBase :
-    public IManager,
-    private boost::noncopyable,
-    public boost::enable_shared_from_this<T>
+class CManagerBase : public IManager
 {
 public:
-    static boost::shared_ptr<IManager> Create();
+    static std::shared_ptr<IManager> Create();
 };
 
 template <typename T>
-boost::shared_ptr<IManager> CManagerBase<T>::Create()
+std::shared_ptr<IManager> CManagerBase<T>::Create()
 {
-    return boost::make_shared<T>();
+    return std::make_shared<T>();
 }

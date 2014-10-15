@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -17,12 +17,9 @@
 #include <informer/managers/AsyncJobManager.h>
 #include <informer/managers/InformerManager.h>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
 
-
-class CInformerHelper :
-    private boost::noncopyable
+//TODO: rename to CInformerContext
+class CInformerHelper
 {
 public:
     CInformerHelper() :
@@ -36,6 +33,9 @@ public:
         m_informerManager(CManagerFactory::Get<CInformerManager>())
     {
     }
+
+    CInformerHelper(CInformerHelper const&) = delete;
+    CInformerHelper& operator=(CInformerHelper const&) = delete;
 
 protected:
     CDrawManager& m_drawManager;

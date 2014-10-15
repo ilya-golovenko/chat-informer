@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -9,8 +9,8 @@
 #include <informer/dialogs/UpdateDlg.h>
 #include <informer/dialogs/MainDlg.h>
 #include <informer/utility/ShellExecuteHelper.h>
+#include <network/http/uri_builder.hpp>
 #include <core/common.hpp>
-#include <net/http/uri_builder.hpp>
 #include <utility/file_utils.hpp>
 
 

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ CShellExecuteJob::Pointer CShellExecuteJob::Create(boost::filesystem::path const
                                                    std::wstring const& parameters,
                                                    int m_showCommand)
 {
-    return boost::make_shared<CShellExecuteJob>(filename, directory, parameters, m_showCommand);
+    return std::make_shared<CShellExecuteJob>(filename, directory, parameters, m_showCommand);
 }
 
 CShellExecuteJob::CShellExecuteJob(boost::filesystem::path const& filename,

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -10,10 +10,10 @@
 #include <informer/resources/resource.h>
 #include <informer/controls/InformerDialog.h>
 #include <informer/controls/PhotoAlbumCtrl.h>
+#include <network/http/download_queue.hpp>
 #include <core/factory.hpp>
 #include <core/download.hpp>
 #include <core/photoalbum.hpp>
-#include <net/http/download_queue.hpp>
 
 
 class CPhotoAlbumDlg :

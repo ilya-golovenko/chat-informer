@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -10,15 +10,15 @@
 
 
 CSingleInstance::CSingleInstance() :
-    m_hFileMapping(0)
+    m_hFileMapping(nullptr)
 {
     m_hFileMutex = ::CreateMutex(0, FALSE, GetMutexName());
-    ATLVERIFY(0 != m_hFileMutex);
+    ATLVERIFY(nullptr != m_hFileMutex);
 }
 
 CSingleInstance::~CSingleInstance()
 {
-    if(0 != m_hFileMapping)
+    if(nullptr != m_hFileMapping)
         ::CloseHandle(m_hFileMapping);
 
     ATLVERIFY(::CloseHandle(m_hFileMutex));
@@ -31,12 +31,12 @@ BOOL CSingleInstance::TrackFirstInstanceRunning(HWND hWndMain)
         m_hFileMapping = ::CreateFileMapping(INVALID_HANDLE_VALUE,
             0, PAGE_READWRITE, 0, sizeof(CWindowInstance), GetFileName());
 
-        if(0 != m_hFileMapping)
+        if(nullptr != m_hFileMapping)
         {
             CWindowInstance* lpWindowInstance = reinterpret_cast<CWindowInstance*>(
                 ::MapViewOfFile(m_hFileMapping, FILE_MAP_WRITE, 0, 0, sizeof(CWindowInstance)));
 
-            if(0 != lpWindowInstance)
+            if(nullptr != lpWindowInstance)
             {
                 DWORD dwWaitResult = ::WaitForSingleObject(m_hFileMutex, INFINITE);
 
@@ -54,7 +54,7 @@ BOOL CSingleInstance::TrackFirstInstanceRunning(HWND hWndMain)
             }
 
             ::CloseHandle(m_hFileMapping);
-            m_hFileMapping = 0;
+            m_hFileMapping = nullptr;
         }
     }
 
@@ -63,12 +63,11 @@ BOOL CSingleInstance::TrackFirstInstanceRunning(HWND hWndMain)
 
 BOOL CSingleInstance::IsPreviousInstanceRunning()
 {
-    HANDLE hFileMapping = ::OpenFileMapping(
-        FILE_MAP_ALL_ACCESS, FALSE, GetFileName());
+    HANDLE hFileMapping = ::OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, GetFileName());
 
-    BOOL bPreviousInstanceRunning = 0 != hFileMapping;
+    BOOL bPreviousInstanceRunning = nullptr != hFileMapping;
 
-    if(0 != hFileMapping)
+    if(nullptr != hFileMapping)
         ::CloseHandle(hFileMapping);
 
     return bPreviousInstanceRunning;
@@ -76,15 +75,14 @@ BOOL CSingleInstance::IsPreviousInstanceRunning()
 
 BOOL CSingleInstance::ActivatePreviousInstance()
 {
-    HANDLE hFileMapping = ::OpenFileMapping(
-        FILE_MAP_ALL_ACCESS, FALSE, GetFileName());
+    HANDLE hFileMapping = ::OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, GetFileName());
 
-    if(0 != hFileMapping)
+    if(nullptr != hFileMapping)
     {
         CWindowInstance* lpWindowInstance = reinterpret_cast<CWindowInstance*>(
             ::MapViewOfFile(hFileMapping, FILE_MAP_READ, 0, 0, sizeof(CWindowInstance)));
 
-        if(0 != lpWindowInstance)
+        if(nullptr != lpWindowInstance)
         {
             DWORD dwWaitResult = ::WaitForSingleObject(m_hFileMutex, INFINITE);
 

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -9,14 +9,15 @@
 // Application headers
 #include <informer/resources/resource.h>
 #include <informer/managers/ManagerBase.h>
-#include <informer/common/Logging.h>
 
-// BOOST headers
-#include <boost/shared_ptr.hpp>
+// STL headers
+#include <stdexcept>
+#include <funtional>
+#include <memory>
+#include <map>
 
 
-class CDialogManager :
-    public CManagerBase<CDialogManager>
+class CDialogManager : public CManagerBase<CDialogManager>
 {
 public:
     enum { WM_DESTROY_DIALOG = WM_APP + 2005 };
@@ -51,21 +52,16 @@ public:
     void ShowNotification(WTL::CString const& strText, int dialogID);
 
 public:
-    template <typename Dialog>
-    void Register();
+    template <typename Dialog> void Register();
 
-    template <typename Dialog>
-    boost::shared_ptr<Dialog> Find() const;
+    template <typename Dialog> std::shared_ptr<Dialog> Find() const;
+    template <typename Dialog> std::shared_ptr<Dialog> Get() const;
 
-    template <typename Dialog>
-    boost::shared_ptr<Dialog> Get() const;
-
-    template <typename Dialog>
-    boost::shared_ptr<Dialog> Show(bool bringToTop = true);
+    template <typename Dialog> std::shared_ptr<Dialog> Show(bool bringToTop = true);
 
 private:
-    typedef boost::shared_ptr<ATL::CWindow> dialog_pointer;
-    typedef boost::function<dialog_pointer(HWND)> create_function;
+    typedef std::shared_ptr<ATL::CWindow> dialog_pointer;
+    typedef std::function<dialog_pointer(HWND)> create_function;
 
 private:
     typedef std::map<int, dialog_pointer> dialog_map;
@@ -88,22 +84,19 @@ private:
     HHOOK m_message_hook;
 };
 
-template <typename Dialog>
-void CDialogManager::Register()
+template <typename Dialog> void CDialogManager::Register()
 {
     RegisterDialog(Dialog::IDD, &Dialog::Create);
 }
 
-template <typename Dialog>
-boost::shared_ptr<Dialog> CDialogManager::Find() const
+template <typename Dialog> std::shared_ptr<Dialog> CDialogManager::Find() const
 {
-    return boost::static_pointer_cast<Dialog>(FindDialog(Dialog::IDD));
+    return std::static_pointer_cast<Dialog>(FindDialog(Dialog::IDD));
 }
 
-template <typename Dialog>
-boost::shared_ptr<Dialog> CDialogManager::Get() const
+template <typename Dialog> std::shared_ptr<Dialog> CDialogManager::Get() const
 {
-    boost::shared_ptr<Dialog> dialog = Find<Dialog>();
+    std::shared_ptr<Dialog> dialog = Find<Dialog>();
 
     if(!dialog)
         throw std::runtime_error("cannot find dialog");
@@ -111,9 +104,9 @@ boost::shared_ptr<Dialog> CDialogManager::Get() const
     return dialog;
 }
 
-template <typename Dialog>
-boost::shared_ptr<Dialog> CDialogManager::Show(bool bringToTop)
+template <typename Dialog> std::shared_ptr<Dialog> CDialogManager::Show(bool bringToTop)
 {
     ShowDialog(Dialog::IDD, bringToTop);
+
     return Get<Dialog>();
 }

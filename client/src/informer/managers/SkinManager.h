@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -18,11 +18,11 @@ enum
     IMAGE_COUNT
 };
 
-class CSkinManager :
-    public CManagerBase<CSkinManager>
+class CSkinManager : public CManagerBase<CSkinManager>
 {
 public:
-    CSkinManager();
+    CSkinManager() = default;
+    ~CSkinManager() = default;
 
     virtual void Initialize();
     virtual void Finalize();

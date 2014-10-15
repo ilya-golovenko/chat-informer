@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -12,17 +12,21 @@
 #include <informer/common/Config.h>
 #include <informer/common/Logging.h>
 #include <informer/dialogs/MainDlg.h>
-#include <net/util/base64.hpp>
+#include <network/util/base64.hpp>
 #include <crypto/common.hpp>
 #include <core/common.hpp>
 #include <core/factory.hpp>
 
 // MISSIO headers
-#include <missio/logging/factory.hpp>
 #include <missio/logging/common.hpp>
 #include <missio/logging/file_writer.hpp>
 #include <missio/unicode/convert.hpp>
 #include <missio/config/common.hpp>
+
+// BOOST headers
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/uuid/uuid.hpp>
 
 
 WTL::CAppModule _Module;
@@ -55,7 +59,10 @@ int CApplication::ActivatePreviousInstance()
 
 int CApplication::Run(HINSTANCE hInstance, LPWSTR /*lpszCmdLine*/, int /*nCmdShow*/)
 {
-    LOG_NOTICE("starting");
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_NOTICE(CApplication, "starting");
+
     int nRet = EXIT_FAILURE;
 
     if(Initialize(hInstance))
@@ -66,26 +73,24 @@ int CApplication::Run(HINSTANCE hInstance, LPWSTR /*lpszCmdLine*/, int /*nCmdSho
         {
             Configure();
 
-            WTL::CMessageLoop theLoop;
-            _Module.AddMessageLoop(&theLoop);
+            WTL::CMessageLoop messageLoop;
+            _Module.AddMessageLoop(&messageLoop);
 
             ATL::CWindow wndMain = CreateMainDialog();
             m_singleInstance.TrackFirstInstanceRunning(wndMain);
 
-            nRet = theLoop.Run();
+            nRet = messageLoop.Run();
             _Module.RemoveMessageLoop();
         }
         catch(std::exception const& e)
         {
-            LOG_FAILURE("caught exception: ", e);
+            LOG_COMP_FAILURE(CApplication, "caught exception: ", e);
             ShowErrorMessage(IDS_APP_RUN_ERROR);
-            ATLASSERT(FALSE);
         }
         catch(...)
         {
-            LOG_FAILURE("caught unexpected exception");
+            LOG_COMP_FAILURE(CApplication, "caught unexpected exception");
             ShowErrorMessage(IDS_APP_RUN_ERROR);
-            ATLASSERT(FALSE);
         }
 
         SaveConfiguration();
@@ -93,21 +98,22 @@ int CApplication::Run(HINSTANCE hInstance, LPWSTR /*lpszCmdLine*/, int /*nCmdSho
 
     Finalize();
 
-    LOG_NOTICE("stopped");
+    LOG_COMP_NOTICE(CApplication, "stopped");
+
     return nRet;
 }
 
 BOOL CApplication::Initialize(HINSTANCE hInstance)
 {
-    LOG_TRACE_SCOPE();
-    LOG_NOTICE("initializing");
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_NOTICE(CApplication, "initializing");
 
     HRESULT hRes = _Module.Init(NULL, hInstance);
     if(FAILED(hRes))
     {
-        LOG_FAILURE("cannot initialize application (error: ", hRes, ")");
+        LOG_COMP_FAILURE(CApplication, "failed to initialize application, error code: ", LOG_HEX(hRes));
         ShowErrorMessage(IDS_APP_INIT_ERROR);
-        ATLASSERT(FALSE);
         return FALSE;
     }
 
@@ -124,9 +130,8 @@ BOOL CApplication::Initialize(HINSTANCE hInstance)
     }
     catch(std::exception const& e)
     {
-        LOG_FAILURE("cannot initialize application: ", e);
+        LOG_COMP_FAILURE(CApplication, "caught exception: ", e);
         ShowErrorMessage(IDS_APP_INIT_ERROR);
-        ATLASSERT(FALSE);
         return FALSE;
     }
 
@@ -135,8 +140,9 @@ BOOL CApplication::Initialize(HINSTANCE hInstance)
 
 void CApplication::Configure()
 {
-    LOG_TRACE_SCOPE();
-    LOG_NOTICE("configuring");
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_NOTICE(CApplication, "configuring");
 
     SetupLogger();
     SetupInstanceID();
@@ -150,8 +156,9 @@ void CApplication::Configure()
 
 void CApplication::Finalize()
 {
-    LOG_TRACE_SCOPE();
-    LOG_NOTICE("finalizing");
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_NOTICE(CApplication, "finalizing");
 
     try
     {
@@ -166,9 +173,8 @@ void CApplication::Finalize()
     }
     catch(std::exception const& e)
     {
-        LOG_FAILURE("cannot finalize application: ", e);
+        LOG_COMP_FAILURE(CApplication, "caught exception: ", e);
         ShowErrorMessage(IDS_APP_TERM_ERROR);
-        ATLASSERT(FALSE);
     }
 
     // Remove unhandled exception filter
@@ -179,7 +185,9 @@ void CApplication::Finalize()
 
 void CApplication::SetupLogger()
 {
-    LOG_INFO("configuring logger");
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_INFO(CApplication, "configuring logger");
 
     //TODO: fix me!
     /*
@@ -198,7 +206,9 @@ void CApplication::SetupLogger()
 
 void CApplication::SetupInstanceID()
 {
-    LOG_INFO("retrieving instance ID");
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_INFO(CApplication, "retrieving instance ID");
 
     ATL::CRegKey reg_key;
     boost::uuids::uuid value;
@@ -228,7 +238,9 @@ void CApplication::SetupInstanceID()
 
 void CApplication::SetupProxySettings()
 {
-    LOG_INFO("configuring proxy settings");
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_INFO(CApplication, "configuring proxy settings");
 
     if(cfg::connection::use_proxy)
     {
@@ -246,24 +258,29 @@ void CApplication::SetupProxySettings()
 
 ATL::CWindow CApplication::CreateMainDialog()
 {
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_INFO(CApplication, "creating main dialog");
+
     return CManagerFactory::Get<CDialogManager>().CreateMainDialog();
 }
 
 void CApplication::LoadConfiguration()
 {
-    LOG_INFO("loading configuration");
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_INFO(CApplication, "loading configuration");
 
     if(boost::filesystem::exists("logging.conf"))
     {
         try
         {
-            LOG_INFO("loading configuration file: logging.conf");
-            missio::config::load_from_file("logging.conf", true);
+            LOG_COMP_INFO(CApplication, "loading configuration file: logging.conf");
+            chat::config::load_from_file("logging.conf", true);
         }
         catch(std::exception const& e)
         {
-            LOG_ERROR("cannot load configuration file: ", e);
-            ATLASSERT(FALSE);
+            LOG_COMP_ERROR(CApplication, "caught exception: ", e);
         }
     }
 
@@ -271,42 +288,46 @@ void CApplication::LoadConfiguration()
     {
         try
         {
-            LOG_INFO("loading configuration file: chat_informer.conf");
+            LOG_COMP_INFO(CApplication, "loading configuration file: chat_informer.conf");
             missio::config::load_from_file("chat_informer.conf", false);
         }
         catch(std::exception const& e)
         {
-            LOG_ERROR("cannot load configuration file: ", e);
-            ATLASSERT(FALSE);
+            LOG_COMP_ERROR(CApplication, "caught exception: ", e);
         }
     }
 }
 
 void CApplication::SaveConfiguration()
 {
-    LOG_INFO("saving configuration");
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
+    LOG_COMP_INFO(CApplication, "saving configuration");
 
     cfg::chat::alarms = chat::factory::storage().get_alarms();
 
     try
     {
-        LOG_INFO("saving configuration file: chat_informer.conf");
+        LOG_COMP_INFO(CApplication, "saving configuration file: chat_informer.conf");
         missio::config::save_to_file("chat_informer.conf");
     }
     catch(std::exception const& e)
     {
-        LOG_ERROR("cannot save configuration file: ", e);
-        ATLASSERT(FALSE);
+        LOG_COMP_ERROR(CApplication, "caught exception: ", e);
     }
 }
 
 void CApplication::ShowErrorMessage(UINT stringID)
 {
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
     WTL::AtlMessageBox(NULL, stringID, IDS_APP_NAME, MB_OK | MB_ICONERROR);
 }
 
 net::http::proxy_settings CApplication::GetUserProxySettings()
 {
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
     net::http::proxy_settings proxy_settings;
 
     std::string server = cfg::connection::proxy::server;
@@ -330,6 +351,8 @@ net::http::proxy_settings CApplication::GetUserProxySettings()
 
 net::http::proxy_settings CApplication::GetSystemProxySettings()
 {
+    LOG_COMP_TRACE_FUNCTION(CApplication);
+
     ATL::CRegKey settings_reg_key;
     net::http::proxy_settings proxy_settings;
 
@@ -385,7 +408,7 @@ net::http::proxy_settings CApplication::GetSystemProxySettings()
                         unsigned short port = net::http::http_port_number;
 
                         if(std::string::npos != pos)
-                            port = boost::lexical_cast<unsigned short>(proxy_server.substr(++pos));
+                            port = std::stoul(proxy_server.substr(++pos));
 
                         proxy_settings.set_proxy_server(missio::unicode::to_utf8_string(hostname), port);
                     }

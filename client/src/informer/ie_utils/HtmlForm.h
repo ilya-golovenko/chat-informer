@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -18,10 +18,9 @@ class CHtmlForm
 {
 public:
     CHtmlForm(CComPtr<IHTMLFormElement>& pHtmlFormElement);
-    ~CHtmlForm();
 
-    CHtmlForm(CHtmlForm const& other);
-    CHtmlForm& operator=(CHtmlForm const& other);
+    CHtmlForm(CHtmlForm const&) = default;
+    CHtmlForm& operator=(CHtmlForm const&) = default;
 
     CHtmlElement GetElement(WTL::CString const& strName);
 

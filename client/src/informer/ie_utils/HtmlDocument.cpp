@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -17,22 +17,6 @@
 CHtmlDocument::CHtmlDocument(ATL::CComPtr<IHTMLDocument3>& spHtmlDocument3) :
     m_spHtmlDocument3(spHtmlDocument3)
 {
-}
-
-CHtmlDocument::~CHtmlDocument()
-{
-}
-
-CHtmlDocument::CHtmlDocument(CHtmlDocument const& other) :
-    m_spHtmlDocument3(other.m_spHtmlDocument3)
-{
-}
-
-CHtmlDocument& CHtmlDocument::operator=(CHtmlDocument const& other)
-{
-    if(&other != this)
-        m_spHtmlDocument3 = other.m_spHtmlDocument3;
-    return *this;
 }
 
 WTL::CString CHtmlDocument::GetURL()

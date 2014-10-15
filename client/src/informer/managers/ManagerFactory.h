@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2012, 2013 Ilya Golovenko
+//    Copyright (C) 2012, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -9,13 +9,11 @@
 // Application headers
 #include <informer/managers/ManagerBase.h>
 
-// BOOST headers
-#include <boost/smart_ptr.hpp>
-#include <boost/function.hpp>
-
 // STL headers
-#include <utility>
+#include <functional>
 #include <typeinfo>
+#include <utility>
+#include <memory>
 #include <string>
 #include <list>
 
@@ -29,20 +27,16 @@ public:
     static void DestroyManagers();
 
 public:
-    template <typename T>
-    static inline T& Get();
+    CManagerFactory() = delete;
+    ~CManagerFactory() = delete;
 
-    template <typename T>
-    static inline void Create();
-
-private:
-    CManagerFactory();
-    ~CManagerFactory();
+    template <typename T> static T& Get();
+    template <typename T> static void Create();
 
 private:
-    typedef boost::shared_ptr<IManager> manager_pointer;
-    typedef boost::function<manager_pointer()> create_function;
-    typedef std::list<std::pair<std::string, manager_pointer> > manager_list;
+    typedef std::shared_ptr<IManager> manager_pointer;
+    typedef std::function<manager_pointer()> create_function;
+    typedef std::list<std::pair<std::string, manager_pointer>> manager_list;
 
 private:
     static manager_pointer GetManager(std::type_info const& type_info);
@@ -52,14 +46,12 @@ private:
     static manager_list m_managers;
 };
 
-template <typename T>
-inline T& CManagerFactory::Get()
+template <typename T> T& CManagerFactory::Get()
 {
-    return *boost::static_pointer_cast<T>(GetManager(typeid(T)));
+    return *std::static_pointer_cast<T>(GetManager(typeid(T)));
 }
 
-template <typename T>
-inline void CManagerFactory::Create()
+template <typename T> void CManagerFactory::Create()
 {
     CreateManager(typeid(T), &T::Create);
 }

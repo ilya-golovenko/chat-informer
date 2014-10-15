@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -10,11 +10,11 @@
 #include <informer/common/Logging.h>
 
 // MISSIO headers
-#include <missio/logging/factory.hpp>
+#include <missio/logging/common.hpp>
 
 
 CExceptionFilter::CExceptionFilter() :
-    m_oldExceptionFilter(NULL)
+    m_oldExceptionFilter(nullptr)
 {
 }
 
@@ -25,16 +25,16 @@ CExceptionFilter::~CExceptionFilter()
 
 void CExceptionFilter::Install()
 {
-    if(NULL == m_oldExceptionFilter)
+    if(nullptr == m_oldExceptionFilter)
         m_oldExceptionFilter = ::SetUnhandledExceptionFilter(&UnhandledExceptionFilter);
 }
 
 void CExceptionFilter::Uninstall()
 {
-    if(NULL != m_oldExceptionFilter)
+    if(nullptr != m_oldExceptionFilter)
     {
         ::SetUnhandledExceptionFilter(m_oldExceptionFilter);
-        m_oldExceptionFilter = NULL;
+        m_oldExceptionFilter = nullptr;
     }
 }
 
@@ -48,8 +48,8 @@ LONG WINAPI CExceptionFilter::UnhandledExceptionFilter(EXCEPTION_POINTERS* info)
     std::wstring const module_name = GetModuleName(exceptionAddress);
     wchar_t const* exception_string = GetExceptionString(exceptionCode);
 
-    LOG_FAILURE("unhandled exception ", missio::format::hex(exception_code, 8, true), " (",
-        exception_string, ") at location ", exception_address, " in module ", module_name); 
+    LOG_COMP_FAILURE(CExceptionFilter, "unhandled exception ", LOG_HEX(exception_code, 8, true),
+        " (", exception_string, ") at location ", exception_address, " in module ", module_name); 
 
     if(exceptionCode == EXCEPTION_ACCESS_VIOLATION)
     {
@@ -58,9 +58,9 @@ LONG WINAPI CExceptionFilter::UnhandledExceptionFilter(EXCEPTION_POINTERS* info)
             PVOID violationAddress = reinterpret_cast<PVOID>(exceptionRecord->ExceptionInformation[1]);
 
             if(exceptionRecord->ExceptionInformation[0])
-                LOG_FAILURE("access violation error while writing to location ", violationAddress);
+                LOG_COMP_FAILURE(CExceptionFilter, "access violation error while writing to location ", violationAddress);
             else
-                LOG_FAILURE("access violation error while reading from location ", violationAddress);
+                LOG_COMP_FAILURE(CExceptionFilter, "access violation error while reading from location ", violationAddress);
         }
     }
 
@@ -71,14 +71,14 @@ LONG WINAPI CExceptionFilter::UnhandledExceptionFilter(EXCEPTION_POINTERS* info)
     missio::logging::shutdown();
 
     //TODO: show error message
-    //::MessageBox(NULL, L"", L"", MB_OK | MB_ICONERROR);
+    //::MessageBox(nullptr, L"", L"", MB_OK | MB_ICONERROR);
 
     return EXCEPTION_EXECUTE_HANDLER;
 }
 
 std::wstring CExceptionFilter::GetModuleName(LPCVOID address)
 {
-    HMODULE hModule = NULL;
+    HMODULE hModule = nullptr;
 
     MEMORY_BASIC_INFORMATION memoryInfo;
     HANDLE hProcess = ::GetCurrentProcess();
@@ -86,7 +86,7 @@ std::wstring CExceptionFilter::GetModuleName(LPCVOID address)
     if(::VirtualQueryEx(hProcess, address, &memoryInfo, sizeof(memoryInfo)))
         hModule = reinterpret_cast<HMODULE>(memoryInfo.AllocationBase);
 
-    if(NULL != hModule)
+    if(nullptr != hModule)
     {
         wchar_t moduleName[MAX_PATH];
 

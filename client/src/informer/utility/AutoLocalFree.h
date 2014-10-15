@@ -9,11 +9,8 @@
 // Windows headers
 #include <windows.h>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
 
-
-class CAutoLocalFree : private boost::noncopyable
+class CAutoLocalFree
 {
 public:
     explicit CAutoLocalFree(void* pointer) :
@@ -25,6 +22,9 @@ public:
     {
         ::LocalFree(m_pointer);
     }
+
+    CAutoLocalFree(CAutoLocalFree const&) = delete;
+    CAutoLocalFree& operator=(CAutoLocalFree const&) = delete;
 
 private:
     void* m_pointer;

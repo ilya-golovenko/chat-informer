@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #pragma once
@@ -9,6 +9,13 @@
 // Application headers
 #include <informer/resources/resource.h>
 #include <informer/managers/ManagerBase.h>
+
+// BOOST headers
+#include <boost/filesystem/path.hpp>
+
+// STL headers
+#include <string>
+#include <map>
 
 
 //TODO: normal icon: alpha = 75%, hovered icon: alpha = 100%, disabled icon: grayscale
@@ -73,8 +80,7 @@ enum
     DISABLED_ICON
 };
 
-class CIconManager :
-    public CManagerBase<CIconManager>
+class CIconManager : public CManagerBase<CIconManager>
 {
 public:
     CIconManager();
