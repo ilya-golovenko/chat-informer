@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_download_hpp
@@ -12,24 +12,24 @@
 #endif  // defined(_MSC_VER) && (_MSC_VER >= 1200) 
 
 // Application headers
-#include <net/http/download.hpp>
+#include <network/http/download.hpp>
+#include <network/common.hpp>
 
 // BOOST headers
 #include <boost/system/error_code.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/signals2.hpp>
-#include <boost/cstdint.hpp>
 
 // STL headers
+#include <cstdint>
 #include <string>
 
 
 namespace chat
 {
 
-class download :
-    public net::http::download
+class download : public net::http::download
 {
 public:
     static pointer create(net::http::uri const& uri, boost::filesystem::path const& filename);
@@ -49,12 +49,12 @@ public:
     template <typename Handler>
     void on_completion(Handler const& handler)
     {
-        complete_signal_.connect(handler);
+        completion_signal_.connect(handler);
     }
 
 protected:
     virtual void handle_response(net::http::response const& response);
-    virtual void handle_content(net::http::content_range const& content);
+    virtual void handle_content(net::content_range const& content);
     virtual void handle_completed(boost::system::error_code const& error);
 
 private:
@@ -65,8 +65,8 @@ private:
     typedef boost::signals2::signal<void (pointer, boost::system::error_code const&)> complete_signal_type;
 
 private:
-    boost::uint64_t total_size_;
-    boost::uint64_t current_size_;
+    std::uint64_t total_size_;
+    std::uint64_t current_size_;
 
     unsigned int percent_downloaded_;
 

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -18,23 +18,27 @@ namespace chat
 
 void factory::create_instances()
 {
-    LOG_NOTICE("creating instances");
+    LOG_COMP_TRACE_FUNCTION(factory);
 
-    storage_.reset(new missio::storage());
-    informer_.reset(new missio::informer());
-    downloader_.reset(new net::http::downloader());
+    LOG_COMP_NOTICE(factory, "creating instances");
+
+    storage_.reset(new chat::storage); // = std::make_unique<chat::storage>();
+    informer_.reset(new chat::informer); // = std::make_unique<chat::informer>();
+    downloader_.reset(new net::http::downloader); // = std::make_unique<net::http::downloader>();
 }
 
 void factory::destroy_instances()
 {
-    LOG_NOTICE("destroying instances");
+    LOG_COMP_TRACE_FUNCTION(factory);
+
+    LOG_COMP_NOTICE(factory, "destroying instances");
 
     downloader_.reset();
     informer_.reset();
     storage_.reset();
 }
 
-storage& factory::storage()
+chat::storage& factory::storage()
 {
     if(!storage_)
         throw exception("storage instance is not initialized");
@@ -42,7 +46,7 @@ storage& factory::storage()
     return *storage_;
 }
 
-informer& factory::informer()
+chat::informer& factory::informer()
 {
     if(!informer_)
         throw exception("informer instance is not initialized");
@@ -58,8 +62,8 @@ net::http::downloader& factory::downloader()
     return *downloader_;
 }
 
-boost::scoped_ptr<missio::storage> factory::storage_;
-boost::scoped_ptr<missio::informer> factory::informer_;
-boost::scoped_ptr<net::http::downloader> factory::downloader_;
+std::unique_ptr<chat::storage> factory::storage_;
+std::unique_ptr<chat::informer> factory::informer_;
+std::unique_ptr<net::http::downloader> factory::downloader_;
 
 }   // namespace chat

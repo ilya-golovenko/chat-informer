@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_storage_hpp
@@ -25,7 +25,6 @@
 #include <missio/json/json.hpp>
 
 // BOOST headers
-#include <boost/noncopyable.hpp>
 #include <boost/signals2.hpp>
 
 // STL headers
@@ -36,19 +35,21 @@
 namespace chat
 {
 
-class storage :
-    private boost::noncopyable
+class storage
 {
 public:
-    storage();
-    ~storage();
+    storage() = default;
+    ~storage() = default;
 
-    missio::news const& news() const;
-    missio::forum const& forum() const;
-    missio::link_list const& links() const;
-    missio::chat_user_cache const& users() const;
-    missio::photoalbum const& photoalbum() const;
-    missio::version const& server_version() const;
+    storage(storage const&) = delete;
+    storage& operator=(storage const&) = delete;
+
+    chat::news const& news() const;
+    chat::forum const& forum() const;
+    chat::link_list const& links() const;
+    chat::chat_user_cache const& users() const;
+    chat::photoalbum const& photoalbum() const;
+    chat::version const& server_version() const;
 
     void update(missio::json::object const& json_data);
 
@@ -92,21 +93,21 @@ private:
     void update_news(missio::json::object const& json_data);
 
 private:
-    boost::signals2::signal<void (missio::event::type)> events_updated_;
+    boost::signals2::signal<void (chat::event::type)> events_updated_;
 
-    boost::signals2::signal<void (missio::news const&)> news_updated_;
-    boost::signals2::signal<void (missio::forum const&)> forum_updated_;
-    boost::signals2::signal<void (missio::link_list const&)> links_updated_;
-    boost::signals2::signal<void (missio::photoalbum const&)> photoalbum_updated_;
-    boost::signals2::signal<void (missio::chat_user_cache const&)> users_updated_;
+    boost::signals2::signal<void (chat::news const&)> news_updated_;
+    boost::signals2::signal<void (chat::forum const&)> forum_updated_;
+    boost::signals2::signal<void (chat::link_list const&)> links_updated_;
+    boost::signals2::signal<void (chat::photoalbum const&)> photoalbum_updated_;
+    boost::signals2::signal<void (chat::chat_user_cache const&)> users_updated_;
 
 private:
-    missio::news news_;
-    missio::forum forum_;
-    missio::link_list links_;
-    missio::chat_user_cache users_;
-    missio::photoalbum photoalbum_;
-    missio::version server_version_;
+    chat::news news_;
+    chat::forum forum_;
+    chat::link_list links_;
+    chat::chat_user_cache users_;
+    chat::photoalbum photoalbum_;
+    chat::version server_version_;
 };
 
 template <typename Handler>

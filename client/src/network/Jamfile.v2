@@ -1,0 +1,12 @@
+
+project chat/informer/network ;
+
+exe chat_informer_network
+    :
+        ## sources ##
+        [ glob-tree *.cpp : .svn ]
+        /missio/format//missio_format
+        /missio/logging//missio_logging
+    :
+        ## requirements ##
+    ;

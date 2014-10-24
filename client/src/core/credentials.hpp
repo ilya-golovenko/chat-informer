@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_credentials_hpp
@@ -22,27 +22,24 @@ namespace chat
 class credentials
 {
 public:
-    credentials();
-    ~credentials();
+    credentials() = default;
+    ~credentials() = default;
 
     credentials(std::wstring const& nickname,
                 std::wstring const& password);
 
-    credentials(credentials&& other);
-    credentials& operator=(credentials&& other);    
+    credentials(credentials const&) = default;
+    credentials& operator=(credentials const&) = default;
 
-    credentials(credentials const& other);
-    credentials& operator=(credentials const& other);    
+    credentials(credentials&&) = default;
+    credentials& operator=(credentials&&) = default;
 
     std::string to_string() const;
     std::wstring to_wstring() const;
 
 private:
-    static std::string make_credentials(std::string const& nickname,
-                                        std::string const& password);
-
-    static std::string make_credentials(std::wstring const& nickname,
-                                        std::wstring const& password);
+    static std::string make_credentials(std::string const& nickname, std::string const& password);
+    static std::string make_credentials(std::wstring const& nickname, std::wstring const& password);
 
 private:
     std::string credentials_;

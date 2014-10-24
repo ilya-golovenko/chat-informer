@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -18,9 +18,6 @@
 #include <missio/logging/common.hpp>
 #include <missio/json/json_io.hpp>
 
-// BOOST headers
-#include <boost/bind.hpp>
-
 
 namespace chat
 {
@@ -36,7 +33,7 @@ informer::informer() :
 {
     crypto_manager_.set_uuid_key(missio::crypto_key);
 
-    session_ = net::http::client_session::create(io_service_);
+    //session_ = net::http::client_session::create(io_service_);
     informer_id_ = util::make_hex_string(missio::informer_id.data, 16);
 }
 
@@ -44,7 +41,7 @@ informer::~informer()
 {
     //TODO: cancel all timers
     io_threads_.stop();
-    session_.reset();
+    //session_.reset();
 }
 
 void informer::start()
@@ -124,7 +121,7 @@ void informer::set_proxy_settings(net::http::proxy_settings const& proxy_setting
     if(stopped_)
     {
         LOG_DEBUG("setting proxy settings");
-        session_->set_proxy_settings(proxy_settings);
+        //session_->set_proxy_settings(proxy_settings);
     }
 }
 
@@ -148,6 +145,7 @@ void informer::add_query(query::pointer query)
 
 void informer::stop_session()
 {
+/*
     if(session_)
     {
         if(session_->is_open())
@@ -156,6 +154,7 @@ void informer::stop_session()
             session_->close(true);
         }
     }
+*/
 }
 
 void informer::start_available_queries()
@@ -212,15 +211,17 @@ void informer::start_available_queries()
 
 void informer::start_query(query::pointer query)
 {
+/*
     if(session_)
     {
         processing_ = true;
 
         net::http::request request = create_info_request(query);
 
-        //session_->start(informer_hostname, net::http::http_port_number,
-        //    request, boost::bind(&informer::handle_info, this, query, _1));
+        session_->start(informer_hostname, net::http::http_port_number,
+            request, std::bind(&informer::handle_info, this, query, _1));
     }
+*/
 }
 
 void informer::add_common_queries()
@@ -427,8 +428,8 @@ void informer::call_handler(query::pointer query, error::type error)
     if(!query->is_completed())
     {
         //TODO: use signal here
-        //missio::factory::dispatcher().dispatch_handler(
-        //    boost::bind(&query::handle_info, query, error));
+        //factory::dispatcher().dispatch_handler(
+        //    std::bind(&query::handle_info, query, error));
     }
 }
 

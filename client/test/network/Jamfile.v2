@@ -1,0 +1,16 @@
+
+import testing ;
+
+project chat/informer/network/test ;
+
+unit-test chat_informer_network_test
+    :
+        ## sources ##
+        [ glob-tree *.cpp : .svn ]
+    :
+        ## build requirements ##
+        <toolset>msvc:<exception-handling>on
+        <toolset>msvc:<asynch-exceptions>on 
+    ;
+
+always chat_informer_network_test ;

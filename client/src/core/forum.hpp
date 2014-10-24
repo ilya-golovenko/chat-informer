@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_forum_hpp
@@ -17,19 +17,18 @@
 // MISSIO headers
 #include <missio/json/json.hpp>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-
 
 namespace chat
 {
 
-class forum :
-    private boost::noncopyable
+class forum
 {
 public:
-    forum();
-    ~forum();
+    forum() = default;
+    ~forum() = default;
+
+    forum(forum const&) = delete;
+    forum& operator=(forum const&) = delete;
 
     forum_topic_list const& topics() const;
 

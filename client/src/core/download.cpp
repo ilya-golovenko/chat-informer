@@ -61,7 +61,7 @@ void download::handle_response(net::http::response const& response)
         abort(boost::asio::error::bad_descriptor);
 }
 
-void download::handle_content(net::http::content_range const& content)
+void download::handle_content(net::content_range const& content)
 {
     boost::copy(content, std::ostream_iterator<char>(file_));
 
@@ -87,7 +87,7 @@ void download::handle_completed(boost::system::error_code const& error)
     }
 
     //if(error != boost::asio::error::operation_aborted)
-    //    complete_signal_(shared_from_this(), error);
+    //    completion_signal_(shared_from_this(), error);
 }
 
 bool download::update_percent_downloaded(std::size_t size)

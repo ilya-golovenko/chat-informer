@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -14,35 +14,6 @@
 
 namespace chat
 {
-
-news::news()
-{
-}
-
-news::~news()
-{
-}
-
-news::news(news const& other) :
-    admin_news_(other.admin_news_),
-    moder_news_(other.moder_news_)
-{
-}
-
-news& news::operator=(news const& other)
-{
-    assign(other);
-    return *this;
-}
-
-void news::assign(news const& other)
-{
-    if(&other != this)
-    {
-        admin_news_ = other.admin_news_;
-        moder_news_ = other.moder_news_;
-    }
-}
 
 bool news::update(missio::json::object const& json_data)
 {

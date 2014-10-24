@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_factory_hpp
@@ -14,10 +14,10 @@
 // Application headers
 #include <core/storage.hpp>
 #include <core/informer.hpp>
-#include <net/http/downloader.hpp>
+#include <network/http/downloader.hpp>
 
-// BOOST headers
-#include <boost/scoped_ptr.hpp>
+// STL headers
+#include <memory>
 
 
 namespace chat
@@ -26,21 +26,20 @@ namespace chat
 class factory
 {
 public:
+    factory() = delete;
+    ~factory() = delete;
+
     static void create_instances();
     static void destroy_instances();
 
-    static missio::storage& storage();
-    static missio::informer& informer();
+    static chat::storage& storage();
+    static chat::informer& informer();
     static net::http::downloader& downloader();
 
 private:
-    factory();
-    ~factory();
-
-private:
-    static boost::scoped_ptr<missio::storage> storage_;
-    static boost::scoped_ptr<missio::informer> informer_;
-    static boost::scoped_ptr<net::http::downloader> downloader_;
+    static std::unique_ptr<chat::storage> storage_;
+    static std::unique_ptr<chat::informer> informer_;
+    static std::unique_ptr<net::http::downloader> downloader_;
 };
 
 }   // namespace chat

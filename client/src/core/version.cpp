@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -18,41 +18,11 @@ namespace chat
 
 version const version::unknown;
 
-version::version() :
-    major_(-1),
-    minor_(-1),
-    build_(-1)
-{
-}
-
-version::~version()
-{
-}
-
 version::version(int major, int minor, int build) :
     major_(major),
     minor_(minor),
     build_(build)
 {
-}
-
-version::version(version const& other) :
-    major_(other.major_),
-    minor_(other.minor_),
-    build_(other.build_)
-{
-}
-
-version& version::operator=(version const& other)
-{
-    if(&other != this)
-    {
-        major_ = other.major_;
-        minor_ = other.minor_;
-        build_ = other.build_;
-    }
-
-    return *this;
 }
 
 int version::major() const

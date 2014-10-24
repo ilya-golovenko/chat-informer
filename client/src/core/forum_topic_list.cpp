@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -22,45 +22,13 @@
 namespace chat
 {
 
-forum_topic_list::forum_topic_list()
-{
-}
-
-forum_topic_list::~forum_topic_list()
-{
-}
-
-forum_topic_list::forum_topic_list(forum_topic_list&& other) :
-    topics_(std::move(other.topics_))
-{
-}
-
-forum_topic_list& forum_topic_list::operator=(forum_topic_list&& other)
-{
-    assign(std::forward<forum_topic_list>(other));
-    return *this;
-}
-
-forum_topic_list::forum_topic_list(forum_topic_list const& other) :
-    topics_(other.topics_)
-{
-}
-
-forum_topic_list& forum_topic_list::operator=(forum_topic_list const& other)
-{
-    assign(other);
-    return *this;
-}
-
 bool forum_topic_list::update(missio::json::object const& json_data)
 {
     bool updated = false;
 
     if(json_data.contains("topics"))
     {
-        missio::json::array const& json_topics = json_data["topics"];
-
-        for(missio::json::object const& json_topic : json_topics)
+        for(auto const& json_topic : json_data["topics"].get_object())
         {
             std::wstring const id = json_topic["id"];
             std::wstring const title = json_topic["title"];
@@ -84,21 +52,12 @@ bool forum_topic_list::update(missio::json::object const& json_data)
     return updated;
 }
 
-void forum_topic_list::assign(forum_topic_list&& other)
-{
-    if(&other != this)
-        topics_ = std::move(other.topics_);
-}
-
-void forum_topic_list::assign(forum_topic_list const& other)
-{
-    if(&other != this)
-        topics_ = other.topics_;
-}
-
 void forum_topic_list::mark_as_old()
 {
-    boost::for_each(topics_, boost::bind(&forum_topic::mark_as_old, _1));
+    for(auto& topic : topics_)
+    {
+        topic.mark_as_old();
+    }
 }
 
 void forum_topic_list::clear()

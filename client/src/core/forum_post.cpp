@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -28,60 +28,6 @@ forum_post::forum_post(std::wstring const& id,
     is_read_(false)
 {
     missio::format::print(uri_, forum_post_uri, id_);
-}
-
-forum_post::~forum_post()
-{
-}
-
-forum_post::forum_post(forum_post&& other) :
-    id_(std::move(other.id_)),
-    uri_(std::move(other.uri_)),
-    title_(std::move(other.title_)),
-    author_(std::move(other.author_)),
-    time_(std::move(other.time_)),
-    is_read_(std::move(is_read_))
-{
-}
-
-forum_post& forum_post::operator=(forum_post&& other)
-{
-    if(&other != this)
-    {
-        id_ = std::move(other.id_);
-        uri_ = std::move(other.uri_);
-        title_ = std::move(other.title_);
-        author_ = std::move(other.author_);
-        time_ = std::move(other.time_);
-        is_read_ = std::move(other.is_read_);
-    }
-
-    return *this;
-}
-
-forum_post::forum_post(forum_post const& other) :
-    id_(other.id_),
-    uri_(other.uri_),
-    title_(other.title_),
-    author_(other.author_),
-    time_(other.time_),
-    is_read_(is_read_)
-{
-}
-
-forum_post& forum_post::operator=(forum_post const& other)
-{
-    if(&other != this)
-    {
-        id_ = other.id_;
-        uri_ = other.uri_;
-        title_ = other.title_;
-        author_ = other.author_;
-        time_ = other.time_;
-        is_read_ = other.is_read_;
-    }
-
-    return *this;
 }
 
 std::wstring const& forum_post::id() const

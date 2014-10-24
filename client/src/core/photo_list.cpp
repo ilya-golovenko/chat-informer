@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -22,43 +22,13 @@
 namespace chat
 {
 
-photo_list::photo_list()
-{
-}
-
-photo_list::photo_list(photo_list&& other) :
-    photos_(std::move(other.photos_))
-{
-}
-
-photo_list& photo_list::operator=(photo_list&& other)
-{
-    if(&other != this)
-        photos_ = std::move(other.photos_);
-    return *this;
-}
-
-photo_list::photo_list(photo_list const& other) :
-    photos_(other.photos_)
-{
-}
-
-photo_list& photo_list::operator=(photo_list const& other)
-{
-    if(&other != this)
-        photos_ = other.photos_;
-    return *this;
-}
-
 bool photo_list::update(missio::json::object const& json_data)
 {
     boost::for_each(photos_, boost::bind(&photo::set_deleted, _1, true));
 
     if(json_data.contains("photos"))
     {
-        missio::json::array const& json_photos = json_data["photos"];
-
-        for(missio::json::object const& json_photo : json_photos)
+        for(auto const& json_photo : json_data["photos"].get_object())
         {
             std::wstring const id = json_photo["id"];
             std::wstring const thumb = json_photo["thumb"];
@@ -81,7 +51,7 @@ bool photo_list::update(missio::json::object const& json_data)
                 continue;
             }
 
-            photos_.push_back(photo(id, thumb, descr, nickname));
+            photos_.emplace_back(id, thumb, descr, nickname);
         }
 
         if(cleanup())

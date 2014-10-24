@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -11,14 +11,6 @@
 
 namespace chat
 {
-
-forum::forum()
-{
-}
-
-forum::~forum()
-{
-}
 
 forum_topic_list const& forum::topics() const
 {

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -22,45 +22,13 @@
 namespace chat
 {
 
-forum_post_list::forum_post_list()
-{
-}
-
-forum_post_list::~forum_post_list()
-{
-}
-
-forum_post_list::forum_post_list(forum_post_list&& other) :
-    posts_(std::move(other.posts_))
-{
-}
-
-forum_post_list& forum_post_list::operator=(forum_post_list&& other)
-{
-    assign(std::forward<forum_post_list>(other));
-    return *this;
-}
-
-forum_post_list::forum_post_list(forum_post_list const& other) :
-    posts_(other.posts_)
-{
-}
-
-forum_post_list& forum_post_list::operator=(forum_post_list const& other)
-{
-    assign(other);
-    return *this;
-}
-
 bool forum_post_list::update(missio::json::object const& json_data)
 {
     bool updated = false;
 
     if(json_data.contains("posts"))
     {
-        missio::json::array const& json_posts = json_data["posts"];
-
-        for(missio::json::object const& json_post : json_posts)
+        for(auto const& json_post : json_data["posts"].get_object())
         {
             std::wstring const id = json_post["id"];
             std::wstring const title = json_post["title"];
@@ -79,18 +47,6 @@ bool forum_post_list::update(missio::json::object const& json_data)
     }
 
     return updated;
-}
-
-void forum_post_list::assign(forum_post_list&& other)
-{
-    if(&other != this)
-        posts_ = std::move(other.posts_);
-}
-
-void forum_post_list::assign(forum_post_list const& other)
-{
-    if(&other != this)
-        posts_ = other.posts_;
 }
 
 void forum_post_list::clear()

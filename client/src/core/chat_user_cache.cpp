@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -39,9 +39,7 @@ bool chat_user_cache::update(missio::json::object const& json_data)
     {
         clear_online_users();
 
-        missio::json::array const& json_userlist = json_data["userlist"];
-
-        for(missio::json::object const& json_user : json_userlist)
+        for(auto const& json_user : json_data["userlist"].get_object())
         {
             std::wstring const nickname = json_user["nickname"];
             chat_user::sex_type const sex = json_user["sex"];

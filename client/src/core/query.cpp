@@ -11,16 +11,13 @@
 // Windows headers
 #include <windows.h>
 
-// BOOST headers
-#include <boost/make_shared.hpp>
-
 
 namespace chat
 {
 
 query::pointer query::create(missio::json::value const& data, bool need_auth, handler const& handler)
 {
-    return boost::make_shared<query>(data, need_auth, handler);
+    return std::make_shared<query>(data, need_auth, handler);
 }
 
 query::query(missio::json::value const& data, bool need_auth, handler const& handler) :
@@ -28,19 +25,19 @@ query::query(missio::json::value const& data, bool need_auth, handler const& han
     data_(data),
     need_auth_(need_auth),
     handler_(handler),
-    completed_(0)
+    completed_(false)
 {
 }
 
 void query::cancel()
 {
-    if(::InterlockedExchange(&completed_, 1) == 0)
+    if(!completed_.exchange(true))
         error_ = error::operation_aborted;
 }
 
 bool query::is_completed()
 {
-    return 1 == ::InterlockedExchangeAdd(&completed_, 0);
+    return completed_;
 }
 
 bool query::need_auth() const
@@ -53,24 +50,24 @@ error::type query::error() const
     return error_;
 }
 
-json::value& query::json_data()
+missio::json::value& query::json_data()
 {
     return data_;
 }
 
-json::value const& query::json_data() const
+missio::json::value const& query::json_data() const
 {
     return data_;
 }
 
 void query::set_json_data(missio::json::value const& data)
 {
-    data_.assign(data);
+    data_ = data;
 }
 
 void query::handle_info(error::type error)
 {
-    if(::InterlockedExchange(&completed_, 1) == 0)
+    if(!completed_.exchange(true))
     {
         error_ = error;
         handler_(shared_from_this());

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -19,51 +19,9 @@
 namespace chat
 {
 
-chat_user_list::chat_user_list()
-{
-}
-
-chat_user_list::~chat_user_list()
-{
-}
-
 chat_user_list::chat_user_list(std::vector<chat_user>&& users) :
     users_(std::move(users))
 {
-}
-
-chat_user_list::chat_user_list(chat_user_list&& other) :
-    users_(std::move(other.users_))
-{
-}
-
-chat_user_list& chat_user_list::operator=(chat_user_list&& other)
-{
-    assign(std::forward<chat_user_list>(other));
-    return *this;
-}
-
-chat_user_list::chat_user_list(chat_user_list const& other) :
-    users_(other.users_)
-{
-}
-
-chat_user_list& chat_user_list::operator=(chat_user_list const& other)
-{
-    assign(other);
-    return *this;
-}
-
-void chat_user_list::assign(chat_user_list&& other)
-{
-    if(&other != this)
-        users_ = std::move(other.users_);
-}
-
-void chat_user_list::assign(chat_user_list const& other)
-{
-    if(&other != this)
-        users_ = other.users_;
 }
 
 void chat_user_list::sort(bool sort_by_nicknames)
@@ -74,7 +32,7 @@ void chat_user_list::sort(bool sort_by_nicknames)
 void chat_user_list::push_back(chat_user&& user)
 {
     if(!contains(user.nickname()))
-        users_.push_back(std::move(user));
+        users_.push_back(std::forward<chat_user>(user));
 }
 
 void chat_user_list::push_back(chat_user const& user)

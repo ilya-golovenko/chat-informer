@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_photos_photo_list_hpp
@@ -32,14 +32,14 @@ public:
     typedef std::vector<photo>::const_iterator const_iterator;
 
 public:
-    photo_list();
-    ~photo_list();
+    photo_list() = default;
+    ~photo_list() = default;
 
-    photo_list(photo_list&& other);
-    photo_list& operator=(photo_list&& other);
+    photo_list(photo_list const&) = default;
+    photo_list& operator=(photo_list const&) = default;
 
-    photo_list(photo_list const& other);
-    photo_list& operator=(photo_list const& other);
+    photo_list(photo_list&&) = default;
+    photo_list& operator=(photo_list&&) = default;
 
     bool update(missio::json::object const& json_data);
 

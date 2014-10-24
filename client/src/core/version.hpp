@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_version_hpp
@@ -22,13 +22,13 @@ namespace chat
 class version
 {
 public:
-    version();
-    ~version();
+    version() = default;
+    ~version() = default;
 
     version(int major, int minor, int build);
 
-    version(version const& other);
-    version& operator=(version const& other);
+    version(version const&) = default;
+    version& operator=(version const&) = default;
 
     int major() const;
     int minor() const;

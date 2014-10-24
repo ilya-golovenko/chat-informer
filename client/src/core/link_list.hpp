@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_links_link_list_hpp
@@ -28,19 +28,16 @@ class link_list
 {
 
 public:
-    link_list();
-    ~link_list();
+    link_list() = default;
+    ~link_list() = default;
 
-    link_list(link_list&& other);
-    link_list& operator=(link_list&& other);
+    link_list(link_list const&) = default;
+    link_list& operator=(link_list const&) = default;
 
-    link_list(link_list const& other);
-    link_list& operator=(link_list const& other);
+    link_list(link_list&&) = default;
+    link_list& operator=(link_list&&) = default;
 
     bool update(missio::json::object const& json_data);
-
-    void assign(link_list&& other);
-    void assign(link_list const& other);
 
     void clear();
 

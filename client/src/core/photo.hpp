@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_photos_photo_hpp
@@ -26,16 +26,13 @@ public:
           std::wstring const& descr,
           std::wstring const& nickname);
 
-    ~photo();
+    photo(photo const&) = default;
+    photo& operator=(photo const&) = default;
 
-    photo(photo&& other);
-    photo& operator=(photo&& other);
+    photo(photo&&) = default;
+    photo& operator=(photo&&) = default;
 
-    photo(photo const& other);
-    photo& operator=(photo const& other);
-
-    void update(std::wstring const& descr,
-                std::wstring const& nickname);
+    void update(std::wstring const& descr, std::wstring const& nickname);
 
     bool is_deleted() const;
     void set_deleted(bool deleted);

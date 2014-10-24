@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_forum_topic_list_hpp
@@ -29,19 +29,16 @@ public:
     typedef std::vector<forum_topic>::const_iterator const_iterator;
 
 public:
-    forum_topic_list();
-    ~forum_topic_list();
+    forum_topic_list() = default;
+    ~forum_topic_list() = default;
 
-    forum_topic_list(forum_topic_list&& other);
-    forum_topic_list& operator=(forum_topic_list&& other);
+    forum_topic_list(forum_topic_list const&) = default;
+    forum_topic_list& operator=(forum_topic_list const&) = default;
 
-    forum_topic_list(forum_topic_list const& other);
-    forum_topic_list& operator=(forum_topic_list const& other);
+    forum_topic_list(forum_topic_list&&) = default;
+    forum_topic_list& operator=(forum_topic_list&&) = default;
 
     bool update(missio::json::object const& json_data);
-
-    void assign(forum_topic_list&& other);
-    void assign(forum_topic_list const& other);
 
     void mark_as_old();
 

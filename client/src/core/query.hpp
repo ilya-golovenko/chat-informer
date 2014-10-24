@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_query_hpp
@@ -18,33 +18,32 @@
 // MISSIO headers
 #include <missio/json/json.hpp>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-#include <boost/smart_ptr.hpp>
-#include <boost/function.hpp>
-
 // STL headers
+#include <functional>
+#include <atomic>
+#include <memory>
 #include <ctime>
 
 
 namespace chat
 {
 
-class query :
-    private boost::noncopyable,
-    public boost::enable_shared_from_this<query>
+class query : public std::enable_shared_from_this<query>
 {
 friend class informer;
 
 public:
-    typedef boost::shared_ptr<query> pointer;
-    typedef boost::function<void (pointer)> handler;
+    typedef std::shared_ptr<query> pointer;
+    typedef std::function<void (pointer)> handler;
 
 public:
     static pointer create(missio::json::value const& data, bool need_auth, handler const& handler);
 
 public:
     query(missio::json::value const& data, bool need_auth, handler const& handler);
+
+    query(query const&) = delete;
+    query& operator=(query const&) = delete;
 
     void cancel();
     bool is_completed();
@@ -67,7 +66,7 @@ private:
     handler handler_;
 
 private:
-    volatile long completed_;
+    std::atomic_bool completed_;
 };
 
 }   // namespace chat

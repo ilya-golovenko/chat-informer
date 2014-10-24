@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -14,16 +14,13 @@
 #include <missio/unicode/convert.hpp>
 #include <missio/format/format.hpp>
 
-// BOOST headers
-#include <boost/make_shared.hpp>
-
 
 namespace chat
 {
 
 chat_user_info::pointer chat_user_info::create(missio::json::object const& json_data)
 {
-    return boost::make_shared<chat_user_info>(json_data);
+    return std::make_shared<chat_user_info>(json_data);
 }
 
 bool chat_user_info::contains_user_info(missio::json::object const& json_data)

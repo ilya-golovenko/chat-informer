@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_informer_hpp
@@ -19,9 +19,9 @@
 #include <core/query_queue.hpp>
 #include <core/instance_id.hpp>
 #include <crypto/manager.hpp>
-#include <net/http/client_session.hpp>
-#include <net/util/async_timer.hpp>
-#include <net/util/thread_pool.hpp>
+//#include <network/http/client_session.hpp>
+//#include <network/util/thread_pool.hpp>
+#include <network/util/timer.hpp>
 
 // MISSIO headers
 #include <missio/json/json.hpp>
@@ -38,12 +38,14 @@
 namespace chat
 {
 
-class informer :
-    private boost::noncopyable
+class informer
 {
 public:
     informer();
     ~informer();
+
+    informer(informer const&) = delete;
+    informer& operator=(informer const&) = delete;
 
     void start();
     void stop();
@@ -110,11 +112,11 @@ private:
 
     credentials credentials_;
 
-    net::util::async_timer query_timer_;
-    net::util::async_timer error_timer_;
-    net::util::async_timer pending_timer_;
+    net::timer query_timer_;
+    net::timer error_timer_;
+    net::timer pending_timer_;
 
-    net::http::client_session::pointer session_;
+    //net::http::client_session::pointer session_;
 };
 
 }   // namespace chat

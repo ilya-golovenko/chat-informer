@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_chat_user_cache_hpp
@@ -17,9 +17,6 @@
 // MISSIO headers
 #include <missio/json/json.hpp>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-
 // STL headers
 #include <string>
 #include <vector>
@@ -28,12 +25,14 @@
 namespace chat
 {
 
-class chat_user_cache :
-    private boost::noncopyable
+class chat_user_cache
 {
 public:
-    chat_user_cache();
-    ~chat_user_cache();
+    chat_user_cache() = default;
+    ~chat_user_cache() = default;
+
+    chat_user_cache(chat_user_cache const&) = delete;
+    chat_user_cache& operator=(chat_user_cache const&) = delete;
 
     void clear_cache();
     void cleanup_cache();

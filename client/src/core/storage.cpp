@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -9,47 +9,39 @@
 #include <core/common.hpp>
 #include <core/storage.hpp>
 
-// BOOST headers
-#include <boost/ref.hpp>
+// STL headers
+#include <functional>
 
 
 namespace chat
 {
 
-storage::storage()
-{
-}
-
-storage::~storage()
-{
-}
-
-missio::news const& storage::news() const
+chat::news const& storage::news() const
 {
     return news_;
 }
 
-missio::forum const& storage::forum() const
+chat::forum const& storage::forum() const
 {
     return forum_;
 }
 
-missio::link_list const& storage::links() const
+chat::link_list const& storage::links() const
 {
     return links_;
 }
 
-missio::chat_user_cache const& storage::users() const
+chat::chat_user_cache const& storage::users() const
 {
     return users_;
 }
 
-missio::photoalbum const& storage::photoalbum() const
+chat::photoalbum const& storage::photoalbum() const
 {
     return photoalbum_;
 }
 
-missio::version const& storage::server_version() const
+chat::version const& storage::server_version() const
 {
     return server_version_;
 }
@@ -67,42 +59,42 @@ void storage::update(missio::json::object const& json_data)
 void storage::update_users()
 {
     events_updated_(event::userlist);
-    users_updated_(boost::cref(users_));
+    users_updated_(std::cref(users_));
 }
 
 void storage::clear_users()
 {
     users_.clear_cache();
     events_updated_(event::userlist);
-    users_updated_(boost::cref(users_));
+    users_updated_(std::cref(users_));
 }
 
 void storage::add_alarm(std::wstring const& nickname)
 {
     users_.add_alarm(nickname);
     events_updated_(event::userlist);
-    users_updated_(boost::cref(users_));
+    users_updated_(std::cref(users_));
 }
 
 void storage::remove_alarm(std::wstring const& nickname)
 {
     users_.remove_alarm(nickname);
     events_updated_(event::userlist);
-    users_updated_(boost::cref(users_));
+    users_updated_(std::cref(users_));
 }
 
 void storage::switch_alarm(std::wstring const& nickname)
 {
     users_.switch_alarm(nickname);
     events_updated_(event::userlist);
-    users_updated_(boost::cref(users_));
+    users_updated_(std::cref(users_));
 }
 
 void storage::clear_alarms()
 {
     users_.clear_alarms();
     events_updated_(event::userlist);
-    users_updated_(boost::cref(users_));
+    users_updated_(std::cref(users_));
 }
 
 std::vector<std::wstring> storage::get_alarms() const
@@ -114,13 +106,13 @@ void storage::set_alarms(std::vector<std::wstring> const& nicknames)
 {
     users_.set_alarms(nicknames);
     events_updated_(event::userlist);
-    users_updated_(boost::cref(users_));
+    users_updated_(std::cref(users_));
 }
 
 void storage::fire_links_updated()
 {
     events_updated_(event::links);
-    links_updated_(boost::cref(links_));
+    links_updated_(std::cref(links_));
 }
 
 void storage::update_server_version(missio::json::object const& json_data)
@@ -143,7 +135,7 @@ void storage::update_photoalbum(missio::json::object const& json_data)
     if(photoalbum_.update(json_data))
     {
         events_updated_(event::photoalbum);
-        photoalbum_updated_(boost::cref(photoalbum_));
+        photoalbum_updated_(std::cref(photoalbum_));
     }
 }
 
@@ -152,7 +144,7 @@ void storage::update_users(missio::json::object const& json_data)
     if(users_.update(json_data))
     {
         events_updated_(event::userlist);
-        users_updated_(boost::cref(users_));
+        users_updated_(std::cref(users_));
     }
 }
 
@@ -161,7 +153,7 @@ void storage::update_forum(missio::json::object const& json_data)
     if(forum_.update(json_data))
     {
         events_updated_(event::forum);
-        forum_updated_(boost::cref(forum_));
+        forum_updated_(std::cref(forum_));
     }
 }
 
@@ -170,7 +162,7 @@ void storage::update_links(missio::json::object const& json_data)
     if(links_.update(json_data))
     {
         events_updated_(event::links);
-        links_updated_(boost::cref(links_));
+        links_updated_(std::cref(links_));
     }
 }
 
@@ -179,7 +171,7 @@ void storage::update_news(missio::json::object const& json_data)
     if(news_.update(json_data))
     {
         events_updated_(event::news);
-        news_updated_(boost::cref(news_));
+        news_updated_(std::cref(news_));
     }
 }
 

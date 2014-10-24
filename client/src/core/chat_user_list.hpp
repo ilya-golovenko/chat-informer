@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_chat_user_list_hpp
@@ -30,19 +30,16 @@ public:
     typedef std::vector<chat_user>::const_iterator const_iterator;
 
 public:
-    chat_user_list();
-    ~chat_user_list();
+    chat_user_list() = default;
+    ~chat_user_list() = default;
 
     explicit chat_user_list(std::vector<chat_user>&& users);
 
-    chat_user_list(chat_user_list&& other);
-    chat_user_list& operator=(chat_user_list&& other);
+    chat_user_list(chat_user_list const&) = default;
+    chat_user_list& operator=(chat_user_list const&) = default;
 
-    chat_user_list(chat_user_list const& other);
-    chat_user_list& operator=(chat_user_list const& other);
-
-    void assign(chat_user_list&& other);
-    void assign(chat_user_list const& other);
+    chat_user_list(chat_user_list&&) = default;
+    chat_user_list& operator=(chat_user_list&&) = default;
 
     void sort(bool sort_by_nicknames = true);
 

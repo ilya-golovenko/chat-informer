@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -18,10 +18,6 @@ chat_user::chat_user(std::wstring const& nickname) :
     online_(false),
     birthday_(false),
     alarm_(false)
-{
-}
-
-chat_user::~chat_user()
 {
 }
 

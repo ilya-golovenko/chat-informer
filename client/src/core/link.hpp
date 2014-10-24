@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_link_hpp
@@ -25,13 +25,11 @@ public:
          std::wstring const& name,
          std::wstring const& descr);
 
-    ~link();
+    link(link const&) = default;
+    link& operator=(link const&) = default;
 
-    link(link&& other);
-    link& operator=(link&& other);
-
-    link(link const& other);
-    link& operator=(link const& other);
+    link(link&&) = default;
+    link& operator=(link&&) = default;
 
     std::wstring const& uri() const;
     std::wstring const& name() const;

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_news_news_hpp
@@ -24,13 +24,14 @@ namespace chat
 class news
 {
 public:
-    news();
-    ~news();
+    news() = default;
+    ~news() = default;
 
-    news(news const& other);
-    news& operator=(news const& other);
+    news(news const&) = default;
+    news& operator=(news const&) = default;
 
-    void assign(news const& other);
+    news(news const&&) = default;
+    news& operator=(news const&&) = default;
 
     bool update(missio::json::object const& json_data);
 

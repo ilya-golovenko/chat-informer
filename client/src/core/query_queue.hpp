@@ -14,41 +14,34 @@
 // Application headers
 #include <core/info.hpp>
 #include <core/query.hpp>
-//#include <utility/async_timer.hpp>
+#include <network/util/timer.hpp>
 
 // MISSIO headers
 #include <missio/logging/common.hpp>
 
 // BOOST headers
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/function.hpp>
 #include <boost/asio.hpp>
 
 // STL headers
+#include <memory>
 #include <vector>
 
 /*
 namespace chat
 {
 
-class query_queue :
-    private boost::noncopyable,
-    public boost::enable_shared_from_this<query_queue>
+class query_queue: public std::enable_shared_from_this<query_queue>
 {
 public:
-    typedef boost::shared_ptr<query_queue> pointer;
+    typedef std::shared_ptr<query_queue> pointer;
     typedef std::vector<query::pointer> query_vector;
 
-    typedef boost::function<void (query_vector const&)> handler;
+    typedef std::function<void (query_vector const&)> handler;
 
-    static pointer create(boost::asio::io_service& io_service,
-                          handler const& handler);
+    static pointer create(boost::asio::io_service& io_service, handler const& handler);
 
 public:
-    query_queue(boost::asio::io_service& io_service,
-                handler const& handler);
+    query_queue(boost::asio::io_service& io_service, handler const& handler);
 
     ~query_queue();
 
@@ -62,8 +55,8 @@ private:
 
 private:
     handler handler_;
+    net::timer timer_;
     query_vector queries_;
-    util::async_timer timer_;
 };
 
 }   // namespace chat

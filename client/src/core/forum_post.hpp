@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_forum_post_hpp
@@ -27,13 +27,11 @@ public:
                std::wstring const& author,
                std::time_t time);
 
-    ~forum_post();
+    forum_post(forum_post const&) = default;
+    forum_post& operator=(forum_post const&) = default;
 
-    forum_post(forum_post&& other);
-    forum_post& operator=(forum_post&& other);
-
-    forum_post(forum_post const& other);
-    forum_post& operator=(forum_post const& other);
+    forum_post(forum_post&&) = default;
+    forum_post& operator=(forum_post&&) = default;
 
     std::wstring const& id() const;
     std::wstring const& uri() const;

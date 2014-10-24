@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_chat_user_info_hpp
@@ -18,10 +18,8 @@
 // MISSIO headers
 #include <missio/json/json.hpp>
 
-// BOOST headers
-#include <boost/shared_ptr.hpp>
-
 // STL headers
+#include <memory>
 #include <string>
 #include <ctime>
 
@@ -29,17 +27,19 @@
 namespace chat
 {
 
-class chat_user_info :
-    private boost::noncopyable
+class chat_user_info
 {
 public:
-    typedef boost::shared_ptr<chat_user_info> pointer;
+    typedef std::shared_ptr<chat_user_info> pointer;
 
     static pointer create(missio::json::object const& json_data);
     static bool contains_user_info(missio::json::object const& json_data);
 
 public:
     explicit chat_user_info(missio::json::object const& json_data);
+
+    chat_user_info(chat_user_info const&) = delete;
+    chat_user_info& operator=(chat_user_info const&) = delete;
 
     std::wstring const& nickname() const;
     std::wstring const& fullname() const;

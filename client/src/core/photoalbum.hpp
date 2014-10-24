@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_photos_photoalbum_hpp
@@ -17,19 +17,18 @@
 // MISSIO headers
 #include <missio/json/json.hpp>
 
-// BOOST headers
-#include <boost/noncopyable.hpp>
-
 
 namespace chat
 {
 
-class photoalbum :
-    private boost::noncopyable
+class photoalbum
 {
 public:
-    photoalbum();
-    ~photoalbum();
+    photoalbum() = default;
+    ~photoalbum() = default;
+
+    photoalbum(photoalbum const&) = delete;
+    photoalbum& operator=(photoalbum const&) = delete;
 
     photo_list const& fresh_photos() const;
 

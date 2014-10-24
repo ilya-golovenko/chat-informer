@@ -10,6 +10,16 @@ path-constant DEPS : deps ;
 
 path-constant MISSIO_ROOT : $(DEPS)/missio ;
 
+##ASIO_ROOT = [ modules.peek : ASIO_ROOT ] ;
+##
+##if ! $(ASIO_ROOT)
+##{
+##    echo ;
+##    echo "Required environment variable ASIO_ROOT is not set" ;
+##    echo "Please set it to point to the root of ASIO distribution" ;
+##    exit ;
+##}
+
 BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
 
 if ! $(BOOST_ROOT)
@@ -19,6 +29,8 @@ if ! $(BOOST_ROOT)
     echo "Please set it to point to the root of BOOST distribution" ;
     exit ;
 }
+
+##use-project /asio : $(ASIO_ROOT) ;
 
 use-project /boost : $(BOOST_ROOT) ;
 
@@ -32,8 +44,10 @@ project /chat/informer
         <runtime-link>static
         <threading>multi
         <include>$(SRC)
+        ##<include>$(ASIO_ROOT)
         <include>$(BOOST_ROOT)
         <include>$(MISSIO_ROOT)
+        ##<define>ASIO_STANDALONE
         <define>BOOST_ALL_NO_LIB
         <define>BOOST_SYSTEM_NO_DEPRECATED
         <define>BOOST_FILESYSTEM_VERSION=3
@@ -82,9 +96,11 @@ use-project /chat/informer/config : $(SRC)/config ;
 use-project /chat/informer/core : $(SRC)/core ;
 
 use-project /chat/informer/utility/test : $(TEST)/utility ;
+use-project /chat/informer/network/test : $(TEST)/network ;
 use-project /chat/informer/crypto/test : $(TEST)/crypto ;
 
 build-project $(TEST)/utility ;
+build-project $(TEST)/network ;
 build-project $(TEST)/crypto ;
 
 #build-project $(SRC)/informer ;
@@ -104,38 +120,14 @@ alias /chat/informer/test
     :
         ## sources ##
         /chat/informer/utility/test
+        /chat/informer/network/test
         /chat/informer/crypto/test
-    ;
-
-# Windows libraries
-lib psapi ;
-lib ws2_32 ;
-lib shlwapi ;
-
-exe chat_informer
-    :
-        ## sources ##
-        [ glob-tree *.cpp *.c : .svn ]
-        /missio/unicode//missio_unicode
-        /missio/logging//missio_logging
-        /boost/system//boost_system
-        /boost/thread//boost_thread
-        /boost/date_time//boost_date_time
-        /boost/filesystem//boost_filesystem
-    :
-        ## requirements ##
-        <include>$(DEPEND)/wtl
-        <define>_WTL_USE_CSTRING
-        <define>_WTL_NO_AUTOMATIC_NAMESPACE
-        <library>shlwapi
-        <library>ws2_32
-        <library>psapi
     ;
 
 install install-chat-informer
     :
         ## sources ##
-        chat_informer
+        /chat/informer/application
     :
         ## build requirements ##
         <variant>debug:<location>$(BIN)/debug

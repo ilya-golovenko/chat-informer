@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_chat_user_hpp
@@ -32,13 +32,12 @@ public:
 
 public:
     explicit chat_user(std::wstring const& nickname);
-    ~chat_user();
 
-    chat_user(chat_user&& other);
-    chat_user& operator=(chat_user&& other);
+    chat_user(chat_user const&) = default;
+    chat_user& operator=(chat_user const&) = default;
 
-    chat_user(chat_user const& other);
-    chat_user& operator=(chat_user const& other);
+    chat_user(chat_user&&) = default;
+    chat_user& operator=(chat_user&&) = default;
 
     bool is_removeable() const;
     std::wstring const& nickname() const;

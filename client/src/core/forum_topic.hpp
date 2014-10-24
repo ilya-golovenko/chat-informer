@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 #ifndef _chat_core_forum_topic_hpp
@@ -25,16 +25,13 @@ namespace chat
 class forum_topic
 {
 public:
-    forum_topic(std::wstring const& id,
-                std::wstring const& title);
+    forum_topic(std::wstring const& id, std::wstring const& title);
 
-    ~forum_topic();
+    forum_topic(forum_topic const&) = default;
+    forum_topic& operator=(forum_topic const&) = default;
 
-    forum_topic(forum_topic&& other);
-    forum_topic& operator=(forum_topic&& other);
-
-    forum_topic(forum_topic const& other);
-    forum_topic& operator=(forum_topic const& other);
+    forum_topic(forum_topic&&) = default;
+    forum_topic& operator=(forum_topic&&) = default;
 
     bool update(missio::json::object const& json_data);
 

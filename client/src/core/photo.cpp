@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -31,54 +31,7 @@ photo::photo(std::wstring const& id,
 {
 }
 
-photo::~photo()
-{
-}
-
-photo::photo(photo&& other) : 
-    id_(std::move(other.id_)),
-    thumb_(std::move(other.thumb_)),
-    descr_(std::move(other.descr_)),
-    nickname_(std::move(other.nickname_))
-{
-}
-
-photo& photo::operator=(photo&& other)
-{
-    if(&other != this)
-    {
-        id_ = std::move(other.id_);
-        thumb_ = std::move(other.thumb_);
-        descr_ = std::move(other.descr_);
-        nickname_ = std::move(other.nickname_);
-    }
-
-    return *this;
-}
-
-photo::photo(photo const& other) :
-    id_(other.id_),
-    thumb_(other.thumb_),
-    descr_(other.descr_),
-    nickname_(other.nickname_)
-{
-}
-
-photo& photo::operator=(photo const& other)
-{
-    if(&other != this)
-    {
-        id_ = other.id_;
-        thumb_ = other.thumb_;
-        descr_ = other.descr_;
-        nickname_ = other.nickname_;
-    }
-
-    return *this;
-}
-
-void photo::update(std::wstring const& descr,
-                   std::wstring const& nickname)
+void photo::update(std::wstring const& descr, std::wstring const& nickname)
 {
     descr_ = descr_;
     nickname_ = nickname_;

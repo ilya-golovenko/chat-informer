@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -13,64 +13,16 @@
 
 // BOOST headers
 #include <boost/range/algorithm.hpp>
-#include <boost/bind.hpp>
 
 
 namespace chat
 {
 
-forum_topic::forum_topic(std::wstring const& id,
-                         std::wstring const& title) :
+forum_topic::forum_topic(std::wstring const& id, std::wstring const& title) :
     id_(id),
     title_(title),
     is_new_(true)
 {
-}
-
-forum_topic::~forum_topic()
-{
-}
-
-forum_topic::forum_topic(forum_topic&& other) :
-    id_(std::move(other.id_)),
-    title_(std::move(other.title_)),
-    is_new_(std::move(other.is_new_)),
-    posts_(std::move(other.posts_))
-{
-}
-
-forum_topic& forum_topic::operator=(forum_topic&& other)
-{
-    if(&other != this)
-    {
-        id_ = std::move(other.id_);
-        title_ = std::move(other.title_);
-        is_new_ = std::move(other.is_new_);
-        posts_ = std::move(other.posts_);
-    }
-
-    return *this;
-}
-
-forum_topic::forum_topic(forum_topic const& other) :
-    id_(other.id_),
-    title_(other.title_),
-    is_new_(other.is_new_),
-    posts_(other.posts_)
-{
-}
-
-forum_topic& forum_topic::operator=(forum_topic const& other)
-{
-    if(&other != this)
-    {
-        id_ = other.id_;
-        title_ = other.title_;
-        is_new_ = other.is_new_;
-        posts_ = other.posts_;
-    }
-
-    return *this;
 }
 
 bool forum_topic::update(missio::json::object const& json_data)
@@ -108,12 +60,23 @@ bool forum_topic::is_new() const
 
 void forum_topic::mark_as_read()
 {
-    boost::for_each(posts_, boost::bind(&forum_post::mark_as_read, _1));
+    for(auto& post : posts_)
+    {
+        post.mark_as_read();
+    }
 }
 
 bool forum_topic::is_read() const
 {
-    return boost::find_if(posts_, !boost::bind(&forum_post::is_read, _1)) == posts_.end();
+    for(auto const& post : posts_)
+    {
+        if(!post.is_read())
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 std::time_t forum_topic::time() const

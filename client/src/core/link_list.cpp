@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //
 //    This file is part of Chat Informer project
-//    Copyright (C) 2011, 2013 Ilya Golovenko
+//    Copyright (C) 2011, 2013, 2014 Ilya Golovenko
 //
 //---------------------------------------------------------------------------
 
@@ -15,45 +15,13 @@
 namespace chat
 {
 
-link_list::link_list()
-{
-}
-
-link_list::~link_list()
-{
-}
-
-link_list::link_list(link_list&& other) :
-    links_(std::move(other.links_))
-{
-}
-
-link_list& link_list::operator=(link_list&& other)
-{
-    assign(std::forward<link_list>(other));
-    return *this;
-}
-
-link_list::link_list(link_list const& other) :
-    links_(other.links_)
-{
-}
-
-link_list& link_list::operator=(link_list const& other)
-{
-    assign(other);
-    return *this;
-}
-
 bool link_list::update(missio::json::object const& json_data)
 {
     if(json_data.contains("links"))
     {
         links_.clear();
 
-        missio::json::array const& json_links = json_data["links"];
-
-        for(missio::json::object const& json_link : json_links)
+        for(auto const& json_link : json_data["links"].get_object())
         {
             std::wstring const uri = json_link["uri"];
             std::wstring const name = json_link["name"];
@@ -66,18 +34,6 @@ bool link_list::update(missio::json::object const& json_data)
     }
 
     return false;
-}
-
-void link_list::assign(link_list&& other)
-{
-    if(&other != this)
-        links_ = std::move(other.links_);
-}
-
-void link_list::assign(link_list const& other)
-{
-    if(&other != this)
-        links_ = other.links_;
 }
 
 void link_list::clear()
