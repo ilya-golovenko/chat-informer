@@ -24,8 +24,8 @@ public:
     CAsyncJobManager() = default;
     ~CAsyncJobManager() = default;
 
-    virtual void Initialize();
-    virtual void Finalize();
+    void Initialize() override;
+    void Finalize() override;
 
     void AddJob(CAsyncJobBase::Pointer asyncJob);
 

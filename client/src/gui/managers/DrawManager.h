@@ -86,8 +86,8 @@ public:
     CDrawManager() = default;
     ~CDrawManager() = default;
 
-    virtual void Initialize();
-    virtual void Finalize();
+    void Initialize() override;
+    void Finalize() override;
 
     COLORREF Color(std::size_t color);
     HBRUSH Brush(std::size_t brush);

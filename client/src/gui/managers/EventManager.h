@@ -23,8 +23,8 @@ public:
     CEventManager() = default;
     ~CEventManager() = default;
 
-    virtual void Initialize();
-    virtual void Finalize();
+    void Initialize() override;
+    void Finalize() override;
 
     void AddEvent(chat::event::type event);
     void RemoveEvent(chat::event::type event);

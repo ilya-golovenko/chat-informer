@@ -25,8 +25,8 @@ public:
     CSoundManager() = default;
     ~CSoundManager() = default;
 
-    virtual void Initialize();
-    virtual void Finalize();
+    void Initialize() override;
+    void Finalize() override;
 
     void Play(int sound);
 

@@ -11,8 +11,8 @@
 #include <informer/managers/ManagerBase.h>
 
 // STL headers
+#include <functional>
 #include <stdexcept>
-#include <funtional>
 #include <memory>
 #include <map>
 
@@ -26,8 +26,8 @@ public:
     CDialogManager();
     virtual ~CDialogManager();
 
-    virtual void Initialize();
-    virtual void Finalize();
+    void Initialize() override;
+    void Finalize() override;
 
     ATL::CWindow CreateMainDialog();
     void DestroyMainDialog();

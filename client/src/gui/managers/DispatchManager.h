@@ -22,8 +22,8 @@ public:
     CDispatchManager();
     ~CDispatchManager();
 
-    virtual void Initialize();
-    virtual void Finalize();
+    void Initialize() override;
+    void Finalize() override;
 
     template <typename Handler>
     void Dispatch(Handler const& handler);

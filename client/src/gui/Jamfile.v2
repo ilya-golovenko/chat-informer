@@ -1,12 +1,12 @@
 
-project chat/informer/application ;
+project chat/informer/gui ;
 
 # Required Windows libraries
 
 lib shlwapi ;
 lib psapi ;
 
-exe chat_informer_application
+exe chat_informer
     :
         ## sources ##
         [ glob-tree *.cpp : .svn ]

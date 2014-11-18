@@ -29,8 +29,8 @@ class CInformerManager : public CManagerBase<CInformerManager>
 public:
     CInformerManager();
 
-    virtual void Initialize();
-    virtual void Finalize();
+    void Initialize() override;
+    void Finalize() override;
 
     bool IsOnline() const;
     bool IsStandby() const;

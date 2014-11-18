@@ -88,12 +88,12 @@ project /chat/informer
         build-dir $(OBJ)
     ;
 
-use-project /chat/informer/application : $(SRC)/informer ;
 use-project /chat/informer/network : $(SRC)/network ;
 use-project /chat/informer/utility : $(SRC)/utility ;
 use-project /chat/informer/crypto : $(SRC)/crypto ;
 use-project /chat/informer/config : $(SRC)/config ;
 use-project /chat/informer/core : $(SRC)/core ;
+use-project /chat/informer/gui : $(SRC)/gui ;
 
 use-project /chat/informer/utility/test : $(TEST)/utility ;
 use-project /chat/informer/network/test : $(TEST)/network ;
@@ -103,17 +103,17 @@ build-project $(TEST)/utility ;
 build-project $(TEST)/network ;
 build-project $(TEST)/crypto ;
 
-#build-project $(SRC)/informer ;
+#build-project $(SRC)/gui ;
 
 alias /chat/informer
     :
         ## sources ##
-        /chat/informer/application
         /chat/informer/network
         /chat/informer/utility
         /chat/informer/crypto
         /chat/informer/config
         /chat/informer/core
+        /chat/informer/gui
     ;
 
 alias /chat/informer/test
@@ -127,7 +127,7 @@ alias /chat/informer/test
 install install-chat-informer
     :
         ## sources ##
-        /chat/informer/application
+        /chat/informer/gui
     :
         ## build requirements ##
         <variant>debug:<location>$(BIN)/debug

@@ -24,8 +24,8 @@ public:
     CSkinManager() = default;
     ~CSkinManager() = default;
 
-    virtual void Initialize();
-    virtual void Finalize();
+    void Initialize() override;
+    void Finalize() override;
 
     void LoadSkin(std::string const& name);
 

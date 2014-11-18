@@ -86,8 +86,8 @@ public:
     CIconManager();
     ~CIconManager();
 
-    virtual void Initialize();
-    virtual void Finalize();
+    void Initialize() override;
+    void Finalize() override;
 
     HICON GetIcon(int index);
 
