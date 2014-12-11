@@ -1,0 +1,3 @@
+[submodule "client/deps/missio"]
+	path = client/deps/missio
+	url = https://github.com/ilya-golovenko/missio.git
