@@ -18,8 +18,8 @@
 
 *.nsi text
 
-AUTHORS text
-CHANGES text
+AUTHORS text eol=crlf
+CHANGES text eol=crlf
 
 Jamroot text
 Jamfile.v2 text
