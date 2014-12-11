@@ -1,0 +1,35 @@
+# Force line ending normalization
+* text=auto
+
+*.cpp text
+*.hpp text
+*.inl text
+
+*.c text
+*.h text
+
+*.rc text
+
+*.txt text
+*.php text
+*.html text
+
+*.conf text
+
+*.nsi text
+
+AUTHORS text
+CHANGES text
+
+Jamroot text
+Jamfile.v2 text
+
+*.bat text eol=crlf
+
+*.ico binary
+*.bmp binary
+*.gif binary
+*.jpg binary
+*.png binary
+
+*.wav binary
